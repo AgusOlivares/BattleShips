@@ -1,4 +1,4 @@
-package batallanaval.servicios;
+package battleShip.services;
 
 public class BatallaNavalServicio {
     

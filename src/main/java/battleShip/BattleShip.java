@@ -1,6 +1,6 @@
-package batallanaval;
+package battleShip;
 
-public class BatallaNaval {
+public class BattleShip {
 
     public static void main(String[] args) {
         System.out.println("Mi flota");
