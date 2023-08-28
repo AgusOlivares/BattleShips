@@ -3,8 +3,13 @@ package battleShip.entities;
 public class Map {
     private Cell[][] board;
     //Constructors
-    Map(){
-        this.board = new Cell[9][9];
+    public Map(){
+        this.board = new Cell[10][10];
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < this.board[0].length; j++){
+                this.board[i][j] = new Cell();
+            }
+        }
     }
     //Getters
     public Cell[][] getBoard() {

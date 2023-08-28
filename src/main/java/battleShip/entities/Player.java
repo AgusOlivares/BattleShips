@@ -7,7 +7,7 @@ public class Player {
     private int charges;
 
     //Constructor
-    Player(String name){
+    public Player(String name){
         this.name = name;
         // to do: inicializar los 5 barcos junto al jugador
         this.boats = null;
@@ -45,10 +45,11 @@ public class Player {
     }
     public String shoot(String pos, Player p2){ // String like "A6" expected
         int x = pos.substring(0,1).charAt(0) - 'A';
-        int y = Integer.parseInt(pos.substring(1));
+        int y = Integer.parseInt(pos.substring(1)) - 1;
         Cell cellP1 = this.map.getBoard()[x][y];
         Cell cellP2 = p2.getMap().getBoard()[x][y];
         if (!cellP2.getWasShot()){
+            cellP2.setWasShot(true);
             if (cellP2.getBoat() != null){
                 cellP1.setElement("X");
                 return "Hit";
@@ -67,6 +68,62 @@ public class Player {
     }
 
     public void showMap(){
+        // Top Number Legend
+        int charLegendCnt = 64;
+        for (int i = 0; i < this.map.getBoard().length + 1; i++){
+            if (i == 0){
+                System.out.printf("   ");
+            }
+            else{
+                System.out.printf("| %s ", i);
+            }
 
+        }
+        System.out.println("|");
+        for (int i = 0; i < this.map.getBoard().length; i++){
+            // Left Character Legend
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+            for (int j = 0; j < this.map.getBoard()[0].length; j++){
+                // Indicators
+                System.out.printf("| %s ", map.getBoard()[i][j].getElement());
+            }
+            System.out.println(" |");
+        }
+        System.out.println();
+    }
+
+    public void showMapBoatPlacement(){
+        // Top Number Legend
+        int charLegendCnt = 64;
+        for (int i = 0; i < this.map.getBoard().length + 1; i++){
+            if (i == 0){
+                System.out.printf("   ");
+            }
+            else{
+                System.out.printf("| %s ", i);
+            }
+
+        }
+        System.out.println("|");
+        for (int i = 0; i < this.map.getBoard().length; i++){
+            // Left Character Legend
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+            for (int j = 0; j < this.map.getBoard()[0].length; j++){
+                // Indicators
+                if (map.getBoard()[i][j].getBoat() != null ){
+                    System.out.printf("| � ");
+                }
+                else {
+                    System.out.printf("|   ");
+                }
+
+            }
+            System.out.println(" |");
+        }
+        System.out.println();
     }
 }

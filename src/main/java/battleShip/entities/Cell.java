@@ -6,7 +6,7 @@ public class Cell {
     private Boat boat;
 
     // Constructor
-    Cell(){
+    public Cell(){
         //Initializes all cells as water elements
         this.element = " ";
         this.wasShot = false;
