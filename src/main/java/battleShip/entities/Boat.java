@@ -4,11 +4,10 @@
  */
 package battleShip.entities;
 
-/**
- *
- * @author Usuario
- */
-public class Boat {
-    String nombreString;
-    
+public class Boat extends Ship{
+
+    public Boat(String[] occupiedCells) {
+        super(1, occupiedCells); // on init boat length will be 1
+    }
+
 }
