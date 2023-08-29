@@ -1,48 +1,40 @@
 package battleShip.entities;
 
 public abstract class Ship {
-    protected int lenght;
-    protected String[] occupiedCells;
-    protected String[] shotedCells;
+    protected int length;
+    protected Cell[] occupiedCells;
     protected boolean sunken;
 
-    // Aca, los constructores y getter/setter deberian ser protected?
-
-    public Ship(int lenght, String[] occupiedCells) {
-        this.lenght = lenght;
-        this.occupiedCells = occupiedCells; // Esto no se va a poder inicializar como tal si no que va a tener que ser construido
-        this.shotedCells = new String[this.lenght]; // Esto se tiene que inicializar como una lista vacia o podria iniciar como un array estatico con la longitud de la lista
+    // Constructors
+    public Ship(int length) {
+        this.length = length;
+        this.occupiedCells = new Cell[length];
+        for (int i = 0; i < this.occupiedCells.length; i++ ){
+            this.occupiedCells[i] = new Cell();
+        }
         this.sunken = false;
     }
 
-    public int getLenght() {
-        return lenght;
+    // Getters
+    public int getLength() {
+        return length;
     }
-
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
-    }
-
-    public String[] getOccupiedCells() {
+    public Cell[] getOccupiedCells() {
         return occupiedCells;
     }
-
-    public void setOccupiedCells(String[] occupiedCells) {
-        this.occupiedCells = occupiedCells;
+    public Boolean getSunken(){
+        return sunken;
     }
 
-    public String[] getShotedCells() {
-        return shotedCells;
+    //Setters
+    public void setLength(int length) {
+        this.length = length;
     }
-
-    public void setShotedCells(String[] shotedCells) {
-        this.shotedCells = shotedCells;
-    }
-
     public void setSunken(boolean sunken) {
         this.sunken = sunken;
     }
 
+    //Methods
     public void isSunken(){
         // change sunken atribute when the ship is destroyed
     }

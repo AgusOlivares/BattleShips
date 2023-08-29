@@ -1,16 +1,28 @@
 package battleShip.entities;
 
+import battleShip.entities.Ships.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Player {
     private String name;
-    private Boat[] boats;
+    private Ship[] ships;
     private Map map;
     private int charges;
 
     //Constructor
     public Player(String name){
         this.name = name;
-        // to do: inicializar los 5 barcos junto al jugador
-        this.boats = null;
+
+        ArrayList<Ship> theShipList = new ArrayList<Ship>();
+        theShipList.add(new Boat());
+        theShipList.add(new Cruiser("test"));
+        theShipList.add(new Submarine("test"));
+        theShipList.add(new Warship("test"));
+        theShipList.add(new AircraftCarrier("test"));
+        this.ships = theShipList.toArray(new Ship[5]);
+
         this.map = new Map();
         this.charges = 0;
     }
@@ -20,8 +32,8 @@ public class Player {
         return name;
     }
 
-    public Boat[] getBoats() {
-        return boats;
+    public Ship[] getShips() {
+        return ships;
     }
 
     public Map getMap() {
@@ -32,15 +44,15 @@ public class Player {
     }
 
     //Setters
-    public void setBoats(Boat[] boats) {
-        this.boats = boats;
+    public void setShips(Ship[] ships) {
+        this.ships = ships;
     }
     public void setCharges(int charges) {
         this.charges = charges;
     }
 
     //Methods
-    public boolean placeBoat(){
+    public boolean placeShip(){
         return true;
     }
     public String shoot(String pos, Player p2){ // String like "A6" expected
@@ -50,7 +62,7 @@ public class Player {
         Cell cellP2 = p2.getMap().getBoard()[x][y];
         if (!cellP2.getWasShot()){
             cellP2.setWasShot(true);
-            if (cellP2.getBoat() != null){
+            if (cellP2.getShip() != null){
                 cellP1.setElement("X");
                 return "Hit";
             }
@@ -63,7 +75,7 @@ public class Player {
         return "Position already shot, pick another position: ";
     }
 
-    public String shoot(String pos, Boat boat, Player p2){
+    public String shoot(String pos, Ship ship, Player p2){
         return "x";
     }
 
@@ -94,7 +106,7 @@ public class Player {
         System.out.println();
     }
 
-    public void showMapBoatPlacement(){
+    public void showMapshipPlacement(){
         // Top Number Legend
         int charLegendCnt = 64;
         for (int i = 0; i < this.map.getBoard().length + 1; i++){
@@ -114,7 +126,7 @@ public class Player {
             System.out.printf(" %s ", charLegend);
             for (int j = 0; j < this.map.getBoard()[0].length; j++){
                 // Indicators
-                if (map.getBoard()[i][j].getBoat() != null ){
+                if (map.getBoard()[i][j].getShip() != null ){
                     System.out.printf("| � ");
                 }
                 else {

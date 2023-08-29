@@ -3,14 +3,14 @@ package battleShip.entities;
 public class Cell {
     private String element;
     private Boolean wasShot;
-    private Boat boat;
+    private Ship ship;
 
     // Constructor
     public Cell(){
         //Initializes all cells as water elements
         this.element = " ";
         this.wasShot = false;
-        this.boat = null;
+        this.ship = null;
     }
     //Getters
     public String getElement() {
@@ -19,12 +19,12 @@ public class Cell {
     public Boolean getWasShot() {
         return wasShot;
     }
-    public Boat getBoat() {
-        return boat;
+    public Ship getShip() {
+        return ship;
     }
     //Setters
-    public void setBoat(Boat boat) {
-        this.boat = boat;
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
     public void setElement(String element) {
         this.element = element;
