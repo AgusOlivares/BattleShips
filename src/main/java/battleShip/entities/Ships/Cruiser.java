@@ -1,12 +1,18 @@
 package battleShip.entities.Ships;
 
-public class Cruiser extends SpecialShip{
-    public Cruiser(String ability) {
-        super(4, ability);
+import battleShip.entities.Ship;
+import battleShip.entities.SpecialShip;
+
+public class Cruiser extends Ship implements SpecialShip {
+    public Cruiser() {
+        super(4);
     }
 
+
     @Override
-    public void useAbility() {
-        // Implement Cruiser ability
+    public Boolean SpecialAbility() {
+        return null;
     }
+
+
 }

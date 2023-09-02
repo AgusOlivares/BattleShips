@@ -1,7 +1,10 @@
 package battleShip.entities;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Map {
     private Cell[][] board;
+    // set de posiciones ocupadas q posean la celda Cell
     //Constructors
     public Map(){
         this.board = new Cell[10][10];
@@ -20,6 +23,22 @@ public class Map {
         this.board = board;
     }
     //Methods
+    public Cell getCell(@NotNull String pos){
+        int x = pos.substring(0,1).charAt(0) - 'A';
+        int y = Integer.parseInt(pos.substring(1)) - 1;
+        try {
+            return this.board[x][y];
+        }catch (Exception e){
+            return null;
+        }
+    }
+    public Cell getCell( int row,  int col){
+        try {
+            return this.board[row][col];
+        }catch (Exception e){
+            return null;
+        }
 
+    }
 
 }

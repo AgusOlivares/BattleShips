@@ -1,13 +1,18 @@
 package battleShip.entities.Ships;
 
-public class AircraftCarrier extends SpecialShip {
-    public AircraftCarrier(String ability) {
-        super(5, ability);
+import battleShip.entities.Ship;
+import battleShip.entities.SpecialShip;
+
+public class AircraftCarrier extends Ship implements SpecialShip {
+    public AircraftCarrier() {
+        super(5);
     }
 
+
     @Override
-    public void useAbility() {
-        // Implement aircraftCarrier ability
-        // }
+    public Boolean SpecialAbility() {
+        return null;
     }
+
+
 }
