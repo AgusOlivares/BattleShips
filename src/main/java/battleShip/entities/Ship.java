@@ -8,7 +8,7 @@ public abstract class Ship {
     protected boolean sunken;
 
     // Constructors
-    public Ship(int length, Player ownerPlayer) {
+    public Ship(int length) { // remember to add ownerPlayer idea
         this.length = length;
         this.occupiedCells = new Cell[length];
         for (int i = 0; i < this.occupiedCells.length; i++ ){
