@@ -8,11 +8,11 @@ public class AircraftCarrier extends Ship implements SpecialShip {
         super(5);
     }
 
-
     @Override
-    public Boolean SpecialAbility() {
-        return null;
+    public void useAbility() {
+        // Select "v" to shoot one space up and one down from the original shootplace
+        // Select "h" to shoot on the left and rightside from the original shootplace
+        // Implement aircraftCarrier ability
+
     }
-
-
 }
