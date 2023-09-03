@@ -11,5 +11,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>battleShip.BattleShip</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <name>BattleShip</name>
 </project>
