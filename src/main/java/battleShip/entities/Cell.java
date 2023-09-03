@@ -34,4 +34,18 @@ public class Cell {
     }
 
     //Methods
+    public Boolean shot() throws Exception{
+        if (this.wasShot){ // already shot, raise exception
+            throw new Exception("Position already shot");
+        }else {
+            this.setWasShot(true);
+            if (this.ship != null){ // is there a ship, check if it's not sunken
+                System.out.println("Enemy ship was hit");
+                this.ship.isSunken();
+                return true;
+            }
+            System.out.println("Water was hit");
+            return false; // is water
+        }
+    }
 }

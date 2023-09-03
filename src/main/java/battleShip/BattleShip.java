@@ -3,7 +3,7 @@ package battleShip;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class BattleShip {
 
@@ -21,13 +21,17 @@ public class BattleShip {
 
 
         Player player1 = new Player("Tati");
-        Ship[] ships = player1.getShips();
+        Player player2 = new Player("Franco");
+        ArrayList<Ship> ships = player1.getShips();
 
-        player1.showMapshipPlacement();
-        System.out.println(player1.placeShip("A1", "A1", ships[0] ));
-        player1.showMapshipPlacement();
-        player1.placeShip("A9", "D9", ships[2] );
-        player1.showMapshipPlacement();
+        System.out.println(player1.placeShip("A1", "A1", ships.get(0)));
+        player1.showMapShip();
+        System.out.println(player1.placeShip("D1", "E1", ships.get(2)));
+        player1.showMapShip();
+
+        player2.shoot("A1", player1);
+        player2.showMap();
+        player1.showMapShip();
     }
 }
 

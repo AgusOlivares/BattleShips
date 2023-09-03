@@ -9,7 +9,7 @@ import static java.lang.Math.abs;
 
 public class Player {
     private final String name;
-    private Ship[] ships;
+    private ArrayList<Ship> ships;
     private final Map map;
     private int charges;
 
@@ -17,13 +17,13 @@ public class Player {
     public Player(String name){
         this.name = name;
 
-        ArrayList<Ship> theShipList = new ArrayList<>(); // <? extends Ship>
-        theShipList.add(new Boat());
-        theShipList.add(new Cruiser());
-        theShipList.add(new Submarine());
-        theShipList.add(new Warship());
-        theShipList.add(new AircraftCarrier());
-        this.ships = theShipList.toArray(new Ship[5]);
+        this.ships = new ArrayList<>(); // <? extends Ship>
+        this.ships.add(new Boat());
+        this.ships.add(new Cruiser());
+        this.ships.add(new Submarine());
+        this.ships.add(new Warship());
+        this.ships.add(new AircraftCarrier());
+
 
         this.map = new Map();
         this.charges = 0;
@@ -34,7 +34,7 @@ public class Player {
         return name;
     }
 
-    public Ship[] getShips() {
+    public ArrayList<Ship> getShips() {
         return ships;
     }
 
@@ -46,9 +46,6 @@ public class Player {
     }
 
     //Setters
-    public void setShips(Ship[] ships) {
-        this.ships = ships;
-    }
     public void setCharges(int charges) {
         this.charges = charges;
     }
@@ -62,23 +59,20 @@ public class Player {
         ArrayList<Cell> validCells = new ArrayList<>();
 
         try{
-            Cell startCell = this.map.getCell(startPos);
+            // Check it is not out of bounds
+            if ((this.map.getCell(startPos) == null) || (this.map.getCell(finalPos) == null)){
+                throw new Exception("The position is out of bounds");
+            }
 
             // Check it is not diagonal
             if (abs(row-rowFinal) > 0 && abs(col-colFinal) > 0){
-                throw new Exception("The Position is not valid");
+                throw new Exception("The Position can't be diagonal");
             }
 
             // Checks length of boat is the same as length of placement
-            if (ship.length != 1){
-                if ((abs(row-rowFinal) != ship.length) || (abs(col-colFinal) != ship.length)){
-                    throw  new Exception("The position selected should support the ships length: " + ship.length);
-                }
-            }else {
-                // is boat
-                HelperPlaceShip(row, col, validCells);
+            if ((abs(row-rowFinal) + abs(col-colFinal)) != ship.length-1){
+                throw  new Exception("The position selected should support the ships length: " + ship.length);
             }
-
 
             // Are all the position selected available?
             if (abs(row-rowFinal) > 0){ // Movement in should be in row or col?
@@ -89,15 +83,17 @@ public class Player {
                 for (int j = col; j <= colFinal; j++){
                     HelperPlaceShip(row, j, validCells);
                 }
+            }else {
+                HelperPlaceShip(row, col, validCells);
             }
 
             //Place ship inside cell
             for(Cell cell : validCells){
                 cell.setShip(ship);
+                ship.setOccupiedCells(cell);
             }
 
         }catch (Exception e){
-            // Catches out of bounds error
             System.out.printf("%s", e);
             return false;
         }
@@ -121,22 +117,23 @@ public class Player {
         validCells.add(this.map.getCell(row,col));
 
     }
-    public String shoot(@NotNull String pos, @NotNull Player p2){ // String like "A6" expected
+    public Boolean shoot(@NotNull String pos, @NotNull Player p2){ // String like "A6" expected
         Cell cellP1 = this.map.getCell(pos);
         Cell cellP2 = p2.getMap().getCell(pos);
-        if (!cellP2.getWasShot()){
-            cellP2.setWasShot(true);
-            if (cellP2.getShip() != null){
+        try{
+            Boolean shotP2 = cellP2.shot(); //shot p2
+            if (shotP2){
                 cellP1.setElement("X");
-                return "Hit";
             }
             else{
                 cellP1.setElement("O");
-                return "Water";
             }
+            return true;
 
+        }catch (Exception e){
+            System.out.printf("%s", e);
+            return false;
         }
-        return "Position was already shot ";
     }
 
     public String shoot(String pos, Ship ship, Player p2){
@@ -147,7 +144,7 @@ public class Player {
         // Top Number Legend
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < this.map.getBoard().length + 1; i++){
+        for (int i = 0; i < this.map.getBoard().size() + 1; i++){
             if (i == 0){
                 System.out.print("   ");
             }
@@ -157,25 +154,25 @@ public class Player {
 
         }
         System.out.println("|");
-        for (int i = 0; i < this.map.getBoard().length; i++){
+        for (int i = 0; i < this.map.getBoard().size(); i++){
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < this.map.getBoard()[0].length; j++){
+            for (int j = 0; j < this.map.getBoard().get(0).size(); j++){
                 // Indicators
-                System.out.printf("| %s ", map.getBoard()[i][j].getElement());
+                System.out.printf("| %s ", map.getCell(i,j).getElement());
             }
             System.out.println(" |");
         }
         System.out.println();
     }
 
-    public void showMapshipPlacement(){
+    public void showMapShip(){
         // Top Number Legend
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < this.map.getBoard().length + 1; i++){
+        for (int i = 0; i < this.map.getBoard().size() + 1; i++){
             if (i == 0){
                 System.out.print("   ");
             }
@@ -185,15 +182,19 @@ public class Player {
 
         }
         System.out.println("|");
-        for (int i = 0; i < this.map.getBoard().length; i++){
+        for (int i = 0; i < this.map.getBoard().size(); i++){
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < this.map.getBoard()[0].length; j++){
+            for (int j = 0; j < this.map.getBoard().get(0).size(); j++){
                 // Indicators
-                if (map.getBoard()[i][j].getShip() != null ){
-                    System.out.print("| � ");
+                if (map.getCell(i,j).getShip() != null ){
+                    if (!map.getCell(i, j).getShip().getSunken()){
+                        System.out.print("| � ");
+                    }else if(map.getCell(i, j).getShip().getSunken()){
+                        System.out.print("| X ");
+                    }
                 }
                 else {
                     System.out.print("|   ");
