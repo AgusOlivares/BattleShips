@@ -10,7 +10,7 @@ public class Cruiser extends Ship implements SpecialShip {
 
 
     @Override
-    public Boolean SpecialAbility() {
+    public Boolean useAbility() {
         return null;
     }
 

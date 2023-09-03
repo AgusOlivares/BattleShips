@@ -63,12 +63,6 @@ public class Player {
 
         try{
             Cell startCell = this.map.getCell(startPos);
-            // Initial Position is valid?
-            HelperPlaceShip(row, col);
-
-            /*if ship.length == 1{
-
-            }*/
 
             // Check it is not diagonal
             if (abs(row-rowFinal) > 0 && abs(col-colFinal) > 0){
@@ -76,16 +70,22 @@ public class Player {
             }
 
             // Checks length of boat is the same as length of placement
-            if ((abs(row-rowFinal) != ship.length) || (abs(col-colFinal) != ship.length)){
-                throw  new Exception("The position selected should support the ships length: " + ship.length);
+            if (ship.length != 1){
+                if ((abs(row-rowFinal) != ship.length) || (abs(col-colFinal) != ship.length)){
+                    throw  new Exception("The position selected should support the ships length: " + ship.length);
+                }
+            }else {
+                // is boat
+                HelperPlaceShip(row, col, validCells);
             }
 
+
             // Are all the position selected available?
-            if (abs(row-rowFinal) > 0){ // Movement in row or col?
+            if (abs(row-rowFinal) > 0){ // Movement in should be in row or col?
                 for (int j = row; j <= rowFinal; j++) { // Checks all positions are available, if not raises exception
                     HelperPlaceShip(j, col, validCells);
                 }
-            }else {
+            }else if (abs(col-colFinal)>0){
                 for (int j = col; j <= colFinal; j++){
                     HelperPlaceShip(row, j, validCells);
                 }
@@ -105,21 +105,6 @@ public class Player {
         return true;
     }
 
-    private void HelperPlaceShip(int row,int col) throws Exception{ //Se puede mejorar pq checkea mas de una vez a ciertas celdas
-        for(int i = -1; i < 2; i++ ){ //Checks one position to its right,left,up,down
-            Cell cellXMov = this.map.getCell(row+i, col);
-            Cell cellYMov = this.map.getCell(row, col+i);
-            if (i != 0){ // if pos checked is out of bound, ignored it
-                if (cellYMov == null || cellXMov == null){
-                    continue;
-                }
-            }
-            if (cellYMov.getShip() != null || cellXMov.getShip() != null){ // if ship in pos checked, raise exception
-                throw new Exception("The position is not valid");
-            }
-        }
-
-    }
     private void HelperPlaceShip(int row,int col, ArrayList<Cell> validCells) throws Exception{ //Se puede mejorar pq checkea mas de una vez a ciertas celdas
         for(int i = -1; i < 2; i++ ){ //Checks one position to its right,left,up,down
             Cell cellXMov = this.map.getCell(row+i, col);

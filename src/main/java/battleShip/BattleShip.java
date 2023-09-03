@@ -24,9 +24,9 @@ public class BattleShip {
         Ship[] ships = player1.getShips();
 
         player1.showMapshipPlacement();
-        player1.placeShip("A1", "A1", ships[0] );
+        System.out.println(player1.placeShip("A1", "A1", ships[0] ));
         player1.showMapshipPlacement();
-        player1.placeShip("A9", "J9", ships[2] );
+        player1.placeShip("A9", "D9", ships[2] );
         player1.showMapshipPlacement();
     }
 }

@@ -63,7 +63,9 @@ public abstract class Ship {
         };
         if (shootedCells == length) this.setSunken(true);
     }
-    public String placeShip(String firstPosition, String lastPosition){ //Strings like "A6", "A8" expected
+
+    // Hecho en Player
+    /*public String placeShip(String firstPosition, String lastPosition){ //Strings like "A6", "A8" expected
 
         int xFirst = firstPosition.substring(0,1).charAt(0) - 'A';
         int yFirst = Integer.parseInt(firstPosition.substring(1)) - 1;
@@ -89,7 +91,7 @@ public abstract class Ship {
         }
         // add more conditions to check
         return "boat placed correctly";
-    }
+    }*/
 
     public Boolean useCharges(Player player){
         int remainingCharges = player.getCharges() - this.abilityCost;
