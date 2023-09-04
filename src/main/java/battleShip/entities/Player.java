@@ -24,7 +24,6 @@ public class Player {
         this.ships.add(new Warship());
         this.ships.add(new AircraftCarrier());
 
-
         this.map = new Map();
         this.charges = 0;
     }
@@ -51,6 +50,10 @@ public class Player {
     }
 
     //Methods
+
+    // Example of input: ("A5", "A7", Submarine)
+    // Returns true if position is valid and associates the ship passed to Cell.Ship() attribute in each cell
+    // Returns false if not possible and raises exception for each possible error
     public boolean placeShip(@NotNull String startPos,@NotNull String finalPos, @NotNull Ship ship){
         int row = startPos.substring(0,1).charAt(0) - 'A';
         int col = Integer.parseInt(startPos.substring(1)) - 1;
@@ -101,6 +104,8 @@ public class Player {
         return true;
     }
 
+    // Example Input: (2, 2, {Cell (2,3), Cell (4,5),...})
+    // Checks up, down, right and left in every cell for ships, and if all cells are empty the cell is added to the ArrayList
     private void HelperPlaceShip(int row,int col, ArrayList<Cell> validCells) throws Exception{ //Se puede mejorar pq checkea mas de una vez a ciertas celdas
         for(int i = -1; i < 2; i++ ){ //Checks one position to its right,left,up,down
             Cell cellXMov = this.map.getCell(row+i, col);
@@ -117,6 +122,10 @@ public class Player {
         validCells.add(this.map.getCell(row,col));
 
     }
+
+    // Input Example: ("B9", Player() p2)
+    // Returns true if the shot can be shot, sets the element to the p1 map and calls the methods Cell.shot()
+    // Returns false if shot cant be done and raises exception
     public Boolean shoot(@NotNull String pos, @NotNull Player p2){ // String like "A6" expected
         Cell cellP1 = this.map.getCell(pos);
         Cell cellP2 = p2.getMap().getCell(pos);
@@ -138,8 +147,10 @@ public class Player {
 
     public String shoot(String pos, Ship ship, Player p2){
         return "x";
-    }
+    } // ?????????
 
+
+    // Prints Matrix to console with the annotation of the player shots
     public void showMap(){
         // Top Number Legend
         int charLegendCnt = 64;
@@ -168,6 +179,8 @@ public class Player {
         System.out.println();
     }
 
+
+    // Prints Matrix to console with the player boats and if their are hit
     public void showMapShip(){
         // Top Number Legend
         int charLegendCnt = 64;

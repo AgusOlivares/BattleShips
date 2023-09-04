@@ -34,6 +34,10 @@ public class Cell {
     }
 
     //Methods
+
+    // Returns true if there is contact with ship, calls method Ship.isSunken()
+    // Returns false if there is no contact
+    // if cell has already been hit, raise exception
     public Boolean shot() throws Exception{
         if (this.wasShot){ // already shot, raise exception
             throw new Exception("Position already shot");

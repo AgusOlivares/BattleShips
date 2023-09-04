@@ -18,6 +18,7 @@ public class Map {
             this.board.add(row);
         }
     }
+
     //Getters
     public ArrayList<ArrayList<Cell>> getBoard() {
         return board;
@@ -25,7 +26,12 @@ public class Map {
 
     //Setters
 
+
     //Methods
+
+    // Input Example: ("A8")
+    // Returns Cell from the pos
+    // Return Null if out of border
     public Cell getCell(@NotNull String pos){
         int x = pos.substring(0,1).charAt(0) - 'A';
         int y = Integer.parseInt(pos.substring(1)) - 1;
@@ -35,13 +41,16 @@ public class Map {
             return null;
         }
     }
+
+    // Input Example: (5, 6)
+    // Returns Cell from the pos
+    // Return Null if out of border
     public Cell getCell( int row,  int col){
         try {
             return this.board.get(row).get(col);
         }catch (Exception e){
             return null;
         }
-
     }
 
 }

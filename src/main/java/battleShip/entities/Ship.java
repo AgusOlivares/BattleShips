@@ -29,8 +29,7 @@ public abstract class Ship {
     public ArrayList<Cell> getOccupiedCells() {
         return occupiedCells;
     }
-    public Boolean getSunken(){ return sunken;
-    }
+    public Boolean getSunken(){ return sunken;}
 
 
     //Setters
@@ -43,7 +42,9 @@ public abstract class Ship {
 
 
     //Methods
-    public void isSunken(){ // change sunken atribute when the ship is destroyed
+
+    // Checks the cells the ship is occupying and they are all shot, set the sunken attribute to True
+    public void isSunken(){
         int shootedCells = 0;
         for (Cell cell: occupiedCells){
             if (cell.getWasShot()){
