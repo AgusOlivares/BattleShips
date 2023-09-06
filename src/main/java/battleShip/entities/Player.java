@@ -9,7 +9,7 @@ import static java.lang.Math.abs;
 
 public class Player {
     private final String name;
-    private ArrayList<Ship> ships;
+    private final ArrayList<Ship> ships;
     private final Map map;
     private int charges;
 
@@ -54,7 +54,7 @@ public class Player {
     // Example of input: ("A5", "A7", Submarine)
     // Returns true if position is valid and associates the ship passed to Cell.Ship() attribute in each cell
     // Returns false if not possible and raises exception for each possible error
-    public boolean placeShip(@NotNull String startPos,@NotNull String finalPos, @NotNull Ship ship){
+    public Boolean placeShip(@NotNull String startPos,@NotNull String finalPos, @NotNull Ship ship){
         int row = startPos.substring(0,1).charAt(0) - 'A';
         int col = Integer.parseInt(startPos.substring(1)) - 1;
         int rowFinal = finalPos.substring(0,1).charAt(0) - 'A';
@@ -80,14 +80,14 @@ public class Player {
             // Are all the position selected available?
             if (abs(row-rowFinal) > 0){ // Movement in should be in row or col?
                 for (int j = row; j <= rowFinal; j++) { // Checks all positions are available, if not raises exception
-                    HelperPlaceShip(j, col, validCells);
+                    helperPlaceShip(j, col, validCells);
                 }
             }else if (abs(col-colFinal)>0){
                 for (int j = col; j <= colFinal; j++){
-                    HelperPlaceShip(row, j, validCells);
+                    helperPlaceShip(row, j, validCells);
                 }
             }else {
-                HelperPlaceShip(row, col, validCells);
+                helperPlaceShip(row, col, validCells);
             }
 
             //Place ship inside cell
@@ -106,18 +106,24 @@ public class Player {
 
     // Example Input: (2, 2, {Cell (2,3), Cell (4,5),...})
     // Checks up, down, right and left in every cell for ships, and if all cells are empty the cell is added to the ArrayList
-    private void HelperPlaceShip(int row,int col, ArrayList<Cell> validCells) throws Exception{ //Se puede mejorar pq checkea mas de una vez a ciertas celdas
+    private void helperPlaceShip(int row,int col, ArrayList<Cell> validCells) throws Exception{ //Se puede mejorar pq checkea mas de una vez a ciertas celdas
         for(int i = -1; i < 2; i++ ){ //Checks one position to its right,left,up,down
             Cell cellXMov = this.map.getCell(row+i, col);
             Cell cellYMov = this.map.getCell(row, col+i);
+
             if (i != 0){ // if pos checked is out of bound, ignored it
-                if (cellYMov == null || cellXMov == null){
-                    continue;
+                if (cellXMov != null){
+                    if (cellXMov.getShip() != null){ // if ship in pos checked, raise exception
+                        throw new Exception("The position is not valid");
+                    }
+                }
+                else if (cellYMov != null){
+                    if (cellYMov.getShip() != null){
+                        throw new Exception("The position is not valid");
+                    }
                 }
             }
-            if (cellYMov.getShip() != null || cellXMov.getShip() != null){ // if ship in pos checked, raise exception
-                throw new Exception("The position is not valid");
-            }
+
         }
         validCells.add(this.map.getCell(row,col));
 
@@ -145,9 +151,10 @@ public class Player {
         }
     }
 
-    public String shoot(String pos, Ship ship, Player p2){
-        return "x";
-    } // ?????????
+    public Boolean shoot(String pos, Ship ship, Player p2){
+      //ship.useAbility(String pos, Map this.map, Player p2)
+        return true;
+    }
 
 
     // Prints Matrix to console with the annotation of the player shots
