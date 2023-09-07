@@ -133,7 +133,7 @@ public class Game {
                 Ship ship = ships.next();
                 Boolean isBoatPlaced = false;
                 do {
-                    actualPlayer.showMapShip();
+                    this.showShipMap(actualPlayer);
                     waitXSeconds(3);
                     isBoatPlaced = askShipPosition(actualPlayer, ship);
                 } while (!isBoatPlaced);
@@ -235,4 +235,78 @@ public class Game {
                 return null;
         }
     }
+
+    // Prints Matrix to console with the annotation of the player shots
+    public void showShotsMap(Player player){
+        // Top Number Legend
+        Map map = player.getMap();
+        int charLegendCnt = 64;
+        System.out.println();
+        for (int i = 0; i < map.getBoard().size() + 1; i++){
+            if (i == 0){
+                System.out.print("   ");
+            }
+            else{
+                System.out.printf("| %s ", i);
+            }
+
+        }
+        System.out.println("|");
+        for (int i = 0; i < map.getBoard().size(); i++){
+            // Left Character Legend
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+                // Indicators
+                System.out.printf("| %s ", map.getCell(i,j).getElement());
+            }
+            System.out.println(" |");
+        }
+        System.out.println();
+    }
+
+
+    // Prints Matrix to console with the player boats and if their are hit
+    public void showShipMap(Player player){
+
+        Map map = player.getMap();
+        // Top Number Legend
+        int charLegendCnt = 64;
+        System.out.println();
+        for (int i = 0; i < map.getBoard().size() + 1; i++){
+            if (i == 0){
+                System.out.print("   ");
+            }
+            else{
+                System.out.printf("| %s ", i);
+            }
+
+        }
+        System.out.println("|");
+        for (int i = 0; i < map.getBoard().size(); i++){
+            // Left Character Legend
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+                // Indicators
+                if (map.getCell(i,j).getShip() != null ){
+                    if (!map.getCell(i, j).getShip().getSunken()){
+                        System.out.print("| � ");
+                    }else if(map.getCell(i, j).getShip().getSunken()){
+                        System.out.print("| X ");
+                    }
+                }
+                else {
+                    System.out.print("|   ");
+                }
+
+            }
+            System.out.println(" |");
+        }
+        System.out.println();
+    }
 }
+
+
