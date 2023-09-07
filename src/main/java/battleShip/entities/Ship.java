@@ -11,7 +11,7 @@ public abstract class Ship {
     // Constructors
     public Ship(int length) {
         this.length = length;
-        this.occupiedCells = new ArrayList<>(); // Array initialized null. Cells added in placeShip() method in Player
+        this.occupiedCells = new ArrayList<>();
         this.sunken = false;
         this.abilityCost = switch (length) {
             case 2 -> 3;
@@ -66,4 +66,7 @@ public abstract class Ship {
         player.setCharges(remainingCharges);
         return true;
     }
+
+    public abstract Boolean useAbility();
+
 }

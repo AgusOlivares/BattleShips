@@ -6,24 +6,30 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
-
+/**
+ * Una clase para representar al jugador
+ * Cada jugador es creado junto con un nombre, un mapa, una lista de barcos asociados y un numero de cargas
+ * @version 1.4, 6/9/2023
+ * @author Martin Farrés
+ */
 public class Player {
     private final String name;
     private final ArrayList<Ship> ships;
     private final Map map;
     private int charges;
 
-    //Constructor
+    /**
+     * Construye un jugador a partir de su nombre
+     * @param name El nombre del jugador.
+     */
     public Player(String name){
         this.name = name;
-
-        this.ships = new ArrayList<>(); // <? extends Ship>
+        this.ships = new ArrayList<>();
         this.ships.add(new Boat());
         this.ships.add(new Cruiser());
         this.ships.add(new Submarine());
         this.ships.add(new Warship());
         this.ships.add(new AircraftCarrier());
-
         this.map = new Map();
         this.charges = 0;
     }
@@ -51,10 +57,16 @@ public class Player {
 
     //Methods
 
-    // Example of input: ("A5", "A7", Submarine)
-    // Returns true if position is valid and associates the ship passed to Cell.Ship() attribute in each cell
-    // Returns false if not possible and raises exception for each possible error
-    public Boolean placeShip(@NotNull String startPos,@NotNull String finalPos, @NotNull Ship ship){
+    /**
+     * Checkea que sea posible colocar el barco y de ser posible lo asocia en las celdas indicadas
+     * Ejemplo de input: ("A5", "A7", Submarine)
+     * @param startPos Posicion inicial donde se coloca la cabecilla del barco.
+     * @param finalPos Posicion final donde termina el barco
+     * @param ship Tipo de barco colocado
+     * @return true si la posicion es valida y se coloco exitosamente, o false si la posicion
+     * no es valida y levanta una excepcion
+     */
+    public boolean placeShip(@NotNull String startPos,@NotNull String finalPos, @NotNull Ship ship){
         int row = startPos.substring(0,1).charAt(0) - 'A';
         int col = Integer.parseInt(startPos.substring(1)) - 1;
         int rowFinal = finalPos.substring(0,1).charAt(0) - 'A';
@@ -150,12 +162,6 @@ public class Player {
             return false;
         }
     }
-
-    public Boolean shoot(String pos, Ship ship, Player p2){
-      //ship.useAbility(String pos, Map this.map, Player p2)
-        return true;
-    }
-
 
     // Prints Matrix to console with the annotation of the player shots
     public void showMap(){
