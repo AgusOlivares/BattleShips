@@ -2,7 +2,7 @@ package battleShip.entities;
 
 import java.util.ArrayList;
 
-public abstract class Ship {
+public abstract class Ship extends MapElement {
     protected final int length;
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
@@ -44,7 +44,8 @@ public abstract class Ship {
     //Methods
 
     // Checks the cells the ship is occupying and they are all shot, set the sunken attribute to True
-    public void isSunken(){
+    public void wasShot(){
+        System.out.println("Enemy ship was hit");
         int shootedCells = 0;
         for (Cell cell: occupiedCells){
             if (cell.getWasShot()){

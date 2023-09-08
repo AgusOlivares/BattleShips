@@ -107,7 +107,7 @@ public class Player {
 
             //Place ship inside cell
             for (Cell cell : validCells) {
-                cell.setShip(ship);
+                cell.setElement(ship);
                 ship.setOccupiedCells(cell);
             }
 
@@ -128,11 +128,11 @@ public class Player {
 
             if (i != 0) { // if pos checked is out of bound, ignored it
                 if (cellXMov != null) {
-                    if (cellXMov.getShip() != null) { // if ship in pos checked, raise exception
+                    if (cellXMov.getElement() != null) { // if ship in pos checked, raise exception
                         throw new Exception("The position is not valid");
                     }
                 } else if (cellYMov != null) {
-                    if (cellYMov.getShip() != null) {
+                    if (cellYMov.getElement() != null) {
                         throw new Exception("The position is not valid");
                     }
                 }
@@ -150,19 +150,13 @@ public class Player {
         Cell cellP1 = this.map.getCell(pos);
         Cell cellP2 = p2.getMap().getCell(pos);
         try {
-            Boolean shotP2 = cellP2.shot(); //shot p2
-            if (shotP2) {
-                cellP1.setElement("X");
-            } else {
-                cellP1.setElement("O");
-            }
+            cellP2.shot(); //shot p2
+            this.map.addShotCell(cellP1);
             return true;
-
-        } catch (Exception e) {
-            System.out.printf("%s", e);
+        }catch (Exception e){
+            System.out.println(e);
             return false;
         }
-
     }
 }
 

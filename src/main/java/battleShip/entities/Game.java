@@ -291,12 +291,8 @@ public class Game {
             System.out.printf(" %s ", charLegend);
             for (int j = 0; j < map.getBoard().get(0).size(); j++){
                 // Indicators
-                if (map.getCell(i,j).getShip() != null ){
-                    if (!map.getCell(i, j).getShip().getSunken()){
-                        System.out.print("| � ");
-                    }else if(map.getCell(i, j).getShip().getSunken()){
-                        System.out.print("| X ");
-                    }
+                if (map.getCell(i,j).getElement() != null ){
+                    System.out.print("| � ");
                 }
                 else {
                     System.out.print("|   ");

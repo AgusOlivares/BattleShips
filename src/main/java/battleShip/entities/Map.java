@@ -3,9 +3,13 @@ package battleShip.entities;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Map {
     private final ArrayList<ArrayList<Cell>> board;
+
+    private Set<Cell> shotCells;
 
     //Constructors
     public Map(){
@@ -17,6 +21,7 @@ public class Map {
             }
             this.board.add(row);
         }
+        this.shotCells = new HashSet<Cell>();
     }
 
     //Getters
@@ -24,6 +29,9 @@ public class Map {
         return board;
     }
 
+    public Set<Cell> getShotCells() {
+        return shotCells;
+    }
     //Setters
 
 
@@ -51,6 +59,14 @@ public class Map {
         }catch (Exception e){
             return null;
         }
+    }
+
+    public Boolean addShotCell(Cell cell){
+        return this.shotCells.add(cell);
+    }
+
+    public Boolean isCellShot(Cell cell){
+        return this.shotCells.contains(cell);
     }
 
 }
