@@ -11,16 +11,12 @@ public class Game {
     private int maxTurns;
     private ArrayList<Player> players;
 
-    public Game() {
-        this.turnCount = 0;
-        this.maxTurns = 100;
-    }
-
-    public Game(int maxTurns, ArrayList<Player> players) {
+    public Game(int maxTurns) {
         this.turnCount = 0;
         this.maxTurns = maxTurns;
-        this.players = players;
+        initPlayers();
     }
+
 
     public int getTurnCount() {
         return turnCount;
@@ -52,15 +48,15 @@ public class Game {
 
     //Methods
     //Creates players
-    public Game startGame() {
+    /*public Game startGame() {
         ArrayList<Player> newPlayers = initPlayers(); //Asks players names
         int turnAmount = askTurnAmount();  
         Game game = new Game(turnAmount, newPlayers);
         return game;
-    }
+    }*/
     
     //Asks player names and returns an arraylist of players
-    public ArrayList<Player> initPlayers() {
+    public void initPlayers() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¡Bienvenido al juego de Batalla Naval!");
         System.out.println("Jugador 1, ingrese su nombre: ");
@@ -69,10 +65,10 @@ public class Game {
         String nameP2 = scanner.nextLine();
         Player player1 = new Player(nameP1);
         Player player2 = new Player(nameP2);
-        ArrayList<Player> newPlayers = new ArrayList<>(2);
-        newPlayers.add(0, player1);
-        newPlayers.add(1, player2);
-        return newPlayers;
+        this.players = new ArrayList<>();
+        this.players.add(0, player1);
+        this.players.add(1, player2);
+
     }
 
     //Ask turn amount and checks if it's correct
@@ -123,7 +119,7 @@ public class Game {
     //1: allows players to place their ships
     //2: Once the ships are placed, they start playing by choosing options in the menu
     public void playGame() {
-        Game game = startGame();
+        Game game = this;
         boolean isGameInProgress = true;
         Iterator<Player> playerSet = game.getPlayers().iterator();
         while (playerSet.hasNext()) {
@@ -236,8 +232,22 @@ public class Game {
         }
     }
 
+    private Player getOppossitePlayer(Player currentPlayer){
+        Player player1 = this.players.get(0);
+        Player player2 = this.players.get(1);
+
+        if (player1.equals(currentPlayer)) {
+            return player2;
+        } else if (player2.equals(currentPlayer)) {
+            return player1;
+        } else {
+            throw new IllegalArgumentException("The specified player is not in the ArrayList.");
+        }
+    }
+
     // Prints Matrix to console with the annotation of the player shots
     public void showShotsMap(Player player){
+        Player oppPlayer = getOppossitePlayer(player);
         // Top Number Legend
         Map map = player.getMap();
         int charLegendCnt = 64;
@@ -259,7 +269,18 @@ public class Game {
             System.out.printf(" %s ", charLegend);
             for (int j = 0; j < map.getBoard().get(0).size(); j++){
                 // Indicators
-                System.out.printf("| %s ", map.getCell(i,j).getElement());
+                if (map.isCellShot(player.getMap().getCell(i,j))){
+                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship){
+
+                        System.out.printf("| X ");
+                    }else {
+                        System.out.printf("| O ");
+                    }
+
+                }else {
+                    System.out.printf("|   ");
+                }
+
             }
             System.out.println(" |");
         }
