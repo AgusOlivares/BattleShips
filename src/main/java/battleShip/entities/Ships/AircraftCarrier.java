@@ -1,9 +1,8 @@
 package battleShip.entities.Ships;
 
 import battleShip.entities.Ship;
-import battleShip.entities.SpecialShip;
 
-public class AircraftCarrier extends Ship implements SpecialShip {
+public class AircraftCarrier extends Ship{
     public AircraftCarrier() {
         super(5);
     }

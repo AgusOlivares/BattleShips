@@ -1,32 +1,25 @@
 package battleShip.entities;
 
 public class Cell {
-    private String element;
+    private MapElement element;
     private Boolean wasShot;
-    private Ship ship;
 
     // Constructor
     public Cell(){
         //Initializes all cells as water elements
-        this.element = " ";
+        this.element = null;
         this.wasShot = false;
-        this.ship = null;
     }
     //Getters
-    public String getElement() {
+    public MapElement getElement() {
         return element;
     }
     public Boolean getWasShot() {
         return wasShot;
     }
-    public Ship getShip() {
-        return ship;
-    }
+
     //Setters
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-    public void setElement(String element) {
+    public void setElement(MapElement element) {
         this.element = element;
     }
     public void setWasShot(Boolean wasShot) {
@@ -38,18 +31,16 @@ public class Cell {
     // Returns true if there is contact with ship, calls method Ship.isSunken()
     // Returns false if there is no contact
     // if cell has already been hit, raise exception
-    public Boolean shot() throws Exception{
+    public void shot() throws Exception{
         if (this.wasShot){ // already shot, raise exception
             throw new Exception("Position already shot");
         }else {
             this.setWasShot(true);
-            if (this.ship != null){ // is there a ship, check if it's not sunken
-                System.out.println("Enemy ship was hit");
-                this.ship.isSunken();
-                return true;
+            if (this.element != null){ // is there a ship, check if it's not sunken
+                this.element.wasShot();
+                return;
             }
             System.out.println("Water was hit");
-            return false; // is water
         }
     }
 }

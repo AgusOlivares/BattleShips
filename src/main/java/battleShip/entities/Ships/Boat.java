@@ -5,7 +5,6 @@
 package battleShip.entities.Ships;
 
 
-import battleShip.entities.Player;
 import battleShip.entities.Ship;
 
 public class Boat extends Ship {
@@ -15,4 +14,8 @@ public class Boat extends Ship {
                         // remember to add playerOwner
     }
 
+    @Override
+    public Boolean useAbility() {
+        return null;
+    }
 }

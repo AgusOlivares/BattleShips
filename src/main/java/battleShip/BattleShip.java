@@ -1,5 +1,7 @@
 package battleShip;
 
+import battleShip.entities.Cell;
+import battleShip.entities.Game;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 
@@ -20,18 +22,29 @@ public class BattleShip {
 //        System.out.println("| |  Agua - Sin conocer")
 
 
-        Player player1 = new Player("Tati");
-        Player player2 = new Player("Franco");
+
+        Game game = new Game(25);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
         ArrayList<Ship> ships = player1.getShips();
 
-        System.out.println(player1.placeShip("A1", "A1", ships.get(0)));
-        player1.showMapShip();
-        System.out.println(player1.placeShip("D1", "E1", ships.get(2)));
-        player1.showMapShip();
+        player1.placeShip("A1", "A1", ships.get(0));
+        game.showShipMap(player1);
+        player1.placeShip("A3", "A4", ships.get(2));
+        player1.placeShip("B2", "B5", ships.get(1));
+        System.out.println();
+        Cell cell = player1.getMap().getCell("A1");
 
-        player2.shoot("A1", player1);
-        player2.showMap();
-        player1.showMapShip();
+
+
+        game.showShipMap(player1);
+        player2.shoot("A3", player1);
+        player2.shoot("A9", player1);
+        player2.shoot("E3", player1);
+        player2.shoot("R3", player1);
+        player2.shoot("A13", player1);
+        game.showShotsMap(player2);
+
     }
 }
 
