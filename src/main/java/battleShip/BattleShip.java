@@ -23,7 +23,7 @@ public class BattleShip {
 
 
 
-        Game game = new Game(25);
+        /*Game game = new Game(25);
         Player player1 = game.getPlayers().get(0);
         Player player2 = game.getPlayers().get(1);
         ArrayList<Ship> ships = player1.getShips();
@@ -44,6 +44,9 @@ public class BattleShip {
         player2.shoot("R3", player1);
         player2.shoot("A13", player1);
         game.showShotsMap(player2);
+        */
+        Game game = new Game();
+        game.playGame();
 
     }
 }

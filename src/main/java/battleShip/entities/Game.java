@@ -7,23 +7,25 @@ import javax.swing.text.Position;
 
 public class Game {
 
-    private int turnCount;
     private int maxTurns;
-    private ArrayList<Player> players;
+    private Player[] players;
 
-    public Game(int maxTurns) {
-        this.turnCount = 0;
+    public Game(int maxTurns, String namePlayer1, String namePlayer2) {
         this.maxTurns = maxTurns;
-        initPlayers();
+        Player player1 = new Player(namePlayer1);
+        Player player2 = new Player(namePlayer2);
+        Player[] newPlayers = {player1, player2};
+        this.players = newPlayers;
     }
 
-
-    public int getTurnCount() {
-        return turnCount;
+    public Game(int maxTurns, Player[] players) {
+        this.maxTurns = maxTurns;
+        this.players = players;
     }
 
-    public void setTurnCount(int turnCount) {
-        this.turnCount = turnCount;
+    public Game() {
+        this.maxTurns = 0;
+        this.players = null;
     }
 
     public int getMaxTurns() {
@@ -34,27 +36,22 @@ public class Game {
         this.maxTurns = maxTurns;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public Player[] getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(Player[] players) {
         this.players = players;
-    }
-
-    public void nextRound() {
-        setTurnCount(getTurnCount() + 1);
     }
 
     //Methods
     //Creates players
-    /*public Game startGame() {
-        ArrayList<Player> newPlayers = initPlayers(); //Asks players names
-        int turnAmount = askTurnAmount();  
-        Game game = new Game(turnAmount, newPlayers);
-        return game;
-    }*/
-    
+    public Boolean startGame() {
+        initPlayers(); //Asks players names
+        askTurnAmount();
+        return true;
+    }
+
     //Asks player names and returns an arraylist of players
     public void initPlayers() {
         Scanner scanner = new Scanner(System.in);
@@ -65,14 +62,12 @@ public class Game {
         String nameP2 = scanner.nextLine();
         Player player1 = new Player(nameP1);
         Player player2 = new Player(nameP2);
-        this.players = new ArrayList<>();
-        this.players.add(0, player1);
-        this.players.add(1, player2);
-
+        Player[] newPlayers = {player1, player2};
+        this.players = newPlayers;
     }
 
     //Ask turn amount and checks if it's correct
-    public int askTurnAmount() {
+    public void askTurnAmount() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¿Desean tener un límite de turnos? S/N");
         String option;
@@ -94,7 +89,7 @@ public class Game {
         } else {
             turnAmount = 100;
         }
-        return turnAmount;
+        this.maxTurns = turnAmount;
     }
 
     public int showMenu(Player player) {
@@ -119,11 +114,8 @@ public class Game {
     //1: allows players to place their ships
     //2: Once the ships are placed, they start playing by choosing options in the menu
     public void playGame() {
-        Game game = this;
-        boolean isGameInProgress = true;
-        Iterator<Player> playerSet = game.getPlayers().iterator();
-        while (playerSet.hasNext()) {
-            Player actualPlayer = playerSet.next();
+        boolean isGameInProgress = this.startGame();
+        for (Player actualPlayer : this.getPlayers()) {
             Iterator<Ship> ships = actualPlayer.getShips().iterator();
             while (ships.hasNext()) {
                 Ship ship = ships.next();
@@ -138,10 +130,9 @@ public class Game {
             }
             System.out.println(actualPlayer.getName() + ", has colocado todos tus barcos exitosamente");
         }
-        
+
         do {
-            while (playerSet.hasNext()) {
-                Player actualPlayer = playerSet.next();
+            for (Player actualPlayer : this.getPlayers()) {
                 showMenu(actualPlayer);
             }
 
@@ -160,7 +151,7 @@ public class Game {
             System.out.println("Ahora ingresarás la posición final del barco " + getShipName(ship).toUpperCase());
             waitXSeconds(2);
             finalPosition = askCoordinates();
-        }else{
+        } else {
             finalPosition = initialPosition;
         }
         return player.placeShip(initialPosition, finalPosition, ship);
@@ -232,9 +223,9 @@ public class Game {
         }
     }
 
-    private Player getOppossitePlayer(Player currentPlayer){
-        Player player1 = this.players.get(0);
-        Player player2 = this.players.get(1);
+    private Player getOppossitePlayer(Player currentPlayer) {
+        Player player1 = this.players[0];
+        Player player2 = this.players[1];
 
         if (player1.equals(currentPlayer)) {
             return player2;
@@ -246,38 +237,37 @@ public class Game {
     }
 
     // Prints Matrix to console with the annotation of the player shots
-    public void showShotsMap(Player player){
+    public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
         // Top Number Legend
         Map map = player.getMap();
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < map.getBoard().size() + 1; i++){
-            if (i == 0){
+        for (int i = 0; i < map.getBoard().size() + 1; i++) {
+            if (i == 0) {
                 System.out.print("   ");
-            }
-            else{
+            } else {
                 System.out.printf("| %s ", i);
             }
 
         }
         System.out.println("|");
-        for (int i = 0; i < map.getBoard().size(); i++){
+        for (int i = 0; i < map.getBoard().size(); i++) {
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+            for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
-                if (map.isCellShot(player.getMap().getCell(i,j))){
-                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship){
+                if (map.isCellShot(player.getMap().getCell(i, j))) {
+                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
 
                         System.out.printf("| X ");
-                    }else {
+                    } else {
                         System.out.printf("| O ");
                     }
 
-                }else {
+                } else {
                     System.out.printf("|   ");
                 }
 
@@ -287,35 +277,32 @@ public class Game {
         System.out.println();
     }
 
-
     // Prints Matrix to console with the player boats and if their are hit
-    public void showShipMap(Player player){
+    public void showShipMap(Player player) {
 
         Map map = player.getMap();
         // Top Number Legend
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < map.getBoard().size() + 1; i++){
-            if (i == 0){
+        for (int i = 0; i < map.getBoard().size() + 1; i++) {
+            if (i == 0) {
                 System.out.print("   ");
-            }
-            else{
+            } else {
                 System.out.printf("| %s ", i);
             }
 
         }
         System.out.println("|");
-        for (int i = 0; i < map.getBoard().size(); i++){
+        for (int i = 0; i < map.getBoard().size(); i++) {
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+            for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
-                if (map.getCell(i,j).getElement() != null ){
+                if (map.getCell(i, j).getElement() != null) {
                     System.out.print("| � ");
-                }
-                else {
+                } else {
                     System.out.print("|   ");
                 }
 
@@ -325,5 +312,3 @@ public class Game {
         System.out.println();
     }
 }
-
-
