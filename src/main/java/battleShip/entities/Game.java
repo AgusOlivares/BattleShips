@@ -187,14 +187,14 @@ public class Game {
         do {
             System.out.println("Ingrese la coordenada en el mapa");
             System.out.println("Recuerde que las coordenadas incluyen una letra (A-J) y un número (1-10), como por ejemplo A7");
-            position = scanner.nextLine();
+            position = scanner.nextLine().toUpperCase();
             if (position.length() < 1 || position.length() > 3) {
                 isCorrectPosition = false;
                 System.out.println("Incorrecto, por favor intente de nuevo");
                 waitXSeconds(1);
                 continue;
             }
-            switch (position.substring(0, 1).toUpperCase()) {
+            switch (position.substring(0, 1)) {
                 case "A", "B", "C", "D", "E", "F", "G", "H", "I", "J":
                     isCorrectPosition = true;
                     break;
