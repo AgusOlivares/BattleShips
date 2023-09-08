@@ -158,5 +158,16 @@ public class Player {
             return false;
         }
     }
+
+    public Boolean shootAbility(Player player, String pos, Player Enemy, Ship ship){
+        if (ship.useCharges(player)) {
+            ship.useAbility(player, pos, Enemy);
+        }else{
+            System.out.println("Not enough charges");
+            return false;
+        }
+
+        return true;
+    }
 }
 
