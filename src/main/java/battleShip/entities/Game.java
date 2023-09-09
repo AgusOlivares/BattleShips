@@ -92,23 +92,40 @@ public class Game {
         this.maxTurns = turnAmount;
     }
 
-    public int showMenu(Player player) {
+    public void showMenu(Player player) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Por favor ingrese alguna de las opciones");
-        System.out.println("1: ver mi mapa");
-        System.out.println("2: ver mapa enemigo");
-        System.out.println("3: disparar");
+        Player enemy = getOppossitePlayer(player);
         int option;
+        boolean shot = false;
         do {
+            System.out.println(player.getName() + ", por favor ingrese alguna de las opciones");
+            System.out.println("1: ver mi mapa");
+            System.out.println("2: ver mapa enemigo");
+            System.out.println("3: disparar");
+            System.out.println("4: terminar turno");
             option = scanner.nextInt();
-        } while (option < 1 || option > 3);
-        switch (option) {
-            case 1:
-                break;
-            default:
-                throw new AssertionError();
-        }
-        return 1;
+            if(option == 1){
+                showShipMap(player);
+                waitXSeconds(5);
+            }else if (option == 2) {
+                showShotsMap(player);
+                waitXSeconds(5);
+            }else if(option == 3){
+                String position = askCoordinates();
+                shot = player.shoot(position, enemy);
+            }else if(option == 4){
+                if(shot){
+                    System.out.println("Ahora es el turno de " + enemy.getName());
+                }else{
+                    System.out.println("No has realizado el tiro, por favor ataca al enemigo antes de terminar tu turno");
+                    option = 0;
+                }
+            }else{
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+
+        } while (option != 4);
+
     }
 
     //1: allows players to place their ships
