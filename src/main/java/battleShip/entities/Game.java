@@ -95,7 +95,7 @@ public class Game {
     public void showMenu(Player player) {
         Scanner scanner = new Scanner(System.in);
         Player enemy = getOppossitePlayer(player);
-        int option;
+        String option;
         boolean shot = false;
         do {
             System.out.println(player.getName() + ", por favor ingrese alguna de las opciones");
@@ -103,28 +103,32 @@ public class Game {
             System.out.println("2: ver mapa enemigo");
             System.out.println("3: disparar");
             System.out.println("4: terminar turno");
-            option = scanner.nextInt();
-            if(option == 1){
+            option = scanner.nextLine();
+            if(option.equals("1")){
                 showShipMap(player);
                 waitXSeconds(5);
-            }else if (option == 2) {
+            }else if (option.equals("2")) {
                 showShotsMap(player);
                 waitXSeconds(5);
-            }else if(option == 3){
-                String position = askCoordinates();
-                shot = player.shoot(position, enemy);
-            }else if(option == 4){
+            }else if(option.equals("3")){
+                if(shot){
+                    System.out.println("Ya has disparado, espera a tu siguiente turno para realizar otro disparo");
+                } else{
+                    String position = askCoordinates();
+                    shot = player.shoot(position, enemy);
+                }
+            }else if(option.equals("4")){
                 if(shot){
                     System.out.println("Ahora es el turno de " + enemy.getName());
                 }else{
                     System.out.println("No has realizado el tiro, por favor ataca al enemigo antes de terminar tu turno");
-                    option = 0;
+                    option = "";
                 }
             }else{
                 System.out.println("Opción incorrecta, intente de nuevo");
             }
 
-        } while (option != 4);
+        } while (!option.equals("4"));
 
     }
 
@@ -317,8 +321,14 @@ public class Game {
             System.out.printf(" %s ", charLegend);
             for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
-                if (map.getCell(i, j).getElement() != null) {
-                    System.out.print("| � ");
+                Cell cell = map.getCell(i, j);
+                if (cell.getElement() != null) {
+                    if(cell.getWasShot()){
+                        System.out.println("| X ");
+                    }else{
+                        System.out.print("| � ");
+                    }
+                    
                 } else {
                     System.out.print("|   ");
                 }
