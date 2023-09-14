@@ -136,6 +136,7 @@ public class Game {
     //2: Once the ships are placed, they start playing by choosing options in the menu
     public void playGame() {
         boolean isGameInProgress = this.startGame();
+        String winner;
         for (Player actualPlayer : this.getPlayers()) {
             Iterator<Ship> ships = actualPlayer.getShips().iterator();
             while (ships.hasNext()) {
@@ -155,8 +156,27 @@ public class Game {
         do {
             for (Player actualPlayer : this.getPlayers()) {
                 showMenu(actualPlayer);
+                if(hasPlayerWon(actualPlayer)){
+                    if(actualPlayer == this.getPlayers()[0]){
+                        winner = "0";
+                    }else{
+                        winner = "1";
+                    }
+                    String winnersName = actualPlayer.getName();
+                    if(sunkenShipCounter(actualPlayer) == actualPlayer.getShips().size()-1){
+                        actualPlayer = getOppossitePlayer(actualPlayer);
+                        System.out.println(actualPlayer.getName() + ", " + winnersName + " ha hundido todos tus barcos, tienes una última oportunidad para empatar");
+                        showMenu(actualPlayer);
+                        if(hasPlayerWon(actualPlayer)){
+                            winner = "01";
+                        }
+                        break;
+                    }else{
+                        System.out.println(winnersName + ", has ganado la partida, ¡felicitaciones!");
+                    }
+                }
             }
-
+            isGameInProgress = false;
         } while (isGameInProgress);
     }
 
@@ -324,7 +344,7 @@ public class Game {
                 Cell cell = map.getCell(i, j);
                 if (cell.getElement() != null) {
                     if(cell.getWasShot()){
-                        System.out.println("| X ");
+                        System.out.print("| X ");
                     }else{
                         System.out.print("| � ");
                     }
@@ -337,5 +357,23 @@ public class Game {
             System.out.println(" |");
         }
         System.out.println();
+    }
+    
+    public boolean hasPlayerWon(Player player){
+        Player enemy = getOppossitePlayer(player);
+        int sunkenShips = sunkenShipCounter(enemy);
+        return sunkenShips == enemy.getShips().size();
+    }
+    
+    public int sunkenShipCounter(Player player){
+        Iterator<Ship> ships = player.getShips().iterator();
+        int sunkenShips = 0;
+        while(ships.hasNext()) {
+            Ship ship = ships.next();
+            if(ship.getSunken()){
+                sunkenShips++;
+            }
+        }
+        return sunkenShips;
     }
 }
