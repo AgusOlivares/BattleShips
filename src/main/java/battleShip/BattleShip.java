@@ -45,6 +45,7 @@ public class BattleShip {
         player2.shoot("A13", player1);
         game.showShotsMap(player2);
         */
+        /*
         Player player1 = new Player("Joaco");
         Player player2 = new Player("Flor");
         player1.placeShip("A1", "A1", player1.getShips().get(0));
@@ -66,10 +67,10 @@ public class BattleShip {
             prueba.showMenu(player1);
             prueba.showMenu(player2);
         }
-        /*
+        */
         Game game = new Game();
         game.playGame();
-        */
+        
     }
 }
 

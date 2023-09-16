@@ -46,10 +46,9 @@ public class Game {
 
     //Methods
     //Creates players
-    public Boolean startGame() {
+    public void startGame() {
         initPlayers(); //Asks players names
         askTurnAmount();
-        return true;
     }
 
     //Asks player names and returns an arraylist of players
@@ -119,7 +118,7 @@ public class Game {
                 }
             }else if(option.equals("4")){
                 if(shot){
-                    System.out.println("Ahora es el turno de " + enemy.getName());
+                    System.out.println("Turno finalizado");
                 }else{
                     System.out.println("No has realizado el tiro, por favor ataca al enemigo antes de terminar tu turno");
                     option = "";
@@ -135,8 +134,9 @@ public class Game {
     //1: allows players to place their ships
     //2: Once the ships are placed, they start playing by choosing options in the menu
     public void playGame() {
-        boolean isGameInProgress = this.startGame();
-        String winner;
+        this.startGame();
+        String winner = "";
+        
         for (Player actualPlayer : this.getPlayers()) {
             Iterator<Ship> ships = actualPlayer.getShips().iterator();
             while (ships.hasNext()) {
@@ -152,8 +152,8 @@ public class Game {
             }
             System.out.println(actualPlayer.getName() + ", has colocado todos tus barcos exitosamente");
         }
-
-        do {
+        
+        for (int i = 1; i <= maxTurns; i++) {
             for (Player actualPlayer : this.getPlayers()) {
                 showMenu(actualPlayer);
                 if(hasPlayerWon(actualPlayer)){
@@ -169,15 +169,17 @@ public class Game {
                         showMenu(actualPlayer);
                         if(hasPlayerWon(actualPlayer)){
                             winner = "01";
-                        }
-                        break;
+                        } 
                     }else{
                         System.out.println(winnersName + ", has ganado la partida, ¡felicitaciones!");
                     }
+                    break;
                 }
             }
-            isGameInProgress = false;
-        } while (isGameInProgress);
+        }
+        if(winner.equals("01") || winner.equals("")){
+            System.out.println("¡Empate! La partida ha finalizado");
+        }
     }
 
     //Requests the start and end position of the ship 
@@ -195,7 +197,10 @@ public class Game {
         } else {
             finalPosition = initialPosition;
         }
-        return player.placeShip(initialPosition, finalPosition, ship);
+        String[] coordinates = new String[]{initialPosition, finalPosition};
+        coordinates = checkReverse(coordinates);
+        
+        return player.placeShip(coordinates[0], coordinates[1], ship);
     }
 
     //Ponemos a "Dormir" el programa durante los ms que queremos
@@ -375,5 +380,25 @@ public class Game {
             }
         }
         return sunkenShips;
+    }
+    
+    public String[] checkReverse(String[] coordinates){
+        boolean reversedString = false;
+        if(coordinates[0].substring(0, 1).equals(coordinates[1].substring(0, 1))){
+            if(Integer.parseInt(coordinates[0].substring(1)) > Integer.parseInt(coordinates[1].substring(1))){
+                reversedString = true;
+            }
+        }else if(coordinates[0].substring( 1).equals(coordinates[1].substring( 1))){
+            int result = coordinates[0].substring(0, 1).compareTo(coordinates[1].substring(0, 1));
+            if(result > 0){
+                reversedString = true;
+            }
+        }
+        if(reversedString){
+            String auxPosition = coordinates[0];
+            coordinates[0] = coordinates[1];
+            coordinates[1] = auxPosition;
+        }
+        return coordinates;
     }
 }
