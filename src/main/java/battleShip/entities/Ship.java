@@ -94,6 +94,5 @@ public abstract class Ship extends MapElement {
      * @param Enemy El jugador contrario.
      * @return True si se pudo activar correctamente la habilidad
      */
-    public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy);
-
+    public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
 }

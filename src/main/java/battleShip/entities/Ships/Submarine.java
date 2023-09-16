@@ -1,8 +1,6 @@
 package battleShip.entities.Ships;
 
-import battleShip.entities.Map;
-import battleShip.entities.Player;
-import battleShip.entities.Ship;
+import battleShip.entities.*;
 import org.jetbrains.annotations.NotNull;
 /**
  * Una clase encargada de crear un Submarino ('Submarine') Subclase de 'Ship'
@@ -18,41 +16,28 @@ public class Submarine extends Ship  {
 
     /**
      * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Submarino.
-     * Escanea una zona cuadrada allrededor de la posicion objetivo, indica si hay algun elemento dentro de la zona no especifica qué.
+     * Coloca un señuelo en la posicion indicada, cuando el jugador contrario dispare en esta area figurara como que se ha disparado en un barco sin afectar la lista de barcos del otro jugador.
+     * @see battleShip.entities.Decoy
      * @see Ship
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
-     * @param Enemy El jugador contrario.
+     * @param Enemy El jugador contrario (En este caso no es necesario que sea completado).
      * @return
      */
     @Override
-    public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
-        // Modify conditions to avoid erros if an adjacent position is out of bounds
-        int row = pos.charAt(0) - 'A';
+    public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
 
-        int col = Integer.parseInt(pos.substring(1));
+        Cell CellP1 = player.getMap().getCell(pos);
 
-        boolean objectSpotted = false;
-        Map enemyMap = Enemy.getMap();
-
-        for (int i = row-1; i < row+1; i++){
-            for (int j = col-1; j < col+1; j++) {
-                if(enemyMap.getCell(i,j).getElement() != null){
-                    objectSpotted = true;
-                }
-            }
-        }
-
-        if (objectSpotted){
-            System.out.println("Object spotted in radar");
-            return true;
-        } else {
-            System.out.println("Nothing in radar");
+        if(CellP1.getElement() != null || CellP1.getWasShot()){
+            System.out.println("Invalid position"); // controlar no quitarle las cargas al jugador
             return false;
+        } else {
+            Decoy Senuelo = new Decoy(CellP1);
+            CellP1.setElement(Senuelo);
+            System.out.println("Decoy placed successfully");
         }
-
-
+        return true;
     }
-
-
 }
+

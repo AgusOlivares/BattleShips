@@ -19,7 +19,7 @@ public class AircraftCarrier extends Ship{
     }
 
     /**
-     * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Submarino.
+     * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Portaviones.
      * Realiza disparos a los laterales o verticales de la posicion objetivo segun le sea indicado
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
@@ -86,7 +86,8 @@ public class AircraftCarrier extends Ship{
      * @param Enemy
      * @return true si los disparos fueron realizados exitosamente, false en caso contrario.
      */
-    private Boolean shoot(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) { // String like "A6" expected
+    // no need to add @NotNull
+    private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);
         Cell cellP2 = Enemy.getMap().getCell(pos);
         // Modify conditions to avoid errors if a cell was already shooted
