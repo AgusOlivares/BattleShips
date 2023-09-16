@@ -209,11 +209,11 @@ public class Game {
                 Boolean isBoatPlaced = false;
                 do {
                     this.showShipMap(actualPlayer);
-                    waitXSeconds(3);
+                    waitXSeconds(2);
                     isBoatPlaced = askShipPosition(actualPlayer, ship);
                 } while (!isBoatPlaced);
                 System.out.println("El barco " + getShipName(ship).toUpperCase() + " fue colocado exitosamente");
-                waitXSeconds(2);
+                waitXSeconds(1);
             }
             System.out.println(actualPlayer.getName() + ", has colocado todos tus barcos exitosamente");
         }
