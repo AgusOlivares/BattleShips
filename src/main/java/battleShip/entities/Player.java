@@ -166,7 +166,7 @@ public class Player {
         Ship choosenShip;
 
         switch (ship){
-            case "submarine":
+            case "submarino":
                 if(ships.get(1).getSunken()){
                     System.out.println("El Submarino esta hundido, no es posible usar la habilidad");
                     return null;
@@ -174,7 +174,7 @@ public class Player {
                     choosenShip = ships.get(1);
                 }
                 break;
-            case "warship":
+            case "buque":
                 if(ships.get(2).getSunken()){
                     System.out.println("El Buque esta hundido, no es posible usar la habilidad");
                     return null;
@@ -182,7 +182,7 @@ public class Player {
                     choosenShip = ships.get(2);
                 }
                 break;
-            case "crusier":
+            case "crucero":
                 if(ships.get(3).getSunken()){
                     System.out.println("El Crucero esta hundido, no es posible usar la habilidad");
                     return null;
@@ -190,7 +190,7 @@ public class Player {
                     choosenShip = ships.get(3);
                 }
                 break;
-            case "aircraftcarrier":
+            case "portaviones":
                 if(ships.get(4).getSunken()){
                     System.out.println("El Portaviones esta hundido, no es posible usar la habilidad");
                     return null;
