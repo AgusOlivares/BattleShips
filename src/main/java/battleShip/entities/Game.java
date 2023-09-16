@@ -338,13 +338,13 @@ public class Game {
             case 1:
                 return "lancha";
             case 2:
-                return "crucero";
-            case 3:
                 return "submarino";
-            case 4:
+            case 3:
                 return "buque";
+            case 4:
+                return "crucero";
             case 5:
-                return "portaaviones";
+                return "portaviones";
             default:
                 return null;
         }
