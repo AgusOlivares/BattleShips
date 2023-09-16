@@ -1,15 +1,27 @@
 package battleShip.entities;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Iterator;
-import javax.swing.text.Position;
+
+/**
+ * Esta clase representa un objeto Game, el cual almacena
+ * la información de los jugadores y la cantidad de turnos
+ * máxima que podrían jugar.
+ * @author Joaquin Ruiz.
+ */
 
 public class Game {
 
     private int maxTurns;
     private Player[] players;
 
+    /**
+     * Crea una nueva instancia de la clase Game.
+     * 
+     * @param maxTurns máxima cantidad de turnos .
+     * @param namePlayer1 nombre del jugador 1.
+     * @param namePlayer2  nombre del jugador 2.
+     */
     public Game(int maxTurns, String namePlayer1, String namePlayer2) {
         this.maxTurns = maxTurns;
         Player player1 = new Player(namePlayer1);
@@ -18,40 +30,73 @@ public class Game {
         this.players = newPlayers;
     }
 
+    /**
+     * Crea una nueva instancia de la clase Game.
+     * 
+     * @param maxTurns máxima cantidad de turnos.
+     * @param players un array de dos objetos Player ya inicializados.
+     */
     public Game(int maxTurns, Player[] players) {
         this.maxTurns = maxTurns;
         this.players = players;
     }
 
+    /**
+     * Crea una nueva instancia de la clase Game
+     * La cantidad máxima de turnos es 0 y no tiene jugadores,
+     * tiene la finalidad de ser editado a la hora de jugar.
+     */
     public Game() {
         this.maxTurns = 0;
         this.players = null;
     }
 
+    /**
+     * Obtiene la cantidad máxima de turnos.
+     * @return  la cantidad máxima de turnos
+     */
     public int getMaxTurns() {
         return maxTurns;
     }
 
+    /**
+     * Establece la cantidad máxima de turnos
+     * @param maxTurns 
+     */
     public void setMaxTurns(int maxTurns) {
         this.maxTurns = maxTurns;
     }
 
+    /**
+     * Obtiene un array de dos objetos Player
+     * @return devuelve un array de Player
+     */
     public Player[] getPlayers() {
         return players;
     }
 
+    /**
+     * Establece los jugadores
+     * @param players 
+     */
     public void setPlayers(Player[] players) {
         this.players = players;
     }
 
     //Methods
-    //Creates players
+
+    /**
+     * Llama a initPlayers() y askTurnAmount() para inicializar el objeto de clase Game
+     */
     public void startGame() {
         initPlayers(); //Asks players names
         askTurnAmount();
     }
 
-    //Asks player names and returns an arraylist of players
+    /**
+     * Le pregunta el nombre a cada jugador, crea dos instancias de clase Player
+     * y las guarda en el objeto Game.
+     */
     public void initPlayers() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¡Bienvenido al juego de Batalla Naval!");
@@ -66,6 +111,11 @@ public class Game {
     }
 
     //Ask turn amount and checks if it's correct
+    /**
+     * Consulta a los jugadores si desean tener un límite de turnos, en caso de ser
+     * así, les deja elegir un número entre 1 y 100. Este valor se almacena en el atributo
+     * maxTurns de Game.
+     */
     public void askTurnAmount() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¿Desean tener un límite de turnos? S/N");
@@ -91,6 +141,12 @@ public class Game {
         this.maxTurns = turnAmount;
     }
 
+    /**
+     * El jugador debe elegir entre alguna de las opciones disponibles ya sea para
+     * ver la información de su mapa o el mapa enemigo, disparar, o cambiar de turno.
+     * Para cambiar de turno, tiene que haber disparado antes, sino no podrá hacerlo.
+     * @param player jugador actual
+     */
     public void showMenu(Player player) {
         Scanner scanner = new Scanner(System.in);
         Player enemy = getOppossitePlayer(player);
@@ -133,6 +189,15 @@ public class Game {
 
     //1: allows players to place their ships
     //2: Once the ships are placed, they start playing by choosing options in the menu
+    /**
+     * Esta función será llamada desde el main, aquí se llamará a la función startGame(),
+     * luego de que los jugadores especifiquen sus nombres y la cantidad de turnos que quieren jugar,
+     * deberán colocar sus barcos.
+     * 
+     * Una vez colocados los barcos, se harán n iteraciones de jugadores, siendo n la 
+     * cantidad de turnos. Si la iteración ya alcanza la cantidad de turnos, ó algún
+     * jugador gana, ó empatan, el juego finaliza.
+     */
     public void playGame() {
         this.startGame();
         String winner = "";
@@ -144,11 +209,11 @@ public class Game {
                 Boolean isBoatPlaced = false;
                 do {
                     this.showShipMap(actualPlayer);
-                    waitXSeconds(3);
+                    waitXSeconds(2);
                     isBoatPlaced = askShipPosition(actualPlayer, ship);
                 } while (!isBoatPlaced);
                 System.out.println("El barco " + getShipName(ship).toUpperCase() + " fue colocado exitosamente");
-                waitXSeconds(2);
+                waitXSeconds(1);
             }
             System.out.println(actualPlayer.getName() + ", has colocado todos tus barcos exitosamente");
         }
@@ -182,8 +247,13 @@ public class Game {
         }
     }
 
-    //Requests the start and end position of the ship 
-    //and verifies that both are correct and that the ship can be placed where desired
+    /**
+     * Pide al jugador la posición inicial y final del barco, si estas son correctas
+     * llama a la función placeShip(String, String, Ship) de player para colocar el barco.
+     * @param player jugador actual.
+     * @param ship barco actual.
+     * @return Verdadero si se colocó el barco, falso en el caso contrario.
+     */
     public Boolean askShipPosition(Player player, Ship ship) {
         System.out.println(player.getName() + ", a continuación ingresarás la posición inicial del barco " + getShipName(ship).toUpperCase());
         System.out.println("El barco " + getShipName(ship) + " sólo puede ocupar " + ship.getLength() + " casillas");
@@ -203,7 +273,11 @@ public class Game {
         return player.placeShip(coordinates[0], coordinates[1], ship);
     }
 
-    //Ponemos a "Dormir" el programa durante los ms que queremos
+
+    /**
+     * Ponemos a "Dormir" el programa durante los segundos que queremos
+     * @param seconds 
+     */
     public void waitXSeconds(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
@@ -212,7 +286,10 @@ public class Game {
         }
     }
 
-    //Ask coordinates to the player and checks that they are correct
+    /**
+     * Le pide al jugador las coordenadas y verifica que sean correctas.
+     * @return la coordenada. 
+     */
     public String askCoordinates() {
         Scanner scanner = new Scanner(System.in);
         boolean isCorrectPosition;
@@ -251,24 +328,33 @@ public class Game {
         return position;
     }
 
-    //Returns the name of the ship according to their length
+    /**
+     * Devuelve el nombre del barco según su longitud.
+     * @param ship
+     * @return nombre del baro
+     */
     public String getShipName(Ship ship) {
         switch (ship.getLength()) {
             case 1:
                 return "lancha";
             case 2:
-                return "crucero";
-            case 3:
                 return "submarino";
-            case 4:
+            case 3:
                 return "buque";
+            case 4:
+                return "crucero";
             case 5:
-                return "portaaviones";
+                return "portaviones";
             default:
                 return null;
         }
     }
 
+    /**
+     * Devuelve el enemigo del jugador actual.
+     * @param currentPlayer jugador actual.
+     * @return jugador enemigo.
+     */
     private Player getOppossitePlayer(Player currentPlayer) {
         Player player1 = this.players[0];
         Player player2 = this.players[1];
@@ -282,7 +368,11 @@ public class Game {
         }
     }
 
-    // Prints Matrix to console with the annotation of the player shots
+    /**
+     * Imprime el mapa con los tiros del jugador, si disparó a un barco, se dibujará
+     * una X, si se disparó al agua, se dibujará una O.
+     * @param player 
+     */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
         // Top Number Legend
@@ -323,7 +413,12 @@ public class Game {
         System.out.println();
     }
 
-    // Prints Matrix to console with the player boats and if their are hit
+
+    /**
+     * Imprime el mapa del jugador actual, si algún barco fue disparado, se marcará
+     * con una X, caso contrario, se marcará con �.
+     * @param player 
+     */
     public void showShipMap(Player player) {
 
         Map map = player.getMap();
@@ -364,12 +459,23 @@ public class Game {
         System.out.println();
     }
     
+    /**
+     * Verifica si el jugador actual ha ganado, para ello cuenta los barcos
+     * hundidos del jugador contrario.
+     * @param player
+     * @return cantidad de barcos hundidos del contrincante.
+     */
     public boolean hasPlayerWon(Player player){
         Player enemy = getOppossitePlayer(player);
         int sunkenShips = sunkenShipCounter(enemy);
         return sunkenShips == enemy.getShips().size();
     }
     
+    /**
+     * Cuenta los barcos hundidos del jugador.
+     * @param player
+     * @return cantidad de barcos hundidos.
+     */
     public int sunkenShipCounter(Player player){
         Iterator<Ship> ships = player.getShips().iterator();
         int sunkenShips = 0;
@@ -382,6 +488,13 @@ public class Game {
         return sunkenShips;
     }
     
+    /**
+     * Verifica que las coordenadas otorgadas no estén al revés, es decir,
+     * en vez de (A1, A5) sea (A5, A1). En caso de estar al revés, las da vuelta
+     * para asegurar la correcta colocación del barco.
+     * @param coordinates
+     * @return coordenadas en el orden esperado.
+     */
     public String[] checkReverse(String[] coordinates){
         boolean reversedString = false;
         if(coordinates[0].substring(0, 1).equals(coordinates[1].substring(0, 1))){
