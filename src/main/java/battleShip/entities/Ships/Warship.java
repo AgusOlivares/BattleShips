@@ -31,24 +31,23 @@ public class Warship extends Ship {
         boolean objectSpotted = false;
         Map enemyMap = Enemy.getMap();
 
-        for (int i = row - 1; i < row + 1; i++) {
-            for (int j = col - 1; j < col + 1; j++) {
-                if (enemyMap.getCell(i, j).getElement() != null) {
-                    objectSpotted = true;
-                } else {
+        for (int i = row - 1; i < row + 2; i++) {
+            for (int j = col - 1; j < col + 2; j++) {
+
+                if (enemyMap.getCell(i, j) == null) {
                     continue;
+                } else if (enemyMap.getCell(i, j).getElement() != null) {
+                    objectSpotted = true;
                 }
             }
         }
 
         if (objectSpotted) {
-            System.out.println("Object spotted in radar");
+            System.out.println("Un objeto ha aparecido en el radar!");
             return true;
         } else {
-            System.out.println("Nothing in radar");
+            System.out.println("No se ha encontrado nada");
             return false;
         }
-
-
     }
 }

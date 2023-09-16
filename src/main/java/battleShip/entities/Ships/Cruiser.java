@@ -22,14 +22,14 @@ public class Cruiser extends Ship {
         boolean posibbleShoot = false;
         shoot(player, pos, Enemy);
         Scanner read = new Scanner(System.in);
-        while (posibbleShoot != true){
-            System.out.println("Select 2nd position to shoot");
+        while (!posibbleShoot) {
+            System.out.println("Selecciona una posicion para el segundo disparo");
             String newPos = read.next();
-            try{
+            if (Enemy.getMap().getCell(newPos) != null){
                 shoot(player, newPos, Enemy);
                 posibbleShoot = true;
-            } catch (Exception e){
-                System.out.println("Invalid position, try again");
+            } else {
+                System.out.println("La posicion es invalida, intenta nuevamente");
             }
         }
         return true;
@@ -38,7 +38,6 @@ public class Cruiser extends Ship {
     private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);
         Cell cellP2 = Enemy.getMap().getCell(pos);
-        // agregar condiciones para evitar errores
         try {
             cellP2.shot(); //shot p2
             player.getMap().addShotCell(cellP1);

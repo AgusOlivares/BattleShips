@@ -27,15 +27,17 @@ public class Submarine extends Ship  {
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
 
+
         Cell CellP1 = player.getMap().getCell(pos);
 
         if(CellP1.getElement() != null || CellP1.getWasShot()){
-            System.out.println("Invalid position"); // controlar no quitarle las cargas al jugador
+            // controlar no quitarle las cargas al jugador
+            System.out.println("posicion invalida");
             return false;
         } else {
             Decoy Senuelo = new Decoy(CellP1);
             CellP1.setElement(Senuelo);
-            System.out.println("Decoy placed successfully");
+            System.out.println("El señuelo se colocó correctamente");
         }
         return true;
     }

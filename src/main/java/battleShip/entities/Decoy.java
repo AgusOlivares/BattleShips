@@ -23,6 +23,6 @@ public class Decoy extends MapElement{
     //Methods
     @Override
     public void wasShot() {
-        System.out.println("Enemy ship was hit");
+        System.out.println("Un barco enemigo fue golpeado");
     }
 }

@@ -60,7 +60,7 @@ public abstract class Ship extends MapElement {
      * Si se disparó en todas las celdas que este ocupa, se indica que fue hundido y se cambia su estado
      */
     public void wasShot(){
-        System.out.println("Enemy ship was hit");
+        System.out.println("Un barco enemigo fue golpeado");
         int shootedCells = 0;
         for (Cell cell: occupiedCells){
             if (cell.getWasShot()){
@@ -68,7 +68,7 @@ public abstract class Ship extends MapElement {
             }
         };
         if (shootedCells == length) {
-            System.out.println("An enemy ship was sunken");
+            System.out.println("Un barco enemigo fue hundido");
             this.setSunken(true);
         }
     }

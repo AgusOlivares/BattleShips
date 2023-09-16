@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Una clase encargada de crear un Portaaviones ('AircraftCarrier') Subclase de 'Ship'
  * @see Ship
  * @author Agustin Olivares
- * @version 1.2, 08/09/2023
+ * @version 1.3, 08/09/2023
  */
 public class AircraftCarrier extends Ship{
     public AircraftCarrier() {
@@ -19,7 +19,7 @@ public class AircraftCarrier extends Ship{
     }
 
     /**
-     * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Portaviones.
+     * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Portaviones, "Barrido".
      * Realiza disparos a los laterales o verticales de la posicion objetivo segun le sea indicado
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
@@ -41,8 +41,8 @@ public class AircraftCarrier extends Ship{
         String newPosition;
 
         Scanner read = new Scanner(System.in);
-        System.out.println(" Choose orientation: ");
-        System.out.println("'h' : for horizontal triple shoot, 'v' : for vertical triple shoot");
+        System.out.println(" Elige la orientacion del barrido: ");
+        System.out.println("'h' : para barrido horizontal, 'v' : para barrido vertical");
 
         String orientationChosen = read.next(); //Example: String orientationChosen = "v";
 
@@ -81,16 +81,16 @@ public class AircraftCarrier extends Ship{
 
     /**
      * Metodo encargado de realizar los disparos correspondientes a la habilidad, separada de la de player para mayor independencia de la clase.
-     * @param player
-     * @param pos
-     * @param Enemy
+     * @param player Jugador que activa la habilidad
+     * @param pos posicion para el disparo
+     * @param Enemy Posicion bjetivo del disparo
      * @return true si los disparos fueron realizados exitosamente, false en caso contrario.
      */
-    // no need to add @NotNull
+
     private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);
         Cell cellP2 = Enemy.getMap().getCell(pos);
-        // Modify conditions to avoid errors if a cell was already shooted
+
         try {
             cellP2.shot(); //shot p2
             player.getMap().addShotCell(cellP1);
