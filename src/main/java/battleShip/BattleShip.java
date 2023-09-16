@@ -32,6 +32,8 @@ public class BattleShip {
         game.showShipMap(player1);
         player1.placeShip("A3", "A4", ships.get(2));
         player1.placeShip("B2", "B5", ships.get(1));
+        player2.placeShip("D4", "D8", ships.get(4)); //Prueba posicionar Portaaviones
+
         System.out.println();
         Cell cell = player1.getMap().getCell("A1");
 
@@ -43,6 +45,9 @@ public class BattleShip {
         player2.shoot("E3", player1);
         player2.shoot("R3", player1);
         player2.shoot("A13", player1);
+        player1.shootAbility(player1, "D6", player2, ships.get(2));
+        game.showShipMap(player1);
+        game.showShotsMap(player1);
         game.showShotsMap(player2);
         */
         /*

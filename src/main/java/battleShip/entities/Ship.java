@@ -1,13 +1,25 @@
 package battleShip.entities;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
+/**
+ * Clase padre de todos los tipos de barcos
+ * Todos los barcos son creados con una longitud fija, una lista con las celdas que ocupan, un indicador de estado vivo/muerto, y un costo fijo de habilidad.
+ * @version 1.2, 08/09/2023
+ * @author Agustin Olivares
+ */
 public abstract class Ship extends MapElement {
     protected final int length;
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
     protected final int abilityCost;
 
+    /**
+     * Construye el barco segun su longitud y asigna el costo de habilidad correspondiente
+     * @param length
+     */
     // Constructors
     public Ship(int length) {
         this.length = length;
@@ -32,7 +44,7 @@ public abstract class Ship extends MapElement {
     public Boolean getSunken(){ return sunken;}
 
 
-    //Setters
+        //Setters
     public void setSunken(boolean sunken) {
         this.sunken = sunken;
     }
@@ -43,9 +55,12 @@ public abstract class Ship extends MapElement {
 
     //Methods
 
-    // Checks the cells the ship is occupying and they are all shot, set the sunken attribute to True
+    /**
+     * Se encarga de actualizar el estado 'sunken' del barco
+     * Si se disparó en todas las celdas que este ocupa, se indica que fue hundido y se cambia su estado
+     */
     public void wasShot(){
-        System.out.println("Enemy ship was hit");
+        System.out.println("Un barco enemigo fue golpeado");
         int shootedCells = 0;
         for (Cell cell: occupiedCells){
             if (cell.getWasShot()){
@@ -53,12 +68,16 @@ public abstract class Ship extends MapElement {
             }
         };
         if (shootedCells == length) {
-            System.out.println("An enemy ship was sunken");
+            System.out.println("Un barco enemigo fue hundido");
             this.setSunken(true);
         }
     }
 
-
+    /**
+     * Al utilizar la habilidad de un barco, Este metodo se encarga de revisar que las cargas que el jugador tiene disponibles sean suficientes.
+     * @param player Jugador que solicita usar el metodo
+     * @return true si la cantidad de cargas es suficiente y se le descuentan de las cargas disponibles, false en caso contrario
+     */
     public Boolean useCharges(Player player){
         int remainingCharges = player.getCharges() - this.abilityCost;
         if (remainingCharges < 0){
@@ -68,6 +87,12 @@ public abstract class Ship extends MapElement {
         return true;
     }
 
-    public abstract Boolean useAbility();
-
+    /**
+     * Metodo polimorfico para utilizar la habilidad especial del barco
+     * @param player El jugador que invoca el metodo.
+     * @param pos La posicion objetivo.
+     * @param Enemy El jugador contrario.
+     * @return True si se pudo activar correctamente la habilidad
+     */
+    public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
 }
