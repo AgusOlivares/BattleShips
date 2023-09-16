@@ -23,7 +23,7 @@ public class BattleShip {
 
 
 
-        Game game = new Game(25);
+        /*Game game = new Game(25);
         Player player1 = game.getPlayers().get(0);
         Player player2 = game.getPlayers().get(1);
         ArrayList<Ship> ships = player1.getShips();
@@ -49,7 +49,33 @@ public class BattleShip {
         game.showShipMap(player1);
         game.showShotsMap(player1);
         game.showShotsMap(player2);
-
+        */
+        /*
+        Player player1 = new Player("Joaco");
+        Player player2 = new Player("Flor");
+        player1.placeShip("A1", "A1", player1.getShips().get(0));
+        player1.placeShip("A3", "A6", player1.getShips().get(1));
+        player1.placeShip("J1", "J2", player1.getShips().get(2));
+        player1.placeShip("H1", "H3", player1.getShips().get(3));
+        player1.placeShip("C1", "C5", player1.getShips().get(4));
+        
+        player2.placeShip("A1", "A1", player2.getShips().get(0));
+        player2.placeShip("A3", "A6", player2.getShips().get(1));
+        player2.placeShip("J1", "J2", player2.getShips().get(2));
+        player2.placeShip("H1", "H3", player2.getShips().get(3));
+        player2.placeShip("C1", "C5", player2.getShips().get(4));
+        Player[] players = {player1, player2};
+        
+        Game prueba = new Game(100, players);
+        
+        for (int i = 0; i < 10; i++) {
+            prueba.showMenu(player1);
+            prueba.showMenu(player2);
+        }
+        */
+        Game game = new Game();
+        game.playGame();
+        
     }
 }
 

@@ -7,23 +7,25 @@ import javax.swing.text.Position;
 
 public class Game {
 
-    private int turnCount;
     private int maxTurns;
-    private ArrayList<Player> players;
+    private Player[] players;
 
-    public Game(int maxTurns) {
-        this.turnCount = 0;
+    public Game(int maxTurns, String namePlayer1, String namePlayer2) {
         this.maxTurns = maxTurns;
-        initPlayers();
+        Player player1 = new Player(namePlayer1);
+        Player player2 = new Player(namePlayer2);
+        Player[] newPlayers = {player1, player2};
+        this.players = newPlayers;
     }
 
-
-    public int getTurnCount() {
-        return turnCount;
+    public Game(int maxTurns, Player[] players) {
+        this.maxTurns = maxTurns;
+        this.players = players;
     }
 
-    public void setTurnCount(int turnCount) {
-        this.turnCount = turnCount;
+    public Game() {
+        this.maxTurns = 0;
+        this.players = null;
     }
 
     public int getMaxTurns() {
@@ -34,27 +36,21 @@ public class Game {
         this.maxTurns = maxTurns;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public Player[] getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(Player[] players) {
         this.players = players;
-    }
-
-    public void nextRound() {
-        setTurnCount(getTurnCount() + 1);
     }
 
     //Methods
     //Creates players
-    /*public Game startGame() {
-        ArrayList<Player> newPlayers = initPlayers(); //Asks players names
-        int turnAmount = askTurnAmount();  
-        Game game = new Game(turnAmount, newPlayers);
-        return game;
-    }*/
-    
+    public void startGame() {
+        initPlayers(); //Asks players names
+        askTurnAmount();
+    }
+
     //Asks player names and returns an arraylist of players
     public void initPlayers() {
         Scanner scanner = new Scanner(System.in);
@@ -65,14 +61,12 @@ public class Game {
         String nameP2 = scanner.nextLine();
         Player player1 = new Player(nameP1);
         Player player2 = new Player(nameP2);
-        this.players = new ArrayList<>();
-        this.players.add(0, player1);
-        this.players.add(1, player2);
-
+        Player[] newPlayers = {player1, player2};
+        this.players = newPlayers;
     }
 
     //Ask turn amount and checks if it's correct
-    public int askTurnAmount() {
+    public void askTurnAmount() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¿Desean tener un límite de turnos? S/N");
         String option;
@@ -94,36 +88,56 @@ public class Game {
         } else {
             turnAmount = 100;
         }
-        return turnAmount;
+        this.maxTurns = turnAmount;
     }
 
-    public int showMenu(Player player) {
+    public void showMenu(Player player) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Por favor ingrese alguna de las opciones");
-        System.out.println("1: ver mi mapa");
-        System.out.println("2: ver mapa enemigo");
-        System.out.println("3: disparar");
-        int option;
+        Player enemy = getOppossitePlayer(player);
+        String option;
+        boolean shot = false;
         do {
-            option = scanner.nextInt();
-        } while (option < 1 || option > 3);
-        switch (option) {
-            case 1:
-                break;
-            default:
-                throw new AssertionError();
-        }
-        return 1;
+            System.out.println(player.getName() + ", por favor ingrese alguna de las opciones");
+            System.out.println("1: ver mi mapa");
+            System.out.println("2: ver mapa enemigo");
+            System.out.println("3: disparar");
+            System.out.println("4: terminar turno");
+            option = scanner.nextLine();
+            if(option.equals("1")){
+                showShipMap(player);
+                waitXSeconds(5);
+            }else if (option.equals("2")) {
+                showShotsMap(player);
+                waitXSeconds(5);
+            }else if(option.equals("3")){
+                if(shot){
+                    System.out.println("Ya has disparado, espera a tu siguiente turno para realizar otro disparo");
+                } else{
+                    String position = askCoordinates();
+                    shot = player.shoot(position, enemy);
+                }
+            }else if(option.equals("4")){
+                if(shot){
+                    System.out.println("Turno finalizado");
+                }else{
+                    System.out.println("No has realizado el tiro, por favor ataca al enemigo antes de terminar tu turno");
+                    option = "";
+                }
+            }else{
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+
+        } while (!option.equals("4"));
+
     }
 
     //1: allows players to place their ships
     //2: Once the ships are placed, they start playing by choosing options in the menu
     public void playGame() {
-        Game game = this;
-        boolean isGameInProgress = true;
-        Iterator<Player> playerSet = game.getPlayers().iterator();
-        while (playerSet.hasNext()) {
-            Player actualPlayer = playerSet.next();
+        this.startGame();
+        String winner = "";
+        
+        for (Player actualPlayer : this.getPlayers()) {
             Iterator<Ship> ships = actualPlayer.getShips().iterator();
             while (ships.hasNext()) {
                 Ship ship = ships.next();
@@ -139,13 +153,33 @@ public class Game {
             System.out.println(actualPlayer.getName() + ", has colocado todos tus barcos exitosamente");
         }
         
-        do {
-            while (playerSet.hasNext()) {
-                Player actualPlayer = playerSet.next();
+        for (int i = 1; i <= maxTurns; i++) {
+            for (Player actualPlayer : this.getPlayers()) {
                 showMenu(actualPlayer);
+                if(hasPlayerWon(actualPlayer)){
+                    if(actualPlayer == this.getPlayers()[0]){
+                        winner = "0";
+                    }else{
+                        winner = "1";
+                    }
+                    String winnersName = actualPlayer.getName();
+                    if(sunkenShipCounter(actualPlayer) == actualPlayer.getShips().size()-1){
+                        actualPlayer = getOppossitePlayer(actualPlayer);
+                        System.out.println(actualPlayer.getName() + ", " + winnersName + " ha hundido todos tus barcos, tienes una última oportunidad para empatar");
+                        showMenu(actualPlayer);
+                        if(hasPlayerWon(actualPlayer)){
+                            winner = "01";
+                        } 
+                    }else{
+                        System.out.println(winnersName + ", has ganado la partida, ¡felicitaciones!");
+                    }
+                    break;
+                }
             }
-
-        } while (isGameInProgress);
+        }
+        if(winner.equals("01") || winner.equals("")){
+            System.out.println("¡Empate! La partida ha finalizado");
+        }
     }
 
     //Requests the start and end position of the ship 
@@ -160,10 +194,13 @@ public class Game {
             System.out.println("Ahora ingresarás la posición final del barco " + getShipName(ship).toUpperCase());
             waitXSeconds(2);
             finalPosition = askCoordinates();
-        }else{
+        } else {
             finalPosition = initialPosition;
         }
-        return player.placeShip(initialPosition, finalPosition, ship);
+        String[] coordinates = new String[]{initialPosition, finalPosition};
+        coordinates = checkReverse(coordinates);
+        
+        return player.placeShip(coordinates[0], coordinates[1], ship);
     }
 
     //Ponemos a "Dormir" el programa durante los ms que queremos
@@ -183,14 +220,14 @@ public class Game {
         do {
             System.out.println("Ingrese la coordenada en el mapa");
             System.out.println("Recuerde que las coordenadas incluyen una letra (A-J) y un número (1-10), como por ejemplo A7");
-            position = scanner.nextLine();
+            position = scanner.nextLine().toUpperCase();
             if (position.length() < 1 || position.length() > 3) {
                 isCorrectPosition = false;
                 System.out.println("Incorrecto, por favor intente de nuevo");
                 waitXSeconds(1);
                 continue;
             }
-            switch (position.substring(0, 1).toUpperCase()) {
+            switch (position.substring(0, 1)) {
                 case "A", "B", "C", "D", "E", "F", "G", "H", "I", "J":
                     isCorrectPosition = true;
                     break;
@@ -232,9 +269,9 @@ public class Game {
         }
     }
 
-    private Player getOppossitePlayer(Player currentPlayer){
-        Player player1 = this.players.get(0);
-        Player player2 = this.players.get(1);
+    private Player getOppossitePlayer(Player currentPlayer) {
+        Player player1 = this.players[0];
+        Player player2 = this.players[1];
 
         if (player1.equals(currentPlayer)) {
             return player2;
@@ -246,38 +283,37 @@ public class Game {
     }
 
     // Prints Matrix to console with the annotation of the player shots
-    public void showShotsMap(Player player){
+    public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
         // Top Number Legend
         Map map = player.getMap();
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < map.getBoard().size() + 1; i++){
-            if (i == 0){
+        for (int i = 0; i < map.getBoard().size() + 1; i++) {
+            if (i == 0) {
                 System.out.print("   ");
-            }
-            else{
+            } else {
                 System.out.printf("| %s ", i);
             }
 
         }
         System.out.println("|");
-        for (int i = 0; i < map.getBoard().size(); i++){
+        for (int i = 0; i < map.getBoard().size(); i++) {
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+            for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
-                if (map.isCellShot(player.getMap().getCell(i,j))){
-                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship){
+                if (map.isCellShot(player.getMap().getCell(i, j))) {
+                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
 
                         System.out.printf("| X ");
-                    }else {
+                    } else {
                         System.out.printf("| O ");
                     }
 
-                }else {
+                } else {
                     System.out.printf("|   ");
                 }
 
@@ -287,35 +323,38 @@ public class Game {
         System.out.println();
     }
 
-
     // Prints Matrix to console with the player boats and if their are hit
-    public void showShipMap(Player player){
+    public void showShipMap(Player player) {
 
         Map map = player.getMap();
         // Top Number Legend
         int charLegendCnt = 64;
         System.out.println();
-        for (int i = 0; i < map.getBoard().size() + 1; i++){
-            if (i == 0){
+        for (int i = 0; i < map.getBoard().size() + 1; i++) {
+            if (i == 0) {
                 System.out.print("   ");
-            }
-            else{
+            } else {
                 System.out.printf("| %s ", i);
             }
 
         }
         System.out.println("|");
-        for (int i = 0; i < map.getBoard().size(); i++){
+        for (int i = 0; i < map.getBoard().size(); i++) {
             // Left Character Legend
             charLegendCnt += 1;
             char charLegend = (char) charLegendCnt;
             System.out.printf(" %s ", charLegend);
-            for (int j = 0; j < map.getBoard().get(0).size(); j++){
+            for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
-                if (map.getCell(i,j).getElement() != null ){
-                    System.out.print("| � ");
-                }
-                else {
+                Cell cell = map.getCell(i, j);
+                if (cell.getElement() != null) {
+                    if(cell.getWasShot()){
+                        System.out.print("| X ");
+                    }else{
+                        System.out.print("| � ");
+                    }
+                    
+                } else {
                     System.out.print("|   ");
                 }
 
@@ -324,6 +363,42 @@ public class Game {
         }
         System.out.println();
     }
+    
+    public boolean hasPlayerWon(Player player){
+        Player enemy = getOppossitePlayer(player);
+        int sunkenShips = sunkenShipCounter(enemy);
+        return sunkenShips == enemy.getShips().size();
+    }
+    
+    public int sunkenShipCounter(Player player){
+        Iterator<Ship> ships = player.getShips().iterator();
+        int sunkenShips = 0;
+        while(ships.hasNext()) {
+            Ship ship = ships.next();
+            if(ship.getSunken()){
+                sunkenShips++;
+            }
+        }
+        return sunkenShips;
+    }
+    
+    public String[] checkReverse(String[] coordinates){
+        boolean reversedString = false;
+        if(coordinates[0].substring(0, 1).equals(coordinates[1].substring(0, 1))){
+            if(Integer.parseInt(coordinates[0].substring(1)) > Integer.parseInt(coordinates[1].substring(1))){
+                reversedString = true;
+            }
+        }else if(coordinates[0].substring( 1).equals(coordinates[1].substring( 1))){
+            int result = coordinates[0].substring(0, 1).compareTo(coordinates[1].substring(0, 1));
+            if(result > 0){
+                reversedString = true;
+            }
+        }
+        if(reversedString){
+            String auxPosition = coordinates[0];
+            coordinates[0] = coordinates[1];
+            coordinates[1] = auxPosition;
+        }
+        return coordinates;
+    }
 }
-
-
