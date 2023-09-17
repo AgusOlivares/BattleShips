@@ -43,7 +43,10 @@ public abstract class Ship extends MapElement {
     }
     public Boolean getSunken(){ return sunken;}
 
-
+    public int getAbilityCost() {
+        return abilityCost;
+    }
+    
         //Setters
     public void setSunken(boolean sunken) {
         this.sunken = sunken;
