@@ -52,8 +52,8 @@ public class BattleShip {
         */
     
         
-        Player player1 = new Player("A");
-        Player player2 = new Player("B");
+        Player player1 = new Player("Jugador A");
+        Player player2 = new Player("Jugador B");
         player1.placeShip("A1", "A1", player1.getShips().get(0));
         player1.placeShip("J1", "J2", player1.getShips().get(1));
         player1.placeShip("H1", "H3", player1.getShips().get(2));
@@ -75,10 +75,9 @@ public class BattleShip {
         }
         
         
-        /*
-        Game game = new Game();
-        game.playGame();
-        */
+        
+        //Game game = new Game(); game.playGame();
+        
     }
 }
 

@@ -208,6 +208,14 @@ public class Game {
 
     }
     
+    /**
+     * Le pregunta al usuario si desea usar alguna habilidad o no, en caso de que sí
+     * quiera utilizar alguna habilidad, le muestra los barcos disponibles con los
+     * cuales puede realizar el disparo especial.
+     * @param player
+     * @param availableShips
+     * @return Verdadero si el disparo fue exitoso, falso si hubo un problema al realizar el disparo
+     */
     public boolean showAbilityMenu(Player player, ArrayList<Ship> availableShips){
         System.out.println("Actualmente puede usar habilidades de los barcos");
         Scanner input = new Scanner(System.in);
@@ -437,6 +445,8 @@ public class Game {
      */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
+        System.out.println("Mapa de " + oppPlayer.getName());
+        System.out.println("");
         // Top Number Legend
         Map map = player.getMap();
         int charLegendCnt = 64;
@@ -482,7 +492,8 @@ public class Game {
      * @param player 
      */
     public void showShipMap(Player player) {
-
+        System.out.println("");
+        System.out.println("              Mapa de " + player.getName());
         Map map = player.getMap();
         // Top Number Legend
         int charLegendCnt = 64;
@@ -577,6 +588,12 @@ public class Game {
         return coordinates;
     }
     
+    /**
+     * Separa los barcos hundidos de los barcos a flota del jugador y los
+     * acumula en dos ArrayList<Ship>.
+     * @param player
+     * @return Barcos a flota y barcos hundidos
+     */
     public ArrayList<Ship>[] shipList(Player player){
         Iterator<Ship> ships = player.getShips().iterator();
         ArrayList<Ship> safeShips = new ArrayList<>();
@@ -592,6 +609,11 @@ public class Game {
         return new ArrayList[]{safeShips, sunkenShips};
     }
     
+    /**
+     * Obtiene la información actual de barcos de player e imprime por un lado los
+     * que están a flota con sus costes de habilidad, y por otro lado los que están hundidos.
+     * @param player 
+     */
     public void showShipList(Player player){
         
         ArrayList[] shipInfo = shipList(player);
@@ -599,7 +621,12 @@ public class Game {
         Iterator<Ship> safeShipsIterator = shipInfo[0].iterator();
         while (safeShipsIterator.hasNext()){
             Ship safeShip = safeShipsIterator.next();
-            System.out.println("- " + getShipName(safeShip).toUpperCase());
+            if(safeShip.getLength() != 1){
+                System.out.println("- " + getShipName(safeShip).toUpperCase() + " - Coste de cargas: " + safeShip.getAbilityCost());
+            }else{
+                System.out.println("- " + getShipName(safeShip).toUpperCase());
+            }
+            
         }
         
         System.out.println("Lista de barcos hundidos");
@@ -611,6 +638,13 @@ public class Game {
         System.out.println("");
     }
     
+    /**
+     * Obtiene la información actual de barcos de player y filtra los que están a flota,
+     * de estos sólo añade a una nueva ArrayList<Ship> aquellos que tengan un coste de
+     * habilidad menor o igual a la cantidad de cargas del jugador.
+     * @param player
+     * @return Barcos disponibles para utilizar habilidad.
+     */
     public ArrayList<Ship> availableShipAbilities(Player player){
         ArrayList[] shipInfo = shipList(player);
         ArrayList<Ship> availableShips = new ArrayList<>();
