@@ -247,7 +247,7 @@ public class Game {
             }
         } while (shipOption <= 0 || shipOption > availableShips.size());
         String position = askCoordinates();
-        player.shootAbility(position, getOppossitePlayer(player), getShipName(availableShips.get(shipOption-1)));
+        player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
         return true;
     }
 
