@@ -4,14 +4,13 @@ import battleShip.entities.Cell;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
-import battleShip.interfaces.SpecialShipInterface;
 
 import java.util.Scanner;
 
 /**
  *
  */
-public class Cruiser extends Ship implements SpecialShipInterface{
+public class Cruiser extends Ship{
     public Cruiser() {
         super(4);
     }

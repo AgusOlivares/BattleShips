@@ -160,7 +160,8 @@ public class Player {
     }
 
     public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
-
+        
+        
         if (ship.useCharges(this)) {
             ship.useAbility(this, pos, Enemy);
         } else {

@@ -4,7 +4,6 @@ import battleShip.entities.Cell;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
-import battleShip.interfaces.SpecialShipInterface;
 
 import java.util.Scanner;
 
@@ -15,7 +14,7 @@ import java.util.Scanner;
  * @author Agustin Olivares
  * @version 1.4, 08/09/2023
  */
-public class AircraftCarrier extends Ship implements SpecialShipInterface{
+public class AircraftCarrier extends Ship {
     public AircraftCarrier() {
         super(5);
     }

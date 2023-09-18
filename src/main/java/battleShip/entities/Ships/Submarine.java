@@ -2,14 +2,13 @@ package battleShip.entities.Ships;
 
 import battleShip.entities.*;
 import org.jetbrains.annotations.NotNull;
-import battleShip.interfaces.SpecialShipInterface;
 /**
  * Una clase encargada de crear un Submarino ('Submarine') Subclase de 'Ship'
  * @see Ship
  * @author Agustin Olivares
  * @version 1.2, 08/09/2023
  */
-public class Submarine extends Ship implements SpecialShipInterface{
+public class Submarine extends Ship{
 
     public Submarine() {
         super(2);

@@ -15,4 +15,14 @@ public class Boat extends Ship {
         super(1); // on init boat length will be 1
     }
 
+    @Override
+    public Boolean useAbility(Player player, String pos, Player Enemy) {
+        return null;
+    }
+
+    @Override
+    public Void showAbility() {
+        return null;
+    }
+
 }

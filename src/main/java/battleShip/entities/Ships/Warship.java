@@ -4,8 +4,8 @@ import battleShip.entities.Map;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
-import battleShip.interfaces.SpecialShipInterface;
-public class Warship extends Ship implements SpecialShipInterface{
+
+public class Warship extends Ship{
 
     public Warship() {
         super(3);
