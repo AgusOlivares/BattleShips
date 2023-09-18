@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Agustin Olivares
  * @version 1.2, 08/09/2023
  */
-public class Submarine extends Ship  {
+public class Submarine extends Ship{
 
     public Submarine() {
         super(2);
@@ -30,7 +30,7 @@ public class Submarine extends Ship  {
 
         Cell CellP1 = player.getMap().getCell(pos);
 
-        if(CellP1.getElement() != null || CellP1.getWasShot()){
+        if (CellP1.getElement() != null || CellP1.getWasShot()){
             // controlar no quitarle las cargas al jugador
             System.out.println("posicion invalida");
             return false;
@@ -40,6 +40,16 @@ public class Submarine extends Ship  {
             System.out.println("El señuelo se colocó correctamente");
         }
         return true;
+    }
+    @Override
+    public Void showAbility() {
+
+        System.out.println("Señuelo: ");
+        System.out.println("La habilidad especial del Submarino coloca un señuelo en tu mapa.");
+        System.out.println("Cuando el Enemigo impacte al señuelo con un disparo a este se le informara que golpeo uno de tus barcos");
+        System.out.print(" pero éste habrá caido en la trampa!");
+
+        return null;
     }
 }
 

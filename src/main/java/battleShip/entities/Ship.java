@@ -1,8 +1,8 @@
 package battleShip.entities;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Clase padre de todos los tipos de barcos
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @version 1.2, 08/09/2023
  * @author Agustin Olivares
  */
-public abstract class Ship extends MapElement {
+public abstract class Ship extends MapElement{
     protected final int length;
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
@@ -89,13 +89,9 @@ public abstract class Ship extends MapElement {
         player.setCharges(remainingCharges);
         return true;
     }
-
-    /**
-     * Metodo polimorfico para utilizar la habilidad especial del barco
-     * @param player El jugador que invoca el metodo.
-     * @param pos La posicion objetivo.
-     * @param Enemy El jugador contrario.
-     * @return True si se pudo activar correctamente la habilidad
-     */
+    
     public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
+
+    public abstract Void showAbility();
+
 }
