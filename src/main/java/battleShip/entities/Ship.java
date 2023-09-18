@@ -1,9 +1,7 @@
 package battleShip.entities;
 
-import battleShip.interfaces.SpecialShipInterface;
 
 import java.util.ArrayList;
-import battleShip.interfaces.SpecialShipInterface;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.2, 08/09/2023
  * @author Agustin Olivares
  */
-public abstract class Ship extends MapElement implements SpecialShipInterface{
+public abstract class Ship extends MapElement{
     protected final int length;
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
@@ -91,22 +89,9 @@ public abstract class Ship extends MapElement implements SpecialShipInterface{
         player.setCharges(remainingCharges);
         return true;
     }
+    
+    public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
 
-    /**
-     * Metodo polimorfico para utilizar la habilidad especial del barco
-     * @param player El jugador que invoca el metodo.
-     * @param pos La posicion objetivo.
-     * @param Enemy El jugador contrario.
-     * @return True si se pudo activar correctamente la habilidad
-     */
-    @Override
-    public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
-        return null;
-    }
-
-    @Override
-    public Void showAbility() {
-        return null;
-    }
+    public abstract Void showAbility();
 
 }
