@@ -4,8 +4,8 @@ import battleShip.entities.Map;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
-
-public class Warship extends Ship {
+import battleShip.interfaces.SpecialShipInterface;
+public class Warship extends Ship implements SpecialShipInterface{
 
     public Warship() {
         super(3);
@@ -49,5 +49,16 @@ public class Warship extends Ship {
             System.out.println("No se ha encontrado nada");
             return false;
         }
+    }
+
+    @Override
+    public Void showAbility() {
+
+        System.out.println("Radar: ");
+        System.out.println("La habilidad especial del Buque permite realizar el escaneo de una zona allrededor de la casilla seleccionada (3x3), ");
+        System.out.print(" si solo hay agua en la zona escaneada no se detectara nada, ");
+        System.out.print(" pero en caso de detectar un objeto distinto de agua se alertara al jugador con un mensaje, pero no sabra en que posicion se encuentra!");
+
+        return null;
     }
 }

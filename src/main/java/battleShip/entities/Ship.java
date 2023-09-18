@@ -1,8 +1,10 @@
 package battleShip.entities;
 
-import org.jetbrains.annotations.NotNull;
+import battleShip.interfaces.SpecialShipInterface;
 
 import java.util.ArrayList;
+import battleShip.interfaces.SpecialShipInterface;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Clase padre de todos los tipos de barcos
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * @version 1.2, 08/09/2023
  * @author Agustin Olivares
  */
-public abstract class Ship extends MapElement {
+public abstract class Ship extends MapElement implements SpecialShipInterface{
     protected final int length;
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
@@ -97,5 +99,14 @@ public abstract class Ship extends MapElement {
      * @param Enemy El jugador contrario.
      * @return True si se pudo activar correctamente la habilidad
      */
-    public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
+    @Override
+    public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
+        return null;
+    }
+
+    @Override
+    public Void showAbility() {
+        return null;
+    }
+
 }
