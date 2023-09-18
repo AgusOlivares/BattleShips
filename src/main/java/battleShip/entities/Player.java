@@ -27,9 +27,9 @@ public class Player {
         this.name = name;
         this.ships = new ArrayList<>();
         this.ships.add(new Boat());
-        this.ships.add(new Cruiser());
         this.ships.add(new Submarine());
         this.ships.add(new Warship());
+        this.ships.add(new Cruiser());
         this.ships.add(new AircraftCarrier());
         this.map = new Map();
         this.charges = 0;
@@ -158,5 +158,61 @@ public class Player {
             return false;
         }
     }
+
+    public Void shootAbility(Player this, String pos, Player Enemy, String ship){
+
+
+        ship = ship.toLowerCase();
+        Ship choosenShip;
+
+        switch (ship){
+            case "submarino":
+                if(ships.get(1).getSunken()){
+                    System.out.println("El Submarino esta hundido, no es posible usar la habilidad");
+                    return null;
+                } else{
+                    choosenShip = ships.get(1);
+                }
+                break;
+            case "buque":
+                if(ships.get(2).getSunken()){
+                    System.out.println("El Buque esta hundido, no es posible usar la habilidad");
+                    return null;
+                } else{
+                    choosenShip = ships.get(2);
+                }
+                break;
+            case "crucero":
+                if(ships.get(3).getSunken()){
+                    System.out.println("El Crucero esta hundido, no es posible usar la habilidad");
+                    return null;
+                } else{
+                    choosenShip = ships.get(3);
+                }
+                break;
+            case "portaviones":
+                if(ships.get(4).getSunken()){
+                    System.out.println("El Portaviones esta hundido, no es posible usar la habilidad");
+                    return null;
+                } else{
+                    choosenShip = ships.get(4);
+                }
+                break;
+            default:
+                System.out.println("El barco seleccionado no existe");
+                return null;
+        }
+
+        if (choosenShip.useCharges(this)){
+            choosenShip.useAbility(this, pos, Enemy);
+        } else {
+            System.out.println("No hay suficientes cargas para esta habilidad");
+            return null;
+        }
+
+
+        return null;
+    }
+
 }
 
