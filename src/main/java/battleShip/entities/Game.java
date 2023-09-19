@@ -465,7 +465,7 @@ public class Game {
      */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
-        System.out.println("Mapa de " + oppPlayer.getName());
+        System.out.println("              Mapa de " + oppPlayer.getName());
         System.out.println("");
         // Top Number Legend
         Map map = player.getMap();
@@ -490,6 +490,8 @@ public class Game {
                 if (map.isCellShot(player.getMap().getCell(i, j))) {
                     if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
                         System.out.printf("| X ");
+                    } else if(oppPlayer.getMap().getCell(i, j).getElement() instanceof Island){
+                        System.out.print("| H ");
                     } else {
                         System.out.printf("| O ");
                     }
@@ -541,7 +543,7 @@ public class Game {
                         System.out.print("| � ");
                     }
                 } else if(cell.getElement() instanceof Island) {
-                    System.out.print("| ◾ ");
+                    System.out.print("| H ");
                 }else{
                     System.out.print("|   ");
                 }
