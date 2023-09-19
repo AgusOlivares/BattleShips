@@ -1,6 +1,7 @@
 package battleShip.entities.Ships;
 
 import battleShip.entities.*;
+import battleShip.entities.MapElements.Decoy;
 import org.jetbrains.annotations.NotNull;
 /**
  * Una clase encargada de crear un Submarino ('Submarine') Subclase de 'Ship'

@@ -1,6 +1,7 @@
 package battleShip.entities;
 
 import battleShip.entities.MapElements.Island;
+import battleShip.entities.MapElements.Water;
 
 import java.util.ArrayList;
 import java.util.Scanner;
