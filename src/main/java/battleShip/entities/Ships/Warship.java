@@ -1,11 +1,12 @@
 package battleShip.entities.Ships;
 
+import battleShip.Interface.SpecialShipInterface;
 import battleShip.entities.Map;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
 
-public class Warship extends Ship{
+public class Warship extends Ship implements SpecialShipInterface {
 
     public Warship() {
         super(3);
@@ -44,21 +45,79 @@ public class Warship extends Ship{
 
         if (objectSpotted) {
             System.out.println("Un objeto ha aparecido en el radar!");
-            return true;
         } else {
             System.out.println("No se ha encontrado nada");
-            return false;
         }
+        return true;
     }
 
     @Override
-    public Void showAbility() {
+    public void showAbility() {
 
         System.out.println("Radar: ");
         System.out.println("La habilidad especial del Buque permite realizar el escaneo de una zona allrededor de la casilla seleccionada (3x3), ");
         System.out.print(" si solo hay agua en la zona escaneada no se detectara nada, ");
         System.out.print(" pero en caso de detectar un objeto distinto de agua se alertara al jugador con un mensaje, pero no sabra en que posicion se encuentra!");
+    }
 
-        return null;
+    @Override
+    public void showExample(){
+
+        int charLegendCnt = 64;
+
+        // Encabezado de números
+        System.out.print("   ");
+        for (int i = 1; i <= 3; i++) {
+            System.out.printf("| %d ", i);
+        }
+        System.out.println("|");
+
+        // Llenado y leyenda de filas
+        for (int i = 0; i < 3; i++) {
+
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+
+            // Condicionales para los caracteres
+            for (int j = 0; j < 3; j++) {
+                if (i == 1 && j == 1) {
+                    System.out.print("| □ ");
+                } else {
+                    System.out.print("|   ");
+                }
+            }
+            System.out.println("|");
+        }
+
+        System.out.println("Mapa enemigo con un barco en B2");
+        System.out.println("");
+
+        charLegendCnt = 64;
+
+        // Encabezado de números
+        System.out.print("   ");
+        for (int i = 1; i <= 3; i++) {
+            System.out.printf("| %d ", i);
+        }
+        System.out.println("|");
+
+        // Llenado matriz y leyenda de filas
+        for (int i = 0; i < 3; i++) {
+
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+
+            // Condicionales para los caracteres
+            for (int j = 0; j < 3; j++) {
+                System.out.print("|   ");
+            }
+            System.out.println("|");
+        }
+        System.out.println("Un objeto ha aparecido en el radar!");
+        System.out.println("Mapa propio al lanzar el radar en la posicion C1");
+        System.out.println("");
+
     }
 }

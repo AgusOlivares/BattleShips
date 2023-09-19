@@ -1,5 +1,6 @@
 package battleShip.entities.Ships;
 
+import battleShip.Interface.SpecialShipInterface;
 import battleShip.entities.Cell;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
@@ -14,7 +15,7 @@ import java.util.Scanner;
  * @author Agustin Olivares
  * @version 1.4, 08/09/2023
  */
-public class AircraftCarrier extends Ship {
+public class AircraftCarrier extends Ship implements SpecialShipInterface {
     public AircraftCarrier() {
         super(5);
     }
@@ -55,7 +56,6 @@ public class AircraftCarrier extends Ship {
                 newCol = originalCol - 1;
                 newPosition = "%s%d".formatted(newRow, newCol);
 
-                shoot(player, newPosition, Enemy);
 
                 newCol += 2;
                 newPosition = "%s%d".formatted(newRow, newCol);
@@ -85,14 +85,74 @@ public class AircraftCarrier extends Ship {
      *
      */
     @Override
-    public Void showAbility() {
+    public void showAbility() {
 
         System.out.println("Disparo de Barrido: ");
         System.out.println("La habilidad especial del Portaviones permite realizar disparos a los laterales o verticales de la posicion objetivo segun le sea indicado");
         System.out.println("h: para un disparo de barrido horizontal");
         System.out.println("v: para un barrido de barrido vertical");
+    }
+    @Override
+    public void showExample(){
 
-        return null;
+        int charLegendCnt = 64;
+
+        // Encabezado de la columna de números
+        System.out.print("   ");
+        for (int i = 1; i <= 3; i++) {
+            System.out.printf("| %d ", i);
+        }
+        System.out.println("|");
+
+        // Llenado matriz y leyenda de filas
+        for (int i = 0; i < 3; i++) {
+
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+
+            // Condicionales para los caracteres
+            for (int j = 0; j < 3; j++) {
+                if (i == 1) {
+                    System.out.print("| X ");
+                } else {
+                    System.out.print("|   ");
+                }
+            }
+            System.out.println("|");
+        }
+
+        System.out.println("Mapa propio al realizar un barrido horizontal en B2");
+        System.out.println("");
+
+        charLegendCnt = 64;
+
+        //Encabezado
+        System.out.print("   ");
+        for (int i = 1; i <= 3; i++) {
+            System.out.printf("| %d ", i);
+        }
+        System.out.println("|");
+
+        // Llenado matriz y leyenda de filas
+        for (int i = 0; i < 3; i++) {
+            charLegendCnt += 1;
+            char charLegend = (char) charLegendCnt;
+            System.out.printf(" %s ", charLegend);
+
+            // Condicionales para los caracteres
+            for (int j = 0; j < 3; j++) {
+                if (j == 1) {
+                    System.out.print("| X ");
+                } else {
+                    System.out.print("|   ");
+                }
+            }
+            System.out.println("|");
+        }
+
+        System.out.println("Mapa propio al realizar un barrido vertical en B2");
+        System.out.println("");
     }
 
     /**
@@ -112,7 +172,6 @@ public class AircraftCarrier extends Ship {
             player.getMap().addShotCell(cellP1);
             return true;
         }catch (Exception e){
-            System.out.println(e);
             return false;
         }
     }
