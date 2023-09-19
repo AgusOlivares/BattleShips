@@ -534,14 +534,15 @@ public class Game {
             for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
                 Cell cell = map.getCell(i, j);
-                if (cell.getElement() != null) {
+                if(cell.getElement() instanceof Ship){
                     if(cell.getWasShot()){
                         System.out.print("| X ");
                     }else{
                         System.out.print("| � ");
                     }
-                    
-                } else {
+                } else if(cell.getElement() instanceof Island) {
+                    System.out.print("| ◾ ");
+                }else{
                     System.out.print("|   ");
                 }
 
