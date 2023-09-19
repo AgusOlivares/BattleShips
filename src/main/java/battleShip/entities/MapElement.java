@@ -1,7 +1,7 @@
 package battleShip.entities;
 
-abstract class MapElement {
+public abstract class MapElement {
     private Cell position;
 
-    abstract void wasShot();
+    protected abstract void wasShot();
 }
