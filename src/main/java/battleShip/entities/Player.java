@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
 /**
  * Una clase para representar al jugador
  * Cada jugador es creado junto con un nombre, un mapa, una lista de barcos asociados y un numero de cargas
- * @version 2.4, 18/9/2023
+ * @version 2.4, 19/9/2023
  * @author Martin Farrés
  */
 public class Player {

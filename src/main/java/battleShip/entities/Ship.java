@@ -6,7 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Clase padre de todos los tipos de barcos
- * Todos los barcos son creados con una longitud fija, una lista con las celdas que ocupan, un indicador de estado vivo/muerto, y un costo fijo de habilidad.
+ * Todos los barcos son creados con una longitud fija, una lista con las celdas que ocupan, un indicador de estado vivo/muerto,
+ * y un costo fijo de habilidad.
  * @version 1.2, 08/09/2023
  * @author Agustin Olivares
  */
@@ -15,6 +16,7 @@ public abstract class Ship extends MapElement{
     protected ArrayList<Cell> occupiedCells;
     protected boolean sunken;
     protected final int abilityCost;
+
 
     /**
      * Construye el barco segun su longitud y asigna el costo de habilidad correspondiente
@@ -44,6 +46,7 @@ public abstract class Ship extends MapElement{
         }
     }
 
+
     // Getters
     public int getLength() {
         return length;
@@ -52,12 +55,12 @@ public abstract class Ship extends MapElement{
         return occupiedCells;
     }
     public Boolean getSunken(){ return sunken;}
-
     public int getAbilityCost() {
         return abilityCost;
     }
-    
-        //Setters
+
+
+    //Setters
     public void setSunken(boolean sunken) {
         this.sunken = sunken;
     }
@@ -67,7 +70,6 @@ public abstract class Ship extends MapElement{
 
 
     //Methods
-
     /**
      * Se encarga de actualizar el estado 'sunken' del barco
      * Si se disparó en todas las celdas que este ocupa, se indica que fue hundido y se cambia su estado
