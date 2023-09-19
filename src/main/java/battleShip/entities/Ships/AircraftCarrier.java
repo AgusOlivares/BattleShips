@@ -54,11 +54,10 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
 
                 newRow = pos.charAt(0);
                 newCol = originalCol - 1;
-                newPosition = "%s%d".formatted(newRow, newCol);
-
+                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
 
                 newCol += 2;
-                newPosition = "%s%d".formatted(newRow, newCol);
+                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
                 shoot(player, newPosition, Enemy);
                 break;
             case "v":
@@ -66,12 +65,12 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
 
                 newCol = originalCol;
                 newRow = (char) (originalRow - 1);
-                newPosition = "%c%d".formatted(newRow, newCol);
+                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
 
                 shoot(player, newPosition, Enemy);
 
                 newRow = (char) (originalRow + 1);
-                newPosition = "%c%d".formatted(newRow, newCol);
+                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
                 shoot(player, newPosition, Enemy);
                 break;
         }
