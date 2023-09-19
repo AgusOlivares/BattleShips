@@ -128,11 +128,11 @@ public class Player {
 
             if (i != 0) { // if pos checked is out of bound, ignored it
                 if (cellXMov != null) {
-                    if (cellXMov.getElement() != null) { // if ship in pos checked, raise exception
+                    if (cellXMov.getElement() instanceof Ship) { // if ship in pos checked, raise exception
                         throw new Exception("The position is not valid");
                     }
                 } else if (cellYMov != null) {
-                    if (cellYMov.getElement() != null) {
+                    if (cellYMov.getElement() instanceof Ship) {
                         throw new Exception("The position is not valid");
                     }
                 }
@@ -160,15 +160,12 @@ public class Player {
     }
 
     public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
-        
-        
         if (ship.useCharges(this)) {
             ship.useAbility(this, pos, Enemy);
         } else {
             System.out.println("No hay suficientes cargas para esta habilidad");
             return false;
         }
-
         return true;
 
     }

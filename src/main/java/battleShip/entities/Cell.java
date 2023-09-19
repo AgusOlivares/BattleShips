@@ -1,5 +1,7 @@
 package battleShip.entities;
 
+import battleShip.entities.MapElements.Water;
+
 public class Cell {
     private MapElement element;
     private Boolean wasShot;
@@ -7,7 +9,7 @@ public class Cell {
     // Constructor
     public Cell(){
         //Initializes all cells as water elements
-        this.element = null;
+        this.element = new Water(this);
         this.wasShot = false;
     }
     //Getters
@@ -36,11 +38,7 @@ public class Cell {
             throw new Exception("Position already shot");
         }else {
             this.setWasShot(true);
-            if (this.element != null){ // is there a ship, check if it's not sunken
-                this.element.wasShot();
-                return;
-            }
-            System.out.println("Water was hit");
+            this.element.wasShot();
         }
     }
 }
