@@ -56,9 +56,11 @@ public class Warship extends Ship implements SpecialShipInterface {
     public void showAbility() {
 
         System.out.println("Radar: ");
-        System.out.println("La habilidad especial del Buque permite realizar el escaneo de una zona allrededor de la casilla seleccionada (3x3), ");
-        System.out.print(" si solo hay agua en la zona escaneada no se detectara nada, ");
-        System.out.print(" pero en caso de detectar un objeto distinto de agua se alertara al jugador con un mensaje, pero no sabra en que posicion se encuentra!");
+        System.out.println("La habilidad especial del Buque permite realizar el escaneo "
+                + "\nde una zona allrededor de la casilla seleccionada (3x3), si" + 
+                " \nsólo hay agua en la zona escaneada no se detectará nada, en" + 
+                "\ncaso de detectar un objeto distinto de agua se alertará al"
+                + "\njugador con un mensaje, pero no sabra en que posicion se encuentra! \n");
     }
 
     @Override

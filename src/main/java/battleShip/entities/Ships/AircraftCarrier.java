@@ -88,9 +88,10 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
     public void showAbility() {
 
         System.out.println("Disparo de Barrido: ");
-        System.out.println("La habilidad especial del Portaviones permite realizar disparos a los laterales o verticales de la posicion objetivo segun le sea indicado");
+        System.out.println("La habilidad especial del Portaviones permite realizar disparos a los"
+                + "\nlaterales o verticales de la posicion objetivo segun le sea indicado\n");
         System.out.println("h: para un disparo de barrido horizontal");
-        System.out.println("v: para un barrido de barrido vertical");
+        System.out.println("v: para un barrido de barrido vertical\n");
     }
     @Override
     public void showExample(){
@@ -122,7 +123,7 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
             System.out.println("|");
         }
 
-        System.out.println("Mapa propio al realizar un barrido horizontal en B2");
+        System.out.println("Vista del mapa enemigo al realizar un barrido horizontal en B2");
         System.out.println("");
 
         charLegendCnt = 64;
@@ -151,7 +152,7 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
             System.out.println("|");
         }
 
-        System.out.println("Mapa propio al realizar un barrido vertical en B2");
+        System.out.println("Vista del mapa enemigo al realizar un barrido vertical en B2");
         System.out.println("");
     }
 

@@ -46,7 +46,8 @@ public class Cruiser extends Ship implements SpecialShipInterface {
     @Override
     public void showAbility() {
         System.out.println("Doble disparo: ");
-        System.out.println("La habilidad especial del Crucero permite realizar dos disparos normales seguidos en las posiciones seleccionadas");
+        System.out.println("La habilidad especial del Crucero permite realizar dos disparos "
+                + "\nnormales seguidos en las posiciones seleccionadas\n");
     }
     private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);

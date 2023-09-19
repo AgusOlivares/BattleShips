@@ -49,9 +49,10 @@ public class Submarine extends Ship implements SpecialShipInterface {
 
         System.out.println("Señuelo: ");
         System.out.println("La habilidad especial del Submarino coloca un señuelo en tu mapa.");
-        System.out.println("Cuando el Enemigo impacte al señuelo con un disparo a este se le informara que golpeo uno de tus barcos");
-        System.out.print(" pero éste habrá caido en la trampa!");
-
+        System.out.println("""
+                           Cuando el Enemigo impacte al señuelo con un disparo a este se le 
+                           informará que golpeó uno de tus barcos, ¡pero este habrá caído en la trampa!""");
+        System.out.println("");
     }
     @Override
     public void showExample(){
