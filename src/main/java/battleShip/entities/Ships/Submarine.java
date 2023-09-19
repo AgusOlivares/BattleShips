@@ -3,6 +3,7 @@ package battleShip.entities.Ships;
 import battleShip.Interface.SpecialShipInterface;
 import battleShip.entities.MapElements.*;
 import battleShip.entities.*;
+import battleShip.entities.MapElements.Decoy;
 import org.jetbrains.annotations.NotNull;
 /**
  * Una clase encargada de crear un Submarino ('Submarine') Subclase de 'Ship'
@@ -19,7 +20,7 @@ public class Submarine extends Ship implements SpecialShipInterface {
     /**
      * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Submarino.
      * Coloca un señuelo en la posicion indicada, cuando el jugador contrario dispare en esta area figurara como que se ha disparado en un barco sin afectar la lista de barcos del otro jugador.
-     * @see battleShip.entities.Decoy
+     * @see battleShip.entities.MapElements.Decoy
      * @see Ship
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.

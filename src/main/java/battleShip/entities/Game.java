@@ -1,6 +1,7 @@
 package battleShip.entities;
 
 import battleShip.entities.MapElements.Island;
+import battleShip.entities.MapElements.Water;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -157,6 +158,37 @@ public class Game {
         }
         this.maxTurns = turnAmount;
     }
+    
+    /**
+     * Consulta a los jugadores si quieren tener islas en el mapa o no,
+     * en caso afirmativo podrán elegir tener entre 1 a 3 islas, caso contrario
+     * tendrán 0 islas.
+     * @return Cantidad de islas
+     */
+    public int askIslandAmount(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Desean tener islas en el mapa? S/N");
+        String option;
+        do {
+            option = scanner.nextLine().toUpperCase();
+            if (!option.equals("S") && !option.equals("N")) {
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+        } while (!option.equals("S") && !option.equals("N"));
+        int islandAmount;
+        if (option.equals("S")) {
+            System.out.println("¿Cuántas islas desean tener? El máximo es 3, y el mínimo es 1");
+            do {
+                islandAmount = scanner.nextInt();
+                if (islandAmount > 3 || islandAmount < 1) {
+                    System.out.println("Opción incorrecta, intente de nuevo");
+                }
+            } while (islandAmount > 3 || islandAmount < 1);
+        } else {
+            islandAmount = 0;
+        }
+        return islandAmount;
+    }
 
     /**
      * El jugador debe elegir entre alguna de las opciones disponibles ya sea para
@@ -187,14 +219,15 @@ public class Game {
                 waitXSeconds(3);
             }else if(option.equals("3")){
                 if(shot){
-                    System.out.println("Ya has disparado, espera a tu siguiente turno para realizar otro disparo");
+                    System.out.println("Ya has disparado ó usado alguna habilidad, espera a tu siguiente turno para realizar otro disparo ó utilizar alguna habilidad");
                 } else{
                     ArrayList<Ship> availableShips = availableShipAbilities(player);
-                    boolean specialShoot = availableShips != null;
-                    if(specialShoot){
+                    boolean[] specialShoot = new boolean[]{false, availableShips != null};
+                    if(specialShoot[1]){
                        specialShoot = showAbilityMenu(player, availableShips);
+                       shot = specialShoot[0];
                     }
-                    if(!specialShoot){
+                    if(!specialShoot[1]){
                         String position = askCoordinates();
                         shot = player.shoot(position, enemy);
                         System.out.println("");
@@ -230,9 +263,11 @@ public class Game {
      * cuales puede realizar el disparo especial.
      * @param player
      * @param availableShips
-     * @return Verdadero si el disparo fue exitoso, falso si hubo un problema al realizar el disparo
+     * @return {boolean1, boolean2}
+     * boolean1: verdadero si el disparo fue exitoso, falso si no se pudo realizar el disparo.
+     * boolean2: verdadero si quiere realizar el disparo especial, falso en caso contrario.
      */
-    public boolean showAbilityMenu(Player player, ArrayList<Ship> availableShips){
+    public boolean[] showAbilityMenu(Player player, ArrayList<Ship> availableShips){
         System.out.println("Actualmente puede usar habilidades de los barcos");
         Scanner input = new Scanner(System.in);
         String option = "";
@@ -244,16 +279,18 @@ public class Game {
             }
         } while (!option.equals("S") && !option.equals("N"));
         if(option.equals("N")){
-            return false;
+            return new boolean[]{false, false};
         }
+
         int shipOption = 0;
         do {            
             System.out.println("Barcos que puedes utilizar: ");
             Iterator<Ship> availableShipsIterator = availableShips.iterator();
             int i = 1;
             while (availableShipsIterator.hasNext()){
-                Ship sunkenShip = availableShipsIterator.next();
-                System.out.println(i+": " + getShipName(sunkenShip).toUpperCase());
+                Ship availableShip = availableShipsIterator.next();
+                System.out.println(i+": " + getShipName(availableShip).toUpperCase());
+                System.out.println("            HABILIDAD           ");
                 i++;
             }
             System.out.println("Ingrese el barco que desea utilizar para realizar el disparo");
@@ -263,8 +300,8 @@ public class Game {
             }
         } while (shipOption <= 0 || shipOption > availableShips.size());
         String position = askCoordinates();
-        player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
-        return true;
+        boolean wasShotSuccessful = player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
+        return new boolean[]{wasShotSuccessful, true};
     }
 
     //1: allows players to place their ships
@@ -461,7 +498,7 @@ public class Game {
      */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
-        System.out.println("Mapa de " + oppPlayer.getName());
+        System.out.println("              Mapa de " + oppPlayer.getName());
         System.out.println("");
         // Top Number Legend
         Map map = player.getMap();
@@ -486,6 +523,8 @@ public class Game {
                 if (map.isCellShot(player.getMap().getCell(i, j))) {
                     if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
                         System.out.printf("| X ");
+                    } else if(oppPlayer.getMap().getCell(i, j).getElement() instanceof Island){
+                        System.out.print("| H ");
                     } else {
                         System.out.printf("| O ");
                     }
@@ -530,14 +569,15 @@ public class Game {
             for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
                 Cell cell = map.getCell(i, j);
-                if (cell.getElement() != null) {
+                if(cell.getElement() instanceof Ship){
                     if(cell.getWasShot()){
                         System.out.print("| X ");
                     }else{
                         System.out.print("| � ");
                     }
-                    
-                } else {
+                }else if(cell.getElement() instanceof Island) {
+                    System.out.print("| H ");
+                }else{
                     System.out.print("|   ");
                 }
 

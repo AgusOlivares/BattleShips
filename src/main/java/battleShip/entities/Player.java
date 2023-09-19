@@ -1,5 +1,6 @@
 package battleShip.entities;
 
+import battleShip.entities.MapElements.Island;
 import battleShip.entities.Ships.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -128,11 +129,11 @@ public class Player {
 
             if (i != 0) { // if pos checked is out of bound, ignored it
                 if (cellXMov != null) {
-                    if (cellXMov.getElement() instanceof Ship) { // if ship in pos checked, raise exception
+                    if ((cellXMov.getElement() instanceof Ship) || (cellXMov.getElement() instanceof Island)) { // if ship in pos checked, raise exception
                         throw new Exception("The position is not valid");
                     }
                 } else if (cellYMov != null) {
-                    if (cellYMov.getElement() instanceof Ship) {
+                    if ((cellYMov.getElement() instanceof Ship) || (cellYMov.getElement() instanceof Island)) {
                         throw new Exception("The position is not valid");
                     }
                 }
@@ -170,4 +171,3 @@ public class Player {
 
     }
 }
-
