@@ -1,11 +1,6 @@
 package battleShip;
 
-import battleShip.entities.Cell;
 import battleShip.entities.Game;
-import battleShip.entities.Player;
-import battleShip.entities.Ship;
-
-import java.util.ArrayList;
 
 public class BattleShip {
 
@@ -51,7 +46,7 @@ public class BattleShip {
         game.showShotsMap(player2);
         */
     
-        
+        /*
         Player player1 = new Player("Jugador A");
         Player player2 = new Player("Jugador B");
         
@@ -83,9 +78,9 @@ public class BattleShip {
             prueba.showMenu(player2);
         }
         
+        */
         
-        
-        //Game game = new Game(); game.playGame();
+        Game game = new Game(); game.playGame();
         
     }
 }
