@@ -92,6 +92,4 @@ public abstract class Ship extends MapElement{
     
     public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
 
-    public abstract Void showAbility();
-
 }
