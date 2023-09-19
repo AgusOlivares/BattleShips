@@ -522,7 +522,34 @@ public class Game {
                 continue;
             }
             switch (position.substring(0, 1)) {
-                case "A", "B", "C", "D", "E", "F", "G", "H", "I", "J":
+                case "A":
+                    isCorrectPosition = true;
+                    break;
+                case "B":
+                    isCorrectPosition = true;
+                    break;
+                case "C":
+                    isCorrectPosition = true;
+                    break;
+                case "D":
+                    isCorrectPosition = true;
+                    break;
+                case "E":
+                    isCorrectPosition = true;
+                    break;
+                case "F":
+                    isCorrectPosition = true;
+                    break;
+                case "G":
+                    isCorrectPosition = true;
+                    break;
+                case "H":
+                    isCorrectPosition = true;
+                    break;
+                case "I":
+                    isCorrectPosition = true;
+                    break;
+                case "J":
                     isCorrectPosition = true;
                     break;
                 default:
@@ -532,7 +559,34 @@ public class Game {
                     continue;
             }
             switch (position.substring(1)) {
-                case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10":
+                case "1":
+                    isCorrectPosition = true;
+                    break;
+                case "2":
+                    isCorrectPosition = true;
+                    break;
+                case "3":
+                    isCorrectPosition = true;
+                    break;
+                case "4":
+                    isCorrectPosition = true;
+                    break;
+                case "5":
+                    isCorrectPosition = true;
+                    break;
+                case "6":
+                    isCorrectPosition = true;
+                    break;
+                case "7":
+                    isCorrectPosition = true;
+                    break;
+                case "8":
+                    isCorrectPosition = true;
+                    break;
+                case "9":
+                    isCorrectPosition = true;
+                    break;
+                case "10":
                     isCorrectPosition = true;
                     break;
                 default:

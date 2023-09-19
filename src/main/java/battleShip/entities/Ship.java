@@ -25,13 +25,23 @@ public abstract class Ship extends MapElement{
         this.length = length;
         this.occupiedCells = new ArrayList<>();
         this.sunken = false;
-        this.abilityCost = switch (length) {
-            case 2 -> 3;
-            case 3 -> 5;
-            case 4 -> 7;
-            case 5 -> 9;
-            default -> 0;
-        };
+        switch (length) {
+            case 2: 
+                this.abilityCost = 3;
+                break;
+            case 3: 
+                this.abilityCost = 5;
+                break;
+            case 4: 
+                this.abilityCost = 7;
+                break;
+            case 5: 
+                this.abilityCost = 9;
+                break;
+            default: 
+                this.abilityCost = 0;
+                break;
+        }
     }
 
     // Getters
