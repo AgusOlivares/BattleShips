@@ -51,7 +51,7 @@ public class BattleShip {
         game.showShotsMap(player2);
         */
     
-        /*
+        
         Player player1 = new Player("Jugador A");
         Player player2 = new Player("Jugador B");
         
@@ -82,10 +82,10 @@ public class BattleShip {
             prueba.showMenu(player1);
             prueba.showMenu(player2);
         }
-        */
         
         
-        Game game = new Game(); game.playGame();
+        
+        //Game game = new Game(); game.playGame();
         
     }
 }

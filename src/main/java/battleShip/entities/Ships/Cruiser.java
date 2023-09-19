@@ -14,32 +14,34 @@ import java.util.Scanner;
  *
  */
 public class Cruiser extends Ship implements SpecialShipInterface {
+
     public Cruiser() {
         super(4);
     }
 
-
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
 
-        boolean posibbleShoot = false;
-        shoot(player, pos, Enemy);
-        Scanner read = new Scanner(System.in);
-        // continua hasta que la posicion sea valida
-        while (!posibbleShoot) {
-            System.out.println("Selecciona una posicion para el segundo disparo");
-            String newPos = read.next();
-
-            // Celda enemiga de la nueva posicion seleccionada
-            Cell EnemyCell = Enemy.getMap().getCell(newPos);
-
-            if (!(EnemyCell.getWasShot())){ //revisar si al poner una posicion fuera del mapa larga error
-                shoot(player, newPos, Enemy);
-                posibbleShoot = true;
-            } else {
-                System.out.println("La posicion es invalida, intenta nuevamente");
+        Game auxGame = new Game();
+        boolean wasShotSuccessful = false;
+        do {
+            wasShotSuccessful = player.shoot(pos, Enemy);
+            if (!wasShotSuccessful) {
+                System.out.println("Intente hacer el primer disparo nuevamente");
+                pos = auxGame.askCoordinates();
             }
-        }
+        } while (!wasShotSuccessful);
+        wasShotSuccessful = false;
+
+        System.out.println("\nA continuación realizarás el segundo disparo");
+        do {
+            String position = auxGame.askCoordinates();
+            wasShotSuccessful = player.shoot(position, Enemy);
+            if (!wasShotSuccessful) {
+                System.out.println("Incorrecto, intente de nuevo");
+            }
+        } while (!wasShotSuccessful);
+
         return true;
     }
 
@@ -49,6 +51,7 @@ public class Cruiser extends Ship implements SpecialShipInterface {
         System.out.println("La habilidad especial del Crucero permite realizar dos disparos "
                 + "\nnormales seguidos en las posiciones seleccionadas\n");
     }
+
     private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);
         Cell cellP2 = Enemy.getMap().getCell(pos);
@@ -56,14 +59,14 @@ public class Cruiser extends Ship implements SpecialShipInterface {
             cellP2.shot(); //shot p2
             player.getMap().addShotCell(cellP1);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             // Se quito de aqui el mensaje de error de la excepcion
             return false;
         }
     }
 
     @Override
-    public void showExample(){
+    public void showExample() {
 
         int charLegendCnt = 64;
 

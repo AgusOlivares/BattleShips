@@ -110,7 +110,7 @@ public class Game {
         waitXSeconds(1);
         cleanScreen();
         int islandAmount = askIslandAmount();
-        if(islandAmount != 0){
+        if (islandAmount != 0) {
             initIslands(islandAmount, this.getPlayers()[0]);
             initIslands(islandAmount, this.getPlayers()[1]);
         }
@@ -168,10 +168,10 @@ public class Game {
             do {
                 option = scanner.nextLine();
                 try {
-                        turnAmount = Integer.parseInt(option);
-                    } catch (NumberFormatException e) {
-                        turnAmount = 0;
-                    }
+                    turnAmount = Integer.parseInt(option);
+                } catch (NumberFormatException e) {
+                    turnAmount = 0;
+                }
                 if (turnAmount > 100 || turnAmount < 15) {
                     System.out.println("Opción incorrecta, intente de nuevo");
                 }
@@ -205,10 +205,10 @@ public class Game {
             do {
                 option = scanner.nextLine();
                 try {
-                        islandAmount = Integer.parseInt(option);
-                    } catch (NumberFormatException e) {
-                        islandAmount = 0;
-                    }
+                    islandAmount = Integer.parseInt(option);
+                } catch (NumberFormatException e) {
+                    islandAmount = 0;
+                }
                 if (islandAmount > 3 || islandAmount < 1) {
                     System.out.println("Opción incorrecta, intente de nuevo");
                 }
@@ -339,8 +339,7 @@ public class Game {
                     try {
                         shipOption = Integer.parseInt(shipOptionString);
                     } catch (NumberFormatException e) {
-                        System.out.println("Opción incorrecta, intente de nuevo");
-                        continue;
+                        shipOption = -1;
                     }
                     if (shipOption <= 0 || shipOption > availableShips.size()) {
                         System.out.println("Opción incorrecta, intente de nuevo");
@@ -354,7 +353,12 @@ public class Game {
             } while (!option.equals("N"));
 
             System.out.println("Ingrese el barco que desea utilizar para realizar el disparo");
-            shipOption = input.nextInt();
+            String shipOptionString = input.nextLine();
+            try {
+                shipOption = Integer.parseInt(shipOptionString);
+            } catch (NumberFormatException e) {
+                shipOption = -1;
+            }
             if (shipOption <= 0 || shipOption > availableShips.size()) {
                 System.out.println("Opción incorrecta, intente de nuevo");
             }
@@ -615,10 +619,8 @@ public class Game {
             for (int j = 0; j < map.getBoard().get(0).size(); j++) {
                 // Indicators
                 if (map.isCellShot(player.getMap().getCell(i, j))) {
-                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
+                    if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship || oppPlayer.getMap().getCell(i, j).getElement() instanceof Decoy) {
                         System.out.printf("| X ");
-                    } else if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Island) {
-                        System.out.print("| H ");
                     } else {
                         System.out.printf("| O ");
                     }
@@ -666,7 +668,7 @@ public class Game {
                 if (cell.getWasShot()) {
                     if (!(cell.getElement() instanceof Water) && !(cell.getElement() instanceof Island)) {
                         System.out.print("| X ");
-                    }else{
+                    } else {
                         System.out.print("| O ");
                     }
                 } else {
@@ -823,14 +825,17 @@ public class Game {
             return availableShips;
         }
     }
-    
-    public void cleanScreen(){
+
+    public void cleanScreen() {
         for (int i = 0; i < 40; i++) {
             System.out.println("");
         }
     }
-    
-    public void personalMapWiki(){
+
+    /**
+     * Imprime en pantalla el significado de los símbolos a la hora de ver el mapa propio
+     */
+    public void personalMapWiki() {
         System.out.println("Significado de los símbolos");
         System.out.println("O: Disparo enemigo al agua o isla");
         System.out.println("�: Parte de barco ilesa");
@@ -838,10 +843,13 @@ public class Game {
         System.out.println("S: Señuelo ileso");
         System.out.println("X: Parte de barco ó señuelo disparado\n");
     }
-    
-    public void enemyMapWiki(){
+
+    /**
+     * Imprime en pantalla el significado de los símbolos a la hora de ver el mapa enemigo
+     */
+    public void enemyMapWiki() {
         System.out.println("Significado de los símbolos");
         System.out.println("X: Barco... ¿o señuelo?");
-        System.out.println("O: Isla o agua\n");
+        System.out.println("O: Agua o isla\n");
     }
 }
