@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
 /**
  * Una clase para representar al jugador
  * Cada jugador es creado junto con un nombre, un mapa, una lista de barcos asociados y un numero de cargas
- * @version 1.4, 6/9/2023
+ * @version 2.4, 18/9/2023
  * @author Martin Farrés
  */
 public class Player {
@@ -19,6 +19,8 @@ public class Player {
     private final Map map;
     private int charges;
 
+
+    // Constructors
     /**
      * Construye un jugador a partir de su nombre
      *
@@ -36,30 +38,52 @@ public class Player {
         this.charges = 10;
     }
 
+
     //Getters
+    /**
+     * Retorna el nombre del jugador
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Retorna la coleccion de barcos del jugador
+     * @return ArrayList<Ship>
+     */
     public ArrayList<Ship> getShips() {
         return ships;
     }
 
+    /**
+     * Retorna el objeto Map del jugador
+     * @return Map
+     */
     public Map getMap() {
         return map;
     }
 
+    /**
+     * Retorna las cargas del jugador
+     * @return charges
+     */
     public int getCharges() {
         return charges;
     }
 
+
     //Setters
+    /**
+     * Establece las cargas del jugador
+     * @param charges
+     */
     public void setCharges(int charges) {
         this.charges = charges;
     }
 
-    //Methods
 
+    //Methods
     /**
      * Checkea que sea posible colocar el barco y de ser posible lo asocia en las celdas indicadas
      * Ejemplo de input: ("A5", "A7", Submarine)
@@ -120,21 +144,34 @@ public class Player {
         return true;
     }
 
-    // Example Input: (2, 2, {Cell (2,3), Cell (4,5),...})
-    // Checks up, down, right and left in every cell for ships, and if all cells are empty the cell is added to the ArrayList
+    /**
+     * Itera por las casillas colindantes chequeando que no haya ningún barco ni se encuentre sobre uno o una isla.
+     * De ser asi, retorna la coleccion 'validCells' con dicha celda incluida
+     * Ejemplo de input: (2, 2, {Cell (2,3), Cell (4,5),...})
+     * @param row posicion de la fila
+     * @param col posicion de la columna
+     * @param validCells coleccion de las celdas q son validas
+     * @throws Exception si la posicion no es valida
+     */
     private void helperPlaceShip(int row, int col, ArrayList<Cell> validCells) throws Exception { //Se puede mejorar pq checkea mas de una vez a ciertas celdas
         for (int i = -1; i < 2; i++) { //Checks one position to its right,left,up,down
             Cell cellXMov = this.map.getCell(row + i, col);
             Cell cellYMov = this.map.getCell(row, col + i);
 
-            if (i != 0) { // if pos checked is out of bound, ignored it
-                if (cellXMov != null) {
-                    if ((cellXMov.getElement() instanceof Ship) || (cellXMov.getElement() instanceof Island)) { // if ship in pos checked, raise exception
-                        throw new Exception("The position is not valid");
+            if (i != 0) {
+                if (cellXMov != null) {// if pos checked is out of bound, ignored it
+                    if ((cellXMov.getElement() instanceof Ship) ) { // if ship in pos checked, raise exception
+                        throw new Exception("La posicion no es valida");
                     }
-                } else if (cellYMov != null) {
-                    if ((cellYMov.getElement() instanceof Ship) || (cellYMov.getElement() instanceof Island)) {
-                        throw new Exception("The position is not valid");
+                } else if (cellYMov != null) {// if pos checked is out of bound, ignored it
+                    if ((cellYMov.getElement() instanceof Ship)) {
+                        throw new Exception("La posicion no es valida");
+                    }
+                }
+            }else{
+                if (cellXMov != null) {// if pos checked is out of bound, ignored it
+                    if ((cellXMov.getElement() instanceof Island) || (cellXMov.getElement() instanceof Ship)) { // if island in pos checked, raise exception
+                        throw new Exception("La posicion no es valida");
                     }
                 }
             }
@@ -144,9 +181,14 @@ public class Player {
 
     }
 
-    // Input Example: ("B9", Player() p2)
-    // Returns true if the shot can be shot, sets the element to the p1 map and calls the methods Cell.shot()
-    // Returns false if shot cant be done and raises exception
+    /**
+     * Obtiene la celda del mapa enemigo de dicha posicion, llama al metodo shot() del objeto Cell y llama al
+     * metodo addShotCell() del objeto Map del jugador.
+     * Ejemplo de input: ("B9", Player() p2)
+     * @param pos Posicion donde se quiere disparar
+     * @param p2 Objeto Player del enemigo
+     * @return true si el disparo fue efectuado con exito, false si el disparo no se puede realizar
+     */
     public Boolean shoot(@NotNull String pos, @NotNull Player p2) { // String like "A6" expected
         Cell cellP1 = this.map.getCell(pos);
         Cell cellP2 = p2.getMap().getCell(pos);
@@ -160,8 +202,15 @@ public class Player {
         }
     }
 
-    public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
-        if(ship.useAbility(this, pos, Enemy)){
+    /**
+     * De tener la cantidad de cargas suficientes, utiliza dichas cargas y llama al metodo useAbility() del objeto ship.
+     * @param pos posicion que se desea disparar
+     * @param enemy Objeto player del enemigo
+     * @param ship barco con el que se quiere disparar
+     * @return true si el disparo fue efectuado, false si no se puede realizar.
+     */
+    public Boolean shootAbility(String pos, Player enemy, Ship ship) {
+        if(ship.useAbility(this, pos, enemy)){
             ship.useCharges(this);
             return true;
         }
