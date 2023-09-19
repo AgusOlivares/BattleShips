@@ -23,32 +23,29 @@ public class Submarine extends Ship implements SpecialShipInterface {
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
      * @param Enemy El jugador contrario (En este caso no es necesario que sea completado).
-     * @return
+     * @return true si se pudo colocar correctamente el señuelo, false en caso contrario
      */
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
 
 
         Cell CellP1 = player.getMap().getCell(pos);
-        Game auxGame = new Game();
-        boolean successfullDecoy = false;
 
-        while (!successfullDecoy){
-
-            auxGame.showShipMap(player);
-            System.out.println("Seleccione la posicion del señuelo");
-
-            if (CellP1.getElement() != null || CellP1.getWasShot()){
-                System.out.println("posicion invalida");
-                System.out.println("");
-            } else {
-                Decoy Senuelo = new Decoy(CellP1);
-                CellP1.setElement(Senuelo);
-                System.out.println("El señuelo se colocó correctamente!");
-                System.out.println("");
-                successfullDecoy = true;
-            }
+        if (CellP1.getElement() == null && !(CellP1.getWasShot())){
+            Decoy Senuelo = new Decoy(CellP1);
+            CellP1.setElement(Senuelo);
+            System.out.println("El señuelo se colocó correctamente!");
+            System.out.println("");
+        } else {
+            System.out.println("posicion invalida");
+            System.out.println("");
+            return false;
         }
+
+        Game auxGame = new Game();
+        auxGame.showShipMap(player);
+        System.out.println("");
+
         return true;
     }
     @Override
