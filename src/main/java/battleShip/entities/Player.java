@@ -1,5 +1,6 @@
 package battleShip.entities;
 
+import battleShip.entities.MapElements.Island;
 import battleShip.entities.Ships.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class Player {
         this.ships.add(new Cruiser());
         this.ships.add(new AircraftCarrier());
         this.map = new Map();
-        this.charges = 0;
+        this.charges = 10;
     }
 
     //Getters
@@ -128,11 +129,11 @@ public class Player {
 
             if (i != 0) { // if pos checked is out of bound, ignored it
                 if (cellXMov != null) {
-                    if (cellXMov.getElement() instanceof Ship) { // if ship in pos checked, raise exception
+                    if ((cellXMov.getElement() instanceof Ship) || (cellXMov.getElement() instanceof Island)) { // if ship in pos checked, raise exception
                         throw new Exception("The position is not valid");
                     }
                 } else if (cellYMov != null) {
-                    if (cellYMov.getElement() instanceof Ship) {
+                    if ((cellYMov.getElement() instanceof Ship) || (cellYMov.getElement() instanceof Island)) {
                         throw new Exception("The position is not valid");
                     }
                 }
@@ -160,14 +161,11 @@ public class Player {
     }
 
     public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
-        if (ship.useCharges(this)) {
-            ship.useAbility(this, pos, Enemy);
-        } else {
-            System.out.println("No hay suficientes cargas para esta habilidad");
-            return false;
+        if(ship.useAbility(this, pos, Enemy)){
+            ship.useCharges(this);
+            return true;
         }
-        return true;
+        return false;
 
     }
 }
-

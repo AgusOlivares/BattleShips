@@ -20,9 +20,5 @@ public class Boat extends Ship {
         return null;
     }
 
-    @Override
-    public Void showAbility() {
-        return null;
-    }
 
 }

@@ -51,9 +51,17 @@ public class BattleShip {
         game.showShotsMap(player2);
         */
     
-        
+        /*
         Player player1 = new Player("Jugador A");
         Player player2 = new Player("Jugador B");
+        
+        Player[] players = {player1, player2};
+        
+        Game prueba = new Game(100, players);
+        
+        prueba.initIslands(3, player1);
+        prueba.initIslands(2, player2);
+        
         player1.placeShip("A1", "A1", player1.getShips().get(0));
         player1.placeShip("J1", "J2", player1.getShips().get(1));
         player1.placeShip("H1", "H3", player1.getShips().get(2));
@@ -65,18 +73,19 @@ public class BattleShip {
         player2.placeShip("H1", "H3", player2.getShips().get(2));
         player2.placeShip("A3", "A6", player2.getShips().get(3));
         player2.placeShip("C1", "C5", player2.getShips().get(4));
-        Player[] players = {player1, player2};
         
-        Game prueba = new Game(100, players);
+        
+        
+        
         
         for (int i = 0; i < 10; i++) {
             prueba.showMenu(player1);
             prueba.showMenu(player2);
         }
+        */
         
         
-        
-        //Game game = new Game(); game.playGame();
+        Game game = new Game(); game.playGame();
         
     }
 }
