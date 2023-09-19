@@ -158,6 +158,37 @@ public class Game {
         }
         this.maxTurns = turnAmount;
     }
+    
+    /**
+     * Consulta a los jugadores si quieren tener islas en el mapa o no,
+     * en caso afirmativo podrán elegir tener entre 1 a 3 islas, caso contrario
+     * tendrán 0 islas.
+     * @return Cantidad de islas
+     */
+    public int askIslandAmount(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Desean tener islas en el mapa? S/N");
+        String option;
+        do {
+            option = scanner.nextLine().toUpperCase();
+            if (!option.equals("S") && !option.equals("N")) {
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+        } while (!option.equals("S") && !option.equals("N"));
+        int islandAmount;
+        if (option.equals("S")) {
+            System.out.println("¿Cuántas islas desean tener? El máximo es 3, y el mínimo es 1");
+            do {
+                islandAmount = scanner.nextInt();
+                if (islandAmount > 3 || islandAmount < 1) {
+                    System.out.println("Opción incorrecta, intente de nuevo");
+                }
+            } while (islandAmount > 3 || islandAmount < 1);
+        } else {
+            islandAmount = 0;
+        }
+        return islandAmount;
+    }
 
     /**
      * El jugador debe elegir entre alguna de las opciones disponibles ya sea para
@@ -250,6 +281,7 @@ public class Game {
         if(option.equals("N")){
             return new boolean[]{false, false};
         }
+
         int shipOption = 0;
         do {            
             System.out.println("Barcos que puedes utilizar: ");
@@ -258,6 +290,7 @@ public class Game {
             while (availableShipsIterator.hasNext()){
                 Ship availableShip = availableShipsIterator.next();
                 System.out.println(i+": " + getShipName(availableShip).toUpperCase());
+                System.out.println("            HABILIDAD           ");
                 i++;
             }
             System.out.println("Ingrese el barco que desea utilizar para realizar el disparo");
@@ -542,7 +575,7 @@ public class Game {
                     }else{
                         System.out.print("| � ");
                     }
-                } else if(cell.getElement() instanceof Island) {
+                }else if(cell.getElement() instanceof Island) {
                     System.out.print("| H ");
                 }else{
                     System.out.print("|   ");
