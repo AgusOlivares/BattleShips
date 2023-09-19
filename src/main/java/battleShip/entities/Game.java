@@ -1,8 +1,11 @@
 package battleShip.entities;
 
+import battleShip.entities.MapElements.Island;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Esta clase representa un objeto Game, el cual almacena
@@ -109,6 +112,19 @@ public class Game {
         Player player2 = new Player(nameP2);
         Player[] newPlayers = {player1, player2};
         this.players = newPlayers;
+    }
+
+    public void initIslands(int amount, Player player){
+        Random rand = new Random();
+        for (int i = 0; i < amount; i++) {
+            int x = rand.nextInt(10);
+            int y = rand.nextInt(10);
+            Cell cell1;
+            do {
+                cell1 = player.getMap().getCell(x, y);
+            } while (cell1 == null);
+            new Island(cell1);
+        }
     }
 
     //Ask turn amount and checks if it's correct
@@ -472,7 +488,6 @@ public class Game {
                 // Indicators
                 if (map.isCellShot(player.getMap().getCell(i, j))) {
                     if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
-
                         System.out.printf("| X ");
                     } else {
                         System.out.printf("| O ");
