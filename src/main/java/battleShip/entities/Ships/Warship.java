@@ -44,11 +44,10 @@ public class Warship extends Ship{
 
         if (objectSpotted) {
             System.out.println("Un objeto ha aparecido en el radar!");
-            return true;
         } else {
             System.out.println("No se ha encontrado nada");
-            return false;
         }
+        return true;
     }
 
     @Override

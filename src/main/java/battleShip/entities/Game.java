@@ -171,14 +171,15 @@ public class Game {
                 waitXSeconds(3);
             }else if(option.equals("3")){
                 if(shot){
-                    System.out.println("Ya has disparado, espera a tu siguiente turno para realizar otro disparo");
+                    System.out.println("Ya has disparado ó usado alguna habilidad, espera a tu siguiente turno para realizar otro disparo ó utilizar alguna habilidad");
                 } else{
                     ArrayList<Ship> availableShips = availableShipAbilities(player);
-                    boolean specialShoot = availableShips != null;
-                    if(specialShoot){
+                    boolean[] specialShoot = new boolean[]{false, availableShips != null};
+                    if(specialShoot[1]){
                        specialShoot = showAbilityMenu(player, availableShips);
+                       shot = specialShoot[0];
                     }
-                    if(!specialShoot){
+                    if(!specialShoot[1]){
                         String position = askCoordinates();
                         shot = player.shoot(position, enemy);
                         System.out.println("");
@@ -214,9 +215,11 @@ public class Game {
      * cuales puede realizar el disparo especial.
      * @param player
      * @param availableShips
-     * @return Verdadero si el disparo fue exitoso, falso si hubo un problema al realizar el disparo
+     * @return {boolean1, boolean2}
+     * boolean1: verdadero si el disparo fue exitoso, falso si no se pudo realizar el disparo.
+     * boolean2: verdadero si quiere realizar el disparo especial, falso en caso contrario.
      */
-    public boolean showAbilityMenu(Player player, ArrayList<Ship> availableShips){
+    public boolean[] showAbilityMenu(Player player, ArrayList<Ship> availableShips){
         System.out.println("Actualmente puede usar habilidades de los barcos");
         Scanner input = new Scanner(System.in);
         String option = "";
@@ -228,7 +231,7 @@ public class Game {
             }
         } while (!option.equals("S") && !option.equals("N"));
         if(option.equals("N")){
-            return false;
+            return new boolean[]{false, false};
         }
         int shipOption = 0;
         do {            
@@ -236,8 +239,8 @@ public class Game {
             Iterator<Ship> availableShipsIterator = availableShips.iterator();
             int i = 1;
             while (availableShipsIterator.hasNext()){
-                Ship sunkenShip = availableShipsIterator.next();
-                System.out.println(i+": " + getShipName(sunkenShip).toUpperCase());
+                Ship availableShip = availableShipsIterator.next();
+                System.out.println(i+": " + getShipName(availableShip).toUpperCase());
                 i++;
             }
             System.out.println("Ingrese el barco que desea utilizar para realizar el disparo");
@@ -247,8 +250,8 @@ public class Game {
             }
         } while (shipOption <= 0 || shipOption > availableShips.size());
         String position = askCoordinates();
-        player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
-        return true;
+        boolean wasShotSuccessful = player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
+        return new boolean[]{wasShotSuccessful, true};
     }
 
     //1: allows players to place their ships

@@ -112,7 +112,6 @@ public class AircraftCarrier extends Ship {
             player.getMap().addShotCell(cellP1);
             return true;
         }catch (Exception e){
-            System.out.println(e);
             return false;
         }
     }

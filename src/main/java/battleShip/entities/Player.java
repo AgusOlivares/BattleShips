@@ -32,7 +32,7 @@ public class Player {
         this.ships.add(new Cruiser());
         this.ships.add(new AircraftCarrier());
         this.map = new Map();
-        this.charges = 0;
+        this.charges = 10;
     }
 
     //Getters
@@ -161,16 +161,11 @@ public class Player {
 
     public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
         
-        
-        if (ship.useCharges(this)) {
-            ship.useAbility(this, pos, Enemy);
-        } else {
-            System.out.println("No hay suficientes cargas para esta habilidad");
-            return false;
+        if(ship.useAbility(this, pos, Enemy)){
+            ship.useCharges(this);
+            return true;
         }
-
-        return true;
-
+        return false;
     }
 }
 

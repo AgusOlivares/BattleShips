@@ -1,6 +1,7 @@
 package battleShip.entities.Ships;
 
 import battleShip.entities.Cell;
+import battleShip.entities.Game;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
@@ -18,20 +19,26 @@ public class Cruiser extends Ship{
 
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
-
-        boolean posibbleShoot = false;
-        shoot(player, pos, Enemy);
-        Scanner read = new Scanner(System.in);
-        while (!posibbleShoot) {
-            System.out.println("Selecciona una posicion para el segundo disparo");
-            String newPos = read.next();
-            if (Enemy.getMap().getCell(newPos) != null){
-                shoot(player, newPos, Enemy);
-                posibbleShoot = true;
-            } else {
-                System.out.println("La posicion es invalida, intenta nuevamente");
+        
+        Game auxGame = new Game();
+        boolean wasShotSuccessful = false;
+        do {            
+            wasShotSuccessful = player.shoot(pos, Enemy);
+            if(!wasShotSuccessful){
+                System.out.println("Incorrecto, intente de nuevo");
             }
-        }
+        } while (!wasShotSuccessful);
+        wasShotSuccessful = false;
+        
+        System.out.println("A continuación realizarás el segundo disparo");
+        do {            
+            String position = auxGame.askCoordinates();
+            wasShotSuccessful = player.shoot(position, Enemy);
+            if(!wasShotSuccessful){
+                System.out.println("Incorrecto, intente de nuevo");
+            }
+        } while (!wasShotSuccessful);
+        
         return true;
     }
 
@@ -43,16 +50,5 @@ public class Cruiser extends Ship{
 
         return null;
     }
-    private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
-        Cell cellP1 = player.getMap().getCell(pos);
-        Cell cellP2 = Enemy.getMap().getCell(pos);
-        try {
-            cellP2.shot(); //shot p2
-            player.getMap().addShotCell(cellP1);
-            return true;
-        }catch (Exception e){
-            System.out.println(e);
-            return false;
-        }
-    }
+
 }
