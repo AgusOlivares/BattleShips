@@ -1,6 +1,7 @@
 package battleShip.entities.Ships;
 
 import battleShip.Interface.SpecialShipInterface;
+import battleShip.entities.MapElements.*;
 import battleShip.entities.*;
 import org.jetbrains.annotations.NotNull;
 /**
@@ -31,20 +32,14 @@ public class Submarine extends Ship implements SpecialShipInterface {
 
         Cell CellP1 = player.getMap().getCell(pos);
 
-        if (CellP1.getElement() == null && !(CellP1.getWasShot())){
+        if (CellP1.getElement() instanceof Water && !(CellP1.getWasShot())){
             Decoy Senuelo = new Decoy(CellP1);
             CellP1.setElement(Senuelo);
-            System.out.println("El señuelo se colocó correctamente!");
-            System.out.println("");
+            System.out.println("El señuelo se colocó correctamente");
         } else {
             System.out.println("posicion invalida");
-            System.out.println("");
             return false;
         }
-
-        Game auxGame = new Game();
-        auxGame.showShipMap(player);
-        System.out.println("");
 
         return true;
     }

@@ -23,14 +23,17 @@ public class Cruiser extends Ship implements SpecialShipInterface {
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
 
         boolean posibbleShoot = false;
-        Game auxGame = new Game();
         shoot(player, pos, Enemy);
         Scanner read = new Scanner(System.in);
+        // continua hasta que la posicion sea valida
         while (!posibbleShoot) {
-            auxGame.showShotsMap(player);
             System.out.println("Selecciona una posicion para el segundo disparo");
             String newPos = read.next();
-            if (Enemy.getMap().getCell(newPos) != null){
+
+            // Celda enemiga de la nueva posicion seleccionada
+            Cell EnemyCell = Enemy.getMap().getCell(newPos);
+
+            if (!(EnemyCell.getWasShot())){ //revisar si al poner una posicion fuera del mapa larga error
                 shoot(player, newPos, Enemy);
                 posibbleShoot = true;
             } else {
@@ -53,7 +56,7 @@ public class Cruiser extends Ship implements SpecialShipInterface {
             player.getMap().addShotCell(cellP1);
             return true;
         }catch (Exception e){
-            System.out.println(e);
+            // Se quito de aqui el mensaje de error de la excepcion
             return false;
         }
     }

@@ -2,6 +2,7 @@ package battleShip.entities.Ships;
 
 import battleShip.Interface.SpecialShipInterface;
 import battleShip.entities.Map;
+import battleShip.entities.MapElements.*;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +38,7 @@ public class Warship extends Ship implements SpecialShipInterface {
 
                 if (enemyMap.getCell(i, j) == null) {
                     continue;
-                } else if (enemyMap.getCell(i, j).getElement() != null) {
+                } else if (!(enemyMap.getCell(i, j).getElement() instanceof Water)) {
                     objectSpotted = true;
                 }
             }
@@ -46,7 +47,7 @@ public class Warship extends Ship implements SpecialShipInterface {
         if (objectSpotted) {
             System.out.println("Un objeto ha aparecido en el radar!");
         } else {
-            System.out.println("No se ha encontrado nada");
+            System.out.println("No se ha detectado nada");
         }
         return true;
     }
