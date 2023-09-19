@@ -69,7 +69,7 @@ public class Cell {
      */
     public void shot() throws Exception{
         if (this.wasShot){ // already shot, raise exception
-            throw new Exception("Position already shot");
+            throw new Exception("Esta posición ya fue disparada\n");
         }else {
             this.setWasShot(true);
             this.element.wasShot();

@@ -104,17 +104,17 @@ public class Player {
         try {
             // Check it is not out of bounds
             if ((this.map.getCell(startPos) == null) || (this.map.getCell(finalPos) == null)) {
-                throw new Exception("The position is out of bounds");
+                throw new Exception("Posición inválida");
             }
 
             // Check it is not diagonal
             if (abs(row - rowFinal) > 0 && abs(col - colFinal) > 0) {
-                throw new Exception("The Position can't be diagonal");
+                throw new Exception("No puedes colocar el barco en forma diagonal");
             }
 
             // Checks length of boat is the same as length of placement
             if ((abs(row - rowFinal) + abs(col - colFinal)) != ship.length - 1) {
-                throw new Exception("The position selected should support the ships length: " + ship.length);
+                throw new Exception("La posición seleccionada debería tener la siguiente longitud: " + ship.length);
             }
 
             // Are all the position selected available?
@@ -137,7 +137,7 @@ public class Player {
             }
 
         } catch (Exception e) {
-            System.out.printf("%s", e);
+            System.out.printf("%s", e.getMessage());
             return false;
         }
 
@@ -197,7 +197,7 @@ public class Player {
             this.map.addShotCell(cellP1);
             return true;
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return false;
         }
     }

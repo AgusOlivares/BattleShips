@@ -52,19 +52,6 @@ public class Cruiser extends Ship implements SpecialShipInterface {
                 + "\nnormales seguidos en las posiciones seleccionadas\n");
     }
 
-    private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
-        Cell cellP1 = player.getMap().getCell(pos);
-        Cell cellP2 = Enemy.getMap().getCell(pos);
-        try {
-            cellP2.shot(); //shot p2
-            player.getMap().addShotCell(cellP1);
-            return true;
-        } catch (Exception e) {
-            // Se quito de aqui el mensaje de error de la excepcion
-            return false;
-        }
-    }
-
     @Override
     public void showExample() {
 

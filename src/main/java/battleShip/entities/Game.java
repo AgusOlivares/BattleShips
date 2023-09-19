@@ -451,7 +451,7 @@ public class Game {
                     }
                     break;
                 }
-                if (!winner.endsWith("")) {
+                if (!winner.equals("")) {
                     break;
                 }
             }
@@ -727,7 +727,7 @@ public class Game {
                     }
                 } else {
                     if (cell.getElement() instanceof Ship) {
-                        System.out.print("| � ");
+                        System.out.print("| B ");
                     } else if (cell.getElement() instanceof Island) {
                         System.out.print("| I ");
                     } else if (cell.getElement() instanceof Decoy) {
@@ -892,7 +892,7 @@ public class Game {
     public void personalMapWiki() {
         System.out.println("Significado de los símbolos");
         System.out.println("O: Disparo enemigo al agua o isla");
-        System.out.println("�: Parte de barco ilesa");
+        System.out.println("B: Parte de barco ilesa");
         System.out.println("I: Isla ilesa");
         System.out.println("S: Señuelo ileso");
         System.out.println("X: Parte de barco ó señuelo disparado\n");

@@ -25,20 +25,20 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
      * Realiza disparos a los laterales o verticales de la posicion objetivo segun le sea indicado
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
-     * @param Enemy El jugador contrario.
+     * @param enemy El jugador contrario.
      * @return true si los disparos se realizaron exitosamente, false en caso contrario.
      */
     @Override
-    public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
+    public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player enemy) {
         // Select "v" to shoot one space up and one down from the original shootplace
         // Select "h" to shoot on the left and rightside from the original shootplace
 
 
 
-        int originalRow = pos.charAt(0); //Valor ascii del caracter row
+        int originalRow = pos.charAt(0) - 65; //Valor ascii del caracter row
         int originalCol = Integer.parseInt(pos.substring(1)); //valor int de la col
 
-        char newRow; //row of the new position to be shooted
+        int newRow; //row of the new position to be shooted
         int newCol; //column of the new position to be shooted
         String newPosition;
 
@@ -46,32 +46,48 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
         System.out.println(" Elige la orientacion del barrido: ");
         System.out.println("'h' : para barrido horizontal, 'v' : para barrido vertical");
 
-        String orientationChosen = read.next(); //Example: String orientationChosen = "v";
+        String orientationChosen = "";
+        do {
+            orientationChosen = read.nextLine().toLowerCase(); //Example: String orientationChosen = "v";
+            if(!orientationChosen.equals("v") && !orientationChosen.equals("h")){
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+        }while (!orientationChosen.equals("v") && !orientationChosen.equals("h"));
 
         switch (orientationChosen){
             case "h":
-                shoot(player, pos, Enemy);
+                player.shoot(pos, enemy);
 
-                newRow = pos.charAt(0);
                 newCol = originalCol - 1;
-                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
+                if(newCol >= 1){
+                    newPosition = pos.substring(0, 1) + Integer.toString(newCol);
+                    player.shoot(newPosition, enemy);
+                }
 
                 newCol += 2;
-                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
-                shoot(player, newPosition, Enemy);
+                if(newCol <= 10){
+                    newPosition = pos.substring(0, 1) + Integer.toString(newCol);
+                    player.shoot(newPosition, enemy);
+                }
+
                 break;
             case "v":
-                shoot(player, pos, Enemy);
+                player.shoot(pos, enemy);
+                String alphabet = "ABCDEFGHIJ";
 
                 newCol = originalCol;
-                newRow = (char) (originalRow - 1);
-                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
+                newRow = originalRow - 1;
+                if(newRow >= 0){
+                    newPosition = alphabet.substring(newRow, newRow+1) + Integer.toString(newCol);
+                    player.shoot(newPosition, enemy);
+                }
 
-                shoot(player, newPosition, Enemy);
+                newRow = originalRow + 1;
+                if(newRow <= 9){
+                    newPosition = alphabet.substring(newRow, newRow+1) + Integer.toString(newCol);
+                    player.shoot(newPosition, enemy);
+                }
 
-                newRow = (char) (originalRow + 1);
-                newPosition = Integer.toString(newRow) + Integer.toString(newCol);
-                shoot(player, newPosition, Enemy);
                 break;
         }
 
@@ -154,27 +170,5 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
         System.out.println("Vista del mapa enemigo al realizar un barrido vertical en B2");
         System.out.println("");
     }
-
-    /**
-     * Metodo encargado de realizar los disparos correspondientes a la habilidad, separada de la de player para mayor independencia de la clase.
-     * @param player Jugador que activa la habilidad
-     * @param pos posicion para el disparo
-     * @param Enemy Posicion bjetivo del disparo
-     * @return true si los disparos fueron realizados exitosamente, false en caso contrario.
-     */
-
-    private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
-        Cell cellP1 = player.getMap().getCell(pos);
-        Cell cellP2 = Enemy.getMap().getCell(pos);
-
-        try {
-            cellP2.shot(); //shot p2
-            player.getMap().addShotCell(cellP1);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-
 
 }
