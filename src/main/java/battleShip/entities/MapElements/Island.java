@@ -5,6 +5,8 @@ import battleShip.entities.MapElement;
 
 /**
  * La clase Island representa a una isla dentro del tablero. Almacena solamente a la celda que se encuentra asociada.
+ * @version 1.2, 18/9/2023
+ * @author Martin Farres
  */
 public class Island extends MapElement {
     private Cell position;

@@ -5,6 +5,8 @@ import battleShip.entities.MapElement;
 
 /**
  * La clase Water representa que no hay ningun elemento, salvo agua. Almacena solamente a la celda que se encuentra asociada.
+ * @version 1.2, 18/9/2023
+ * @author Martin Farres
  */
 public class Water extends MapElement {
     private Cell position;
