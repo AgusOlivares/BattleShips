@@ -128,11 +128,11 @@ public class Player {
 
             if (i != 0) { // if pos checked is out of bound, ignored it
                 if (cellXMov != null) {
-                    if (cellXMov.getElement() != null) { // if ship in pos checked, raise exception
+                    if (cellXMov.getElement() instanceof Ship) { // if ship in pos checked, raise exception
                         throw new Exception("The position is not valid");
                     }
                 } else if (cellYMov != null) {
-                    if (cellYMov.getElement() != null) {
+                    if (cellYMov.getElement() instanceof Ship) {
                         throw new Exception("The position is not valid");
                     }
                 }
@@ -159,60 +159,15 @@ public class Player {
         }
     }
 
-    public Void shootAbility(Player this, String pos, Player Enemy, String ship){
-
-
-        ship = ship.toLowerCase();
-        Ship choosenShip;
-
-        switch (ship){
-            case "submarine":
-                if(ships.get(1).getSunken()){
-                    System.out.println("El Submarino esta hundido, no es posible usar la habilidad");
-                    return null;
-                } else{
-                    choosenShip = ships.get(1);
-                }
-                break;
-            case "warship":
-                if(ships.get(2).getSunken()){
-                    System.out.println("El Buque esta hundido, no es posible usar la habilidad");
-                    return null;
-                } else{
-                    choosenShip = ships.get(2);
-                }
-                break;
-            case "crusier":
-                if(ships.get(3).getSunken()){
-                    System.out.println("El Crucero esta hundido, no es posible usar la habilidad");
-                    return null;
-                } else{
-                    choosenShip = ships.get(3);
-                }
-                break;
-            case "aircraftcarrier":
-                if(ships.get(4).getSunken()){
-                    System.out.println("El Portaviones esta hundido, no es posible usar la habilidad");
-                    return null;
-                } else{
-                    choosenShip = ships.get(4);
-                }
-                break;
-            default:
-                System.out.println("El barco seleccionado no existe");
-                return null;
-        }
-
-        if (choosenShip.useCharges(this)){
-            choosenShip.useAbility(this, pos, Enemy);
+    public Boolean shootAbility(String pos, Player Enemy, Ship ship) {
+        if (ship.useCharges(this)) {
+            ship.useAbility(this, pos, Enemy);
         } else {
             System.out.println("No hay suficientes cargas para esta habilidad");
-            return null;
+            return false;
         }
+        return true;
 
-
-        return null;
     }
-
 }
 

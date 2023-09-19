@@ -1,7 +1,11 @@
 package battleShip.entities;
 
+import battleShip.entities.MapElements.Island;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Esta clase representa un objeto Game, el cual almacena
@@ -110,6 +114,19 @@ public class Game {
         this.players = newPlayers;
     }
 
+    public void initIslands(int amount, Player player){
+        Random rand = new Random();
+        for (int i = 0; i < amount; i++) {
+            int x = rand.nextInt(10);
+            int y = rand.nextInt(10);
+            Cell cell1;
+            do {
+                cell1 = player.getMap().getCell(x, y);
+            } while (cell1 == null);
+            new Island(cell1);
+        }
+    }
+
     //Ask turn amount and checks if it's correct
     /**
      * Consulta a los jugadores si desean tener un límite de turnos, en caso de ser
@@ -157,22 +174,41 @@ public class Game {
             System.out.println("1: ver mi mapa");
             System.out.println("2: ver mapa enemigo");
             System.out.println("3: disparar");
-            System.out.println("4: terminar turno");
+            System.out.println("4: ver mi estado");
+            System.out.println("5: terminar turno");
             option = scanner.nextLine();
             if(option.equals("1")){
                 showShipMap(player);
-                waitXSeconds(5);
+                showShipList(player);
+                waitXSeconds(3);
             }else if (option.equals("2")) {
                 showShotsMap(player);
-                waitXSeconds(5);
+                showShipList(getOppossitePlayer(player));
+                waitXSeconds(3);
             }else if(option.equals("3")){
                 if(shot){
                     System.out.println("Ya has disparado, espera a tu siguiente turno para realizar otro disparo");
                 } else{
-                    String position = askCoordinates();
-                    shot = player.shoot(position, enemy);
+                    ArrayList<Ship> availableShips = availableShipAbilities(player);
+                    boolean specialShoot = availableShips != null;
+                    if(specialShoot){
+                       specialShoot = showAbilityMenu(player, availableShips);
+                    }
+                    if(!specialShoot){
+                        String position = askCoordinates();
+                        shot = player.shoot(position, enemy);
+                        System.out.println("");
+                    }
+                    
                 }
             }else if(option.equals("4")){
+                System.out.println("Información actual:");
+                System.out.println("- Jugador: " + player.getName());
+                System.out.println("- Cargas: " + player.getCharges());
+                System.out.println("- Barcos: ");
+                showShipList(player);
+                
+            }else if(option.equals("5")){
                 if(shot){
                     System.out.println("Turno finalizado");
                 }else{
@@ -183,8 +219,52 @@ public class Game {
                 System.out.println("Opción incorrecta, intente de nuevo");
             }
 
-        } while (!option.equals("4"));
+        } while (!option.equals("5"));
+        player.setCharges(player.getCharges() + 1);
 
+    }
+    
+    /**
+     * Le pregunta al usuario si desea usar alguna habilidad o no, en caso de que sí
+     * quiera utilizar alguna habilidad, le muestra los barcos disponibles con los
+     * cuales puede realizar el disparo especial.
+     * @param player
+     * @param availableShips
+     * @return Verdadero si el disparo fue exitoso, falso si hubo un problema al realizar el disparo
+     */
+    public boolean showAbilityMenu(Player player, ArrayList<Ship> availableShips){
+        System.out.println("Actualmente puede usar habilidades de los barcos");
+        Scanner input = new Scanner(System.in);
+        String option = "";
+        do {            
+            System.out.println("¿Desea realizar un disparo con habilidad especial? S/N");
+            option = input.nextLine().toUpperCase();
+            if(!option.equals("S") && !option.equals("N")){
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+        } while (!option.equals("S") && !option.equals("N"));
+        if(option.equals("N")){
+            return false;
+        }
+        int shipOption = 0;
+        do {            
+            System.out.println("Barcos que puedes utilizar: ");
+            Iterator<Ship> availableShipsIterator = availableShips.iterator();
+            int i = 1;
+            while (availableShipsIterator.hasNext()){
+                Ship sunkenShip = availableShipsIterator.next();
+                System.out.println(i+": " + getShipName(sunkenShip).toUpperCase());
+                i++;
+            }
+            System.out.println("Ingrese el barco que desea utilizar para realizar el disparo");
+            shipOption = input.nextInt();
+            if(shipOption <= 0 || shipOption > availableShips.size()){
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
+        } while (shipOption <= 0 || shipOption > availableShips.size());
+        String position = askCoordinates();
+        player.shootAbility(position, getOppossitePlayer(player), availableShips.get(shipOption-1));
+        return true;
     }
 
     //1: allows players to place their ships
@@ -219,6 +299,8 @@ public class Game {
         }
         
         for (int i = 1; i <= maxTurns; i++) {
+            System.out.println("RONDA N°" + i);
+            System.out.println("");
             for (Player actualPlayer : this.getPlayers()) {
                 showMenu(actualPlayer);
                 if(hasPlayerWon(actualPlayer)){
@@ -240,6 +322,9 @@ public class Game {
                     }
                     break;
                 }
+                if(!winner.endsWith("")){
+                    break;
+                }
             }
         }
         if(winner.equals("01") || winner.equals("")){
@@ -257,12 +342,12 @@ public class Game {
     public Boolean askShipPosition(Player player, Ship ship) {
         System.out.println(player.getName() + ", a continuación ingresarás la posición inicial del barco " + getShipName(ship).toUpperCase());
         System.out.println("El barco " + getShipName(ship) + " sólo puede ocupar " + ship.getLength() + " casillas");
-        waitXSeconds(2);
+        waitXSeconds(1);
         String initialPosition = askCoordinates();
         String finalPosition;
         if (ship.getLength() > 1) {
             System.out.println("Ahora ingresarás la posición final del barco " + getShipName(ship).toUpperCase());
-            waitXSeconds(2);
+            waitXSeconds(1);
             finalPosition = askCoordinates();
         } else {
             finalPosition = initialPosition;
@@ -325,6 +410,7 @@ public class Game {
                     break;
             }
         } while (!isCorrectPosition);
+        System.out.println("");
         return position;
     }
 
@@ -375,6 +461,8 @@ public class Game {
      */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
+        System.out.println("Mapa de " + oppPlayer.getName());
+        System.out.println("");
         // Top Number Legend
         Map map = player.getMap();
         int charLegendCnt = 64;
@@ -397,7 +485,6 @@ public class Game {
                 // Indicators
                 if (map.isCellShot(player.getMap().getCell(i, j))) {
                     if (oppPlayer.getMap().getCell(i, j).getElement() instanceof Ship) {
-
                         System.out.printf("| X ");
                     } else {
                         System.out.printf("| O ");
@@ -420,7 +507,8 @@ public class Game {
      * @param player 
      */
     public void showShipMap(Player player) {
-
+        System.out.println("");
+        System.out.println("              Mapa de " + player.getName());
         Map map = player.getMap();
         // Top Number Legend
         int charLegendCnt = 64;
@@ -513,5 +601,79 @@ public class Game {
             coordinates[1] = auxPosition;
         }
         return coordinates;
+    }
+    
+    /**
+     * Separa los barcos hundidos de los barcos a flota del jugador y los
+     * acumula en dos ArrayList<Ship>.
+     * @param player
+     * @return Barcos a flota y barcos hundidos
+     */
+    public ArrayList<Ship>[] shipList(Player player){
+        Iterator<Ship> ships = player.getShips().iterator();
+        ArrayList<Ship> safeShips = new ArrayList<>();
+        ArrayList<Ship> sunkenShips = new ArrayList<>();
+        while (ships.hasNext()) {
+            Ship iteratorShip = ships.next();
+            if (iteratorShip.getSunken()) {
+                sunkenShips.add(iteratorShip);
+            } else {
+                safeShips.add(iteratorShip);
+            }
+        }
+        return new ArrayList[]{safeShips, sunkenShips};
+    }
+    
+    /**
+     * Obtiene la información actual de barcos de player e imprime por un lado los
+     * que están a flota con sus costes de habilidad, y por otro lado los que están hundidos.
+     * @param player 
+     */
+    public void showShipList(Player player){
+        
+        ArrayList[] shipInfo = shipList(player);
+        System.out.println("Lista de barcos a flote");
+        Iterator<Ship> safeShipsIterator = shipInfo[0].iterator();
+        while (safeShipsIterator.hasNext()){
+            Ship safeShip = safeShipsIterator.next();
+            if(safeShip.getLength() != 1){
+                System.out.println("- " + getShipName(safeShip).toUpperCase() + " - Coste de cargas: " + safeShip.getAbilityCost());
+            }else{
+                System.out.println("- " + getShipName(safeShip).toUpperCase());
+            }
+            
+        }
+        
+        System.out.println("Lista de barcos hundidos");
+        Iterator<Ship> sunkenShipsIterator = shipInfo[1].iterator();
+        while (sunkenShipsIterator.hasNext()){
+            Ship sunkenShip = sunkenShipsIterator.next();
+            System.out.println("- " + getShipName(sunkenShip).toUpperCase());
+        }
+        System.out.println("");
+    }
+    
+    /**
+     * Obtiene la información actual de barcos de player y filtra los que están a flota,
+     * de estos sólo añade a una nueva ArrayList<Ship> aquellos que tengan un coste de
+     * habilidad menor o igual a la cantidad de cargas del jugador.
+     * @param player
+     * @return Barcos disponibles para utilizar habilidad.
+     */
+    public ArrayList<Ship> availableShipAbilities(Player player){
+        ArrayList[] shipInfo = shipList(player);
+        ArrayList<Ship> availableShips = new ArrayList<>();
+        Iterator<Ship> safeShipsIterator = shipInfo[0].iterator();
+        while (safeShipsIterator.hasNext()){
+            Ship safeShip = safeShipsIterator.next();
+            if(safeShip.getAbilityCost() <= player.getCharges() && safeShip.getLength() > 1){
+                availableShips.add(safeShip);
+            }
+        }
+        if(availableShips.isEmpty()){
+            return null;
+        }else{
+            return availableShips;
+        }
     }
 }

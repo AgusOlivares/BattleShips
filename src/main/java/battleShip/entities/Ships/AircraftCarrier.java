@@ -8,18 +8,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Scanner;
 
 /**
- * Una clase encargada de crear un Portaaviones ('AircraftCarrier') Subclase de 'Ship'
+ * Una clase encargada de crear un Portaaviones ('AircraftCarrier') Subclase de 'Ship' que implementa la interfaz 'SpecialShipInterface
  * @see Ship
+ * @see SpecialShipInterface
  * @author Agustin Olivares
- * @version 1.3, 08/09/2023
+ * @version 1.4, 08/09/2023
  */
-public class AircraftCarrier extends Ship{
+public class AircraftCarrier extends Ship {
     public AircraftCarrier() {
         super(5);
     }
 
     /**
-     * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Portaviones, "Barrido".
+     * Implementacion polimorfica del metodo de 'SpecialShipInterface', utiliza la habilidad especial del Portaviones, "Barrido".
      * Realiza disparos a los laterales o verticales de la posicion objetivo segun le sea indicado
      * @param player El jugador que invoca el metodo.
      * @param pos La posicion objetivo.
@@ -80,6 +81,21 @@ public class AircraftCarrier extends Ship{
     }
 
     /**
+     * Metodo encargado de explicar al jugador la habilidad del barco
+     *
+     */
+    @Override
+    public Void showAbility() {
+
+        System.out.println("Disparo de Barrido: ");
+        System.out.println("La habilidad especial del Portaviones permite realizar disparos a los laterales o verticales de la posicion objetivo segun le sea indicado");
+        System.out.println("h: para un disparo de barrido horizontal");
+        System.out.println("v: para un barrido de barrido vertical");
+
+        return null;
+    }
+
+    /**
      * Metodo encargado de realizar los disparos correspondientes a la habilidad, separada de la de player para mayor independencia de la clase.
      * @param player Jugador que activa la habilidad
      * @param pos posicion para el disparo
@@ -100,4 +116,6 @@ public class AircraftCarrier extends Ship{
             return false;
         }
     }
+
+
 }

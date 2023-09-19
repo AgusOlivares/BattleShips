@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  *
  */
-public class Cruiser extends Ship {
+public class Cruiser extends Ship{
     public Cruiser() {
         super(4);
     }
@@ -35,6 +35,14 @@ public class Cruiser extends Ship {
         return true;
     }
 
+    @Override
+    public Void showAbility() {
+
+        System.out.println("Doble disparo: ");
+        System.out.println("La habilidad especial del Crucero permite realizar dos disparos normales seguidos en las posiciones seleccionadas");
+
+        return null;
+    }
     private Boolean shoot(Player player, String pos, Player Enemy) { // String like "A6" expected
         Cell cellP1 = player.getMap().getCell(pos);
         Cell cellP2 = Enemy.getMap().getCell(pos);

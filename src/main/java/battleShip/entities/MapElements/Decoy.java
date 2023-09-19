@@ -1,8 +1,11 @@
-package battleShip.entities;
+package battleShip.entities.MapElements;
+
+import battleShip.entities.Cell;
+import battleShip.entities.MapElement;
 
 import javax.swing.text.Position;
 
-public class Decoy extends MapElement{
+public class Decoy extends MapElement {
     private Cell position;
 
     //Contructor
