@@ -34,8 +34,9 @@ public class Warship extends Ship implements SpecialShipInterface {
      */
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
-        // Modify conditions to avoid erros if an adjacent position is out of bounds
-        int row = pos.charAt(0) - 'A';
+
+        pos = pos.toLowerCase(); //cambio pos a minusculas
+        int row = pos.charAt(0) - 'a'; //cambie "A" por "a"
         int col = Integer.parseInt(pos.substring(1));
 
         boolean objectSpotted = false;
