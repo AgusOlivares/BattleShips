@@ -160,6 +160,9 @@ public class Game {
         String option;
         do {
             option = scanner.nextLine().toUpperCase();
+            if(!option.equals("S") && !option.equals("N")){
+                System.out.println("Opción incorrecta, intente de nuevo");
+            }
         } while (!option.equals("S") && !option.equals("N"));
         int turnAmount = 0;
         if (option.equals("S")) {
