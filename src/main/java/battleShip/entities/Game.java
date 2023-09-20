@@ -368,6 +368,11 @@ public class Game {
         return new boolean[]{wasShotSuccessful, true};
     }
 
+    /**
+     * Le permite al usuario saber qué habilidad tiene cada barco y además
+     * muestra un ejemplo gráfico de cada una.
+     * @param ship
+     */
     public void explainAbility(Ship ship) {
         System.out.println("            HABILIDAD DE " + getShipName(ship).toUpperCase() + "            ");
         if (ship instanceof Submarine) {
@@ -389,8 +394,6 @@ public class Game {
         }
     }
 
-    //1: allows players to place their ships
-    //2: Once the ships are placed, they start playing by choosing options in the menu
     /**
      * Esta función será llamada desde el main, aquí se llamará a la función
      * startGame(), luego de que los jugadores especifiquen sus nombres y la
@@ -884,6 +887,9 @@ public class Game {
         }
     }
 
+    /**
+     * "Limpia" la pantalla para asegurar una mejor jugabilidad al usuario
+     */
     public void cleanScreen() {
         for (int i = 0; i < 40; i++) {
             System.out.println("");
