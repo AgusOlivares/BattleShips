@@ -18,11 +18,11 @@ public abstract class Ship extends MapElement{
     protected final int abilityCost;
 
 
+    // Constructors
     /**
      * Construye el barco segun su longitud y asigna el costo de habilidad correspondiente
-     * @param length
+     * @param length int
      */
-    // Constructors
     public Ship(int length) {
         this.length = length;
         this.occupiedCells = new ArrayList<>();
@@ -48,22 +48,42 @@ public abstract class Ship extends MapElement{
 
 
     // Getters
+    /**
+     * Retorna el largo del barco
+     * @return length
+     */
     public int getLength() {
         return length;
     }
-    public ArrayList<Cell> getOccupiedCells() {
-        return occupiedCells;
-    }
+
+    /**
+     * Retorna el atributo 'sunken', un boleano segun el barco esta hundido o no
+     * @return Boolean
+     */
     public Boolean getSunken(){ return sunken;}
+
+    /**
+     * Retorna el atributo 'abilityCost', coste de la habilidad del barco
+     * @return int
+     */
     public int getAbilityCost() {
         return abilityCost;
     }
 
 
     //Setters
+    /**
+     * Actualiza el valor del atributo 'sunken'
+     * @param sunken Boolean
+     */
     public void setSunken(boolean sunken) {
         this.sunken = sunken;
     }
+
+    /**
+     * Agrega un objeto Cell al final de la coleccion 'occupiedCells'
+     * @param cell Cell
+     */
     public void setOccupiedCells(Cell cell){
         this.occupiedCells.add(cell);
     }
@@ -91,17 +111,22 @@ public abstract class Ship extends MapElement{
     /**
      * Al utilizar la habilidad de un barco, Este metodo se encarga de revisar que las cargas que el jugador tiene disponibles sean suficientes.
      * @param player Jugador que solicita usar el metodo
-     * @return true si la cantidad de cargas es suficiente y se le descuentan de las cargas disponibles, false en caso contrario
      */
-    public Boolean useCharges(Player player){
+    public void useCharges(Player player){
         int remainingCharges = player.getCharges() - this.abilityCost;
         if (remainingCharges < 0){
-            return false;
+            return;
         }
         player.setCharges(remainingCharges);
-        return true;
     }
-    
+
+    /**
+     * Metodo abstracto para que cada subclase de 'Ship' implemente la habilidad especial del barco.
+     * @param player Player
+     * @param pos String
+     * @param Enemy Player
+     * @return Boolean
+     */
     public abstract Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy);
 
 }

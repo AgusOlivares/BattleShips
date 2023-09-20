@@ -11,14 +11,30 @@ import org.w3c.dom.ls.LSOutput;
 import java.util.Scanner;
 
 /**
- *
+ * Una clase encargada de crear un Crusero ('Cruiser') Subclase de 'Ship' que implementa la interfaz 'SpecialShipInterface
+ * @see Ship
+ * @see SpecialShipInterface
+ * @author Agustin Olivares
+ * @version 1.4, 08/09/2023
  */
 public class Cruiser extends Ship implements SpecialShipInterface {
 
+    /**
+     * Construye un objeto Cruiser, inicializando el atributo 'length' en 4.
+     */
     public Cruiser() {
         super(4);
     }
 
+
+    /**
+     * Implementacion polimorfica del metodo de 'SpecialShipInterface', utiliza la habilidad especial del Crusero, "Doble Disparo".
+     * Realiza 2 disparos seguidos.
+     * @param player El jugador que invoca el metodo.
+     * @param pos La posicion objetivo.
+     * @param Enemy El jugador contrario.
+     * @return true si los disparos se realizaron exitosamente, false en caso contrario.
+     */
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player Enemy) {
 
@@ -45,6 +61,9 @@ public class Cruiser extends Ship implements SpecialShipInterface {
         return true;
     }
 
+    /**
+     * Metodo encargado de explicar al jugador la habilidad del barco
+     */
     @Override
     public void showAbility() {
         System.out.println("Doble disparo: ");
@@ -52,6 +71,9 @@ public class Cruiser extends Ship implements SpecialShipInterface {
                 + "\nnormales seguidos en las posiciones seleccionadas\n");
     }
 
+    /**
+     * Imprime por consola una matriz que muestra un ejemplo de la habilidad del barco.
+     */
     @Override
     public void showExample() {
 

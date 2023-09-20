@@ -23,16 +23,6 @@ public class Island extends MapElement {
     }
 
 
-    //Getters
-    /**
-     * Retorna la celda donde se encuentra la isla
-     * @return Cell
-     */
-    public Cell getPosition() {
-        return position;
-    }
-
-
     //Methods
     /**
      * Imprime por consola y deja saber al jugador que se ha impactado una isla

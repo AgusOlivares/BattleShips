@@ -22,16 +22,6 @@ public class Water extends MapElement {
     }
 
 
-    //Getters
-    /**
-     * Retorna la celda donde se encuentra
-     * @return Cell
-     */
-    public Cell getPosition() {
-        return position;
-    }
-
-
     //Methods
     /**
      * Imprime por consola y deja saber al jugador que no se ha impactado nada

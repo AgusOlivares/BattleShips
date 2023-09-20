@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Submarine extends Ship implements SpecialShipInterface {
 
+    /**
+     * Construye un objeto Cruiser, inicializando el atributo 'length' en 4.
+     */
     public Submarine() {
         super(2);
     }
@@ -29,13 +32,11 @@ public class Submarine extends Ship implements SpecialShipInterface {
      */
     @Override
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, Player Enemy) {
-
-
         Cell CellP1 = player.getMap().getCell(pos);
 
         if (CellP1.getElement() instanceof Water && !(CellP1.getWasShot())){
-            Decoy Senuelo = new Decoy(CellP1);
-            CellP1.setElement(Senuelo);
+            Decoy decoy = new Decoy(CellP1);
+            CellP1.setElement(decoy);
             System.out.println("El señuelo se colocó correctamente");
         } else {
             System.out.println("posicion invalida");
@@ -44,6 +45,10 @@ public class Submarine extends Ship implements SpecialShipInterface {
 
         return true;
     }
+
+    /**
+     * Metodo encargado de explicar al jugador la habilidad del barco
+     */
     @Override
     public void showAbility() {
 
@@ -53,6 +58,10 @@ public class Submarine extends Ship implements SpecialShipInterface {
                            "\ninformará que golpeó uno de tus barcos, ¡pero este habrá caído en la trampa!");
         System.out.println("");
     }
+
+    /**
+     * Imprime por consola una matriz que muestra un ejemplo de la habilidad del barco.
+     */
     @Override
     public void showExample(){
 

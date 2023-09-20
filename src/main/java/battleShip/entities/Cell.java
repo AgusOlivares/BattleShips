@@ -55,7 +55,7 @@ public class Cell {
 
     /**
      * Actualiza el atributo 'wasShot'
-     * @param wasShot
+     * @param wasShot Boolean
      */
     public void setWasShot(Boolean wasShot) {
         this.wasShot = wasShot;

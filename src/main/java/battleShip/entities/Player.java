@@ -76,7 +76,7 @@ public class Player {
     //Setters
     /**
      * Establece las cargas del jugador
-     * @param charges
+     * @param charges int
      */
     public void setCharges(int charges) {
         this.charges = charges;
@@ -87,7 +87,6 @@ public class Player {
     /**
      * Checkea que sea posible colocar el barco y de ser posible lo asocia en las celdas indicadas
      * Ejemplo de input: ("A5", "A7", Submarine)
-     *
      * @param startPos Posicion inicial donde se coloca la cabecilla del barco.
      * @param finalPos Posicion final donde termina el barco
      * @param ship     Tipo de barco colocado

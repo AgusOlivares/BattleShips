@@ -16,6 +16,10 @@ import java.util.Scanner;
  * @version 1.4, 08/09/2023
  */
 public class AircraftCarrier extends Ship implements SpecialShipInterface {
+
+    /**
+     * Construye un objeto AircraftCarrier, inicializando el atributo 'length' en 5.
+     */
     public AircraftCarrier() {
         super(5);
     }
@@ -32,8 +36,6 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
     public Boolean useAbility(@NotNull Player player, @NotNull String pos, @NotNull Player enemy) {
         // Select "v" to shoot one space up and one down from the original shootplace
         // Select "h" to shoot on the left and rightside from the original shootplace
-
-
 
         int originalRow = pos.charAt(0) - 65; //Valor ascii del caracter row
         int originalCol = Integer.parseInt(pos.substring(1)); //valor int de la col
@@ -97,7 +99,6 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
 
     /**
      * Metodo encargado de explicar al jugador la habilidad del barco
-     *
      */
     @Override
     public void showAbility() {
@@ -108,6 +109,10 @@ public class AircraftCarrier extends Ship implements SpecialShipInterface {
         System.out.println("h: para un disparo de barrido horizontal");
         System.out.println("v: para un barrido de barrido vertical\n");
     }
+
+    /**
+     * Imprime por consola una matriz que muestra un ejemplo de la habilidad del barco.
+     */
     @Override
     public void showExample(){
 

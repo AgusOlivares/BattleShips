@@ -610,7 +610,7 @@ public class Game {
     /**
      * Devuelve el nombre del barco según su longitud.
      *
-     * @param ship
+     * @param ship Ship
      * @return nombre del baro
      */
     public String getShipName(Ship ship) {
@@ -653,7 +653,7 @@ public class Game {
      * Imprime el mapa con los tiros del jugador, si disparó a un barco, se
      * dibujará una X, si se disparó al agua, se dibujará una O.
      *
-     * @param player
+     * @param player Player
      */
     public void showShotsMap(Player player) {
         Player oppPlayer = getOppossitePlayer(player);
@@ -700,7 +700,7 @@ public class Game {
      * Imprime el mapa del jugador actual, si algún barco fue disparado, se
      * marcará con una X, caso contrario, se marcará con �.
      *
-     * @param player
+     * @param player Player
      */
     public void showShipMap(Player player) {
         System.out.println("");
@@ -753,7 +753,7 @@ public class Game {
      * Verifica si el jugador actual ha ganado, para ello cuenta los barcos
      * hundidos del jugador contrario.
      *
-     * @param player
+     * @param player Player
      * @return cantidad de barcos hundidos del contrincante.
      */
     public boolean hasPlayerWon(Player player) {
@@ -765,7 +765,7 @@ public class Game {
     /**
      * Cuenta los barcos hundidos del jugador.
      *
-     * @param player
+     * @param player Player
      * @return cantidad de barcos hundidos.
      */
     public int sunkenShipCounter(Player player) {
@@ -785,7 +785,7 @@ public class Game {
      * vez de (A1, A5) sea (A5, A1). En caso de estar al revés, las da vuelta
      * para asegurar la correcta colocación del barco.
      *
-     * @param coordinates
+     * @param coordinates String[]
      * @return coordenadas en el orden esperado.
      */
     public String[] checkReverse(String[] coordinates) {
@@ -812,7 +812,7 @@ public class Game {
      * Separa los barcos hundidos de los barcos a flota del jugador y los
      * acumula en dos ArrayList<Ship>.
      *
-     * @param player
+     * @param player Player
      * @return Barcos a flota y barcos hundidos
      */
     public ArrayList<Ship>[] shipList(Player player) {
@@ -835,7 +835,7 @@ public class Game {
      * los que están a flota con sus costes de habilidad, y por otro lado los
      * que están hundidos.
      *
-     * @param player
+     * @param player Player
      */
     public void showShipList(Player player) {
 
@@ -867,7 +867,7 @@ public class Game {
      * tengan un coste de habilidad menor o igual a la cantidad de cargas del
      * jugador.
      *
-     * @param player
+     * @param player Player
      * @return Barcos disponibles para utilizar habilidad.
      */
     public ArrayList<Ship> availableShipAbilities(Player player) {

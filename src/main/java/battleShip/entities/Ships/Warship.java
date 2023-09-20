@@ -6,9 +6,18 @@ import battleShip.entities.MapElements.*;
 import battleShip.entities.Player;
 import battleShip.entities.Ship;
 import org.jetbrains.annotations.NotNull;
-
+/**
+ * Una clase encargada de crear un Crusero ('Cruiser') Subclase de 'Ship' que implementa la interfaz 'SpecialShipInterface
+ * @see Ship
+ * @see SpecialShipInterface
+ * @author Agustin Olivares
+ * @version 1.4, 08/09/2023
+ */
 public class Warship extends Ship implements SpecialShipInterface {
 
+    /**
+     * Construye un objeto Warship, inicializando el atributo 'length' en 3.
+     */
     public Warship() {
         super(3);
     }
@@ -17,11 +26,10 @@ public class Warship extends Ship implements SpecialShipInterface {
     /**
      * Implementacion polimorfica del metodo de 'Ship', utiliza la habilidad especial del Buque.
      * Escanea una zona cuadrada alrededor de la posicion objetivo, indica si hay algun elemento dentro de la zona no especifica qué.
-     *
      * @param player El jugador que invoca el metodo.
      * @param pos    La posicion objetivo.
      * @param Enemy  El jugador contrario.
-     * @return
+     * @return retorna true si se ha podido escanear la zona
      * @see Ship
      */
     @Override
@@ -52,6 +60,9 @@ public class Warship extends Ship implements SpecialShipInterface {
         return true;
     }
 
+    /**
+     * Metodo encargado de explicar al jugador la habilidad del barco
+     */
     @Override
     public void showAbility() {
 
@@ -63,6 +74,9 @@ public class Warship extends Ship implements SpecialShipInterface {
                 + "\njugador con un mensaje, pero no sabra en que posicion se encuentra! \n");
     }
 
+    /**
+     * Imprime por consola una matriz que muestra un ejemplo de la habilidad del barco.
+     */
     @Override
     public void showExample(){
 
