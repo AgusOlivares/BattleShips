@@ -698,7 +698,7 @@ public class Game {
 
     /**
      * Imprime el mapa del jugador actual, si algún barco fue disparado, se
-     * marcará con una X, caso contrario, se marcará con �.
+     * marcará con una X, caso contrario, se marcará con B.
      *
      * @param player Player
      */
