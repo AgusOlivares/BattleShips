@@ -445,15 +445,19 @@ public class Game {
                         showMenu(actualPlayer);
                         if (hasPlayerWon(actualPlayer)) {
                             winner = "01";
+                        }else{
+                            System.out.println(winnersName + ", has ganado la partida, ¡felicitaciones!");
                         }
+                        break;
                     } else {
                         System.out.println(winnersName + ", has ganado la partida, ¡felicitaciones!");
                     }
                     break;
                 }
-                if (!winner.equals("")) {
-                    break;
-                }
+
+            }
+            if (!winner.equals("")) {
+                break;
             }
         }
         if (winner.equals("01") || winner.equals("")) {
